@@ -2,3 +2,4 @@
 -arg -w -arg -notation-incompatible-prefix
 -arg -w -arg -redundant-canonical-projection
 -Q _build/default/src/proofs/binary_search refinedc.project.workspace.src.binary_search
+-Q _build/default/src/proofs/example refinedc.project.workspace.src.example
