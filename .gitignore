@@ -7,3 +7,4 @@ src/proofs/*/dune
 _opam
 .direnv
 *.out
+error
