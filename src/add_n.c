@@ -27,7 +27,7 @@ mpn_add_n (unsigned int *rp, unsigned int *up, unsigned int *vp, unsigned int n)
       ul = *up;
       up++;
       vl = *vp;
-      vl++;
+      vp++;
       sl = ul + vl;
       cy1 = sl < ul;
       rl = sl + cy;
