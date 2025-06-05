@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 /* Return non-zero if xp,xsize and yp,ysize overlap.
    If xp+xsize<=yp there's no overlap, or if yp+ysize<=xp there's no
@@ -25,50 +24,54 @@ mpn_add_n (unsigned int *rp, unsigned int *up, unsigned int *vp, unsigned int n)
   cy = 0;
   do
     {
-      ul = *up++;
-      vl = *vp++;
+      ul = *up;
+      up++;
+      vl = *vp;
+      vl++;
       sl = ul + vl;
       cy1 = sl < ul;
       rl = sl + cy;
       cy2 = rl < sl;
       cy = cy1 | cy2;
-      *rp++ = rl;
+      *rp = rl;
+      rp++;
+      --n;
     }
-  while (--n != 0);
+  while (n != 0);
 
   return cy;
 }
 
-int main(void) {
-    // Define test arrays
-    unsigned int a[4] = {0xFFFFFFFF, 0x00000001, 0x00000002, 0x00000003};
-    unsigned int b[4] = {0x00000001, 0xFFFFFFFF, 0x00000003, 0x00000004};
-    unsigned int result[4];
-
-    // Calculate the sum using mpn_add_n
-    unsigned int carry = mpn_add_n(result, a, b, 4);
-
-    // Print the inputs
-    printf("Array A: ");
-    for (int i = 0; i < 4; i++) {
-        printf("%08X ", a[i]);
-    }
-    printf("\n");
-
-    printf("Array B: ");
-    for (int i = 0; i < 4; i++) {
-        printf("%08X ", b[i]);
-    }
-    printf("\n");
-
-    // Print the result
-    printf("Result:  ");
-    for (int i = 0; i < 4; i++) {
-        printf("%08X ", result[i]);
-    }
-    printf("\n");
-
-    printf("Final carry: %u\n", carry);
-
-    return 0;
-}
+//int main(void) {
+//    // Define test arrays
+//    unsigned int a[4] = {0xFFFFFFFF, 0x00000001, 0x00000002, 0x00000003};
+//    unsigned int b[4] = {0x00000001, 0xFFFFFFFF, 0x00000003, 0x00000004};
+//    unsigned int result[4];
+//
+//    // Calculate the sum using mpn_add_n
+//    unsigned int carry = mpn_add_n(result, a, b, 4);
+//
+//    // Print the inputs
+//    printf("Array A: ");
+//    for (int i = 0; i < 4; i++) {
+//        printf("%08X ", a[i]);
+//    }
+//    printf("\n");
+//
+//    printf("Array B: ");
+//    for (int i = 0; i < 4; i++) {
+//        printf("%08X ", b[i]);
+//    }
+//    printf("\n");
+//
+//    // Print the result
+//    printf("Result:  ");
+//    for (int i = 0; i < 4; i++) {
+//        printf("%08X ", result[i]);
+//    }
+//    printf("\n");
+//
+//    printf("Final carry: %u\n", carry);
+//
+//    return 0;
+//}
