@@ -19,6 +19,10 @@
 [[rc::parameters("up_elts : {list Z}")]]
 [[rc::parameters("vp : loc")]]
 [[rc::parameters("vp_elts : {list Z}")]]
+[[rc::requires("{n >= 1}")]]
+[[rc::requires("{(n = length up_elts)%nat}")]]
+[[rc::requires("{(n = length rp_elts)%nat}")]]
+[[rc::requires("{(n = length vp_elts)%nat}")]]
 [[rc::args("rp @ &own<array<u32, {rp_elts `at_type` (int u32)}>>",
            "up @ &own<array<u32, {up_elts `at_type` (int u32)}>>",
            "vp @ &own<array<u32, {vp_elts `at_type` (int u32)}>>",
