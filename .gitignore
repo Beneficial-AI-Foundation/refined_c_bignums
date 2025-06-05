@@ -5,3 +5,4 @@ src/proofs/binary_search/dune.direnv
 .aider*
 _opam
 .direnv
+*.out
