@@ -4,3 +4,4 @@
 -Q _build/default/src/proofs/binary_search refinedc.project.workspace.src.binary_search
 -Q _build/default/src/proofs/example refinedc.project.workspace.src.example
 -Q _build/default/src/proofs/t02_evars refinedc.project.workspace.src.t02_evars
+-Q _build/default/src/proofs/add_n refinedc.project.workspace.src.add_n
