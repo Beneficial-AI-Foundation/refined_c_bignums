@@ -1,3 +1,7 @@
-.direnv
+_build/
+src/proofs/binary_search/*generated*
+src/proofs/binary_search/proof_files
+src/proofs/binary_search/dune.direnv
 .aider*
 _opam
+.direnv
