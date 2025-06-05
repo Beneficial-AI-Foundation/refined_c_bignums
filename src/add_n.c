@@ -12,6 +12,21 @@
 #define MPN_SAME_OR_INCR_P(dst, src, size)				\
   MPN_SAME_OR_INCR2_P(dst, size, src, size)
 
+[[rc::parameters("n : nat")]]
+[[rc::parameters("rp : loc")]]
+[[rc::parameters("rp_elts : {list Z}")]]
+[[rc::parameters("up : loc")]]
+[[rc::parameters("up_elts : {list Z}")]]
+[[rc::parameters("vp : loc")]]
+[[rc::parameters("vp_elts : {list Z}")]]
+[[rc::args("rp @ &own<array<u32, {rp_elts `at_type` (int u32)}>>",
+           "up @ &own<array<u32, {up_elts `at_type` (int u32)}>>",
+           "vp @ &own<array<u32, {vp_elts `at_type` (int u32)}>>",
+           "n @ int<u32>")]]
+[[rc::returns("int<u32>")]]
+//[[rc::ensures("own rp : array<u32, {replicate n (int u32)}>",
+//             "own up : array<u32, {replicate n (int u32)}}>",
+//              "own vp : array<u32, {replicate n (int u32)}}>")]]
 unsigned int
 mpn_add_n (unsigned int *rp, unsigned int *up, unsigned int *vp, unsigned int n)
 {
@@ -22,22 +37,22 @@ mpn_add_n (unsigned int *rp, unsigned int *up, unsigned int *vp, unsigned int n)
   //ASSERT (MPN_SAME_OR_INCR_P (rp, vp, n));
 
   cy = 0;
-  do
-    {
-      ul = *up;
-      up++;
-      vl = *vp;
-      vp++;
-      sl = ul + vl;
-      cy1 = sl < ul;
-      rl = sl + cy;
-      cy2 = rl < sl;
-      cy = cy1 | cy2;
-      *rp = rl;
-      rp++;
-      --n;
-    }
-  while (n != 0);
+//  do
+//    {
+//      ul = *up;
+//      up++;
+//      vl = *vp;
+//      vp++;
+//      sl = ul + vl;
+//      cy1 = sl < ul;
+//      rl = sl + cy;
+//      cy2 = rl < sl;
+//      cy = cy1 | cy2;
+//      *rp = rl;
+//      rp++;
+//      --n;
+//    }
+//  while (n != 0);
 
   return cy;
 }
