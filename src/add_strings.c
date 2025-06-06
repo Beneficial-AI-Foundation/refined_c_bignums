@@ -1,11 +1,12 @@
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+// TODO Remove magic numbers
 // Verifies the string contains only '0' and '1' characters
 int is_valid_bit_string(const char* s) {
     while (*s) {
-        if (*s != '0' && *s != '1') return 0;
+        if (*s != 48 && *s != 49) return 0;
         s++;
     }
     return 1;
@@ -14,7 +15,7 @@ int is_valid_bit_string(const char* s) {
 // Removes leading zeros and ensures empty strings become "0"
 char* normalize_bit_string(const char* s) {
     // Skip leading zeros
-    while (*s == '0' && *(s+1) != '\0') {
+    while (*s == 48 && *(s+1) != 0) {
         s++;
     }
 
@@ -34,7 +35,7 @@ char* add_binary_strings(const char* s1, const char* s2) {
     char* y = normalize_bit_string(s2);
 
     // Special case: if y is "0", return x
-    if (strcmp(y, "0") == 0) {
+    if (y[0] == 48 && y[1] == 0) {
         free(y);
         return x;
     }
@@ -45,7 +46,7 @@ char* add_binary_strings(const char* s1, const char* s2) {
 
     // Allocate result buffer (reversed order initially)
     char* temp = malloc(max_len + 1); // +1 for null terminator
-    temp[max_len] = '\0';
+    temp[max_len] = 0;
 
     int carry = 0;
     int i = len1 - 1;  // index for x (rightmost digit)
@@ -54,11 +55,11 @@ char* add_binary_strings(const char* s1, const char* s2) {
 
     // Perform addition right-to-left (least significant bit first)
     while (i >= 0 || j >= 0 || carry > 0) {
-        int bit_x = (i >= 0) ? (x[i] - '0') : 0;
-        int bit_y = (j >= 0) ? (y[j] - '0') : 0;
+        int bit_x = (i >= 0) ? (x[i] - 48) : 0;
+        int bit_y = (j >= 0) ? (y[j] - 48) : 0;
 
         int sum = bit_x + bit_y + carry;
-        temp[k] = (sum % 2) + '0';  // Current bit is sum modulo 2
+        temp[k] = (sum % 2) + 48;  // Current bit is sum modulo 2
         carry = sum / 2;            // Carry is integer division by 2
 
         i--; j--; k--;
@@ -84,11 +85,22 @@ char* add_binary_strings(const char* s1, const char* s2) {
 
 // Example usage
 int main() {
-    char* a = "1011";  // 11 in decimal
-    char* b = "1101";  // 13 in decimal
+    char a[5];  // Need 5 characters including null terminator
+    a[0] = 49;  // ASCII for digit 1
+    a[1] = 48;  // ASCII for digit 0
+    a[2] = 49;  // ASCII for digit 1
+    a[3] = 49;  // ASCII for digit 1
+    a[4] = 0;   // null terminator
+
+    char b[5];  // Need 5 characters including null terminator
+    b[0] = 49;  // ASCII for digit 1
+    b[1] = 49;  // ASCII for digit 1
+    b[2] = 48;  // ASCII for digit 0
+    b[3] = 49;  // ASCII for digit 1
+    b[4] = 0;   // null terminator
 
     char* sum = add_binary_strings(a, b);
-    printf("%s + %s = %s\n", a, b, sum);
+    //printf("%s + %s = %s\n", a, b, sum);
 
     free(sum);  // Don't forget to free the allocated memory
     return 0;
