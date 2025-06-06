@@ -12,8 +12,10 @@ SOURCES = src/add_strings.c src/add_strings_test.c
 all: build run
 
 # Build the program
-build: $(SOURCES)
+$(TARGET): $(SOURCES)
 	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET)
+
+build: $(TARGET)
 
 # Run the program
 run: build
