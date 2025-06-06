@@ -1,3 +1,4 @@
+//@rc::import bignum_lemmas from refinedc.project.workspace.src.bignums
 // Bignum addition where numbers are represented as arrays of 0s and 1s (LSB first)
 // E.g., 5 = [1,0,1,0,...] represents 1*2^0 + 0*2^1 + 1*2^2 = 1 + 4 = 5
 
