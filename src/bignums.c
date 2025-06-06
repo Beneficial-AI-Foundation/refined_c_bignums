@@ -26,7 +26,7 @@
 [[rc::ensures("own result : array<i32, {bits_result `at_type` (int i32)}>")]]
 [[rc::ensures("{length bits_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary bits_result}")]]
-[[rc::ensures("{bits_to_nat bits_result = (bits_to_nat bits_a + bits_to_nat bits_b) mod (2^(Z.to_nat (n+1)))}")]]
+[[rc::ensures("{bits_to_nat bits_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) mod (2^(Z.to_nat (n+1))))}")]]
 [[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
