@@ -11,7 +11,7 @@
 
 /* Add two bignums with carry */
 [[rc::parameters("a : loc", "b : loc", "result : loc", 
-                 "bits_a : {list Z}", "bits_b : {list Z}", "n : nat", "bits_result : {list Z}")]]
+                 "bits_a : {list Z}", "bits_b : {list Z}", "n : nat")]]
 [[rc::args("a @ &own<array<i32, {bits_a `at_type` (int i32)}>>",
            "b @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
            "result @ &own<array<i32, {replicate (n + 1) (0:Z) `at_type` (int i32)}>>",
@@ -19,6 +19,7 @@
 [[rc::requires("{length bits_a = n}", "{length bits_b = n}", 
                "{is_binary bits_a}", "{is_binary bits_b}")]]
 [[rc::requires("{n > 0}", "{n < max_int i32}")]]
+[[rc::exists("bits_result : {list Z}")]]
 [[rc::returns("void")]]
 [[rc::ensures("own a : array<i32, {bits_a `at_type` (int i32)}>")]]
 [[rc::ensures("own b : array<i32, {bits_b `at_type` (int i32)}>")]]
@@ -44,4 +45,3 @@ void bignum_add(int* a, int* b, int* result, int n) {
     
     result[n] = carry;
 }
-
