@@ -23,11 +23,11 @@ Definition is_binary (bits : list Z) :=
 
 (* All zeros up to position i *)
 Definition all_zero_prefix (i : nat) (bits : list Z) :=
-  ∀ j, j < i → bits !! j = Some 0.
+  ∀ j : nat , j < i → bits !! j = Some 0.
 
 (* Equal from position i to n *)  
 Definition equal_suffix (i n : nat) (bits_a bits_b : list Z) :=
-  ∀ j, i ≤ j < n → bits_a !! j = bits_b !! j.
+  ∀ j : nat , i ≤ j < n → bits_a !! j = bits_b !! j.
 
 (* Key lemmas (statements only) *)
 
