@@ -1,4 +1,4 @@
-//@rc::import quick_sort_lemmas from refinedc.examples.quick_sort
+//@rc::import quick_sort_lemmas from refinedc.project.workspace.src.quick_sort
 
 #define LOOP_INVS \
   [[rc::exists("i : nat", "j : nat", "key : Z", "ys : {list Z}")]] \
