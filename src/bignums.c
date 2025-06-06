@@ -20,7 +20,7 @@
                "{is_binary bits_a}", "{is_binary bits_b}")]]
 [[rc::requires("{n > 0}", "{n < max_int i32}")]]
 [[rc::exists("bits_result : {list Z}")]]
-[[rc::returns("unit")]]
+[[rc::returns("void")]]
 [[rc::ensures("own a : array<i32, {bits_a `at_type` (int i32)}>")]]
 [[rc::ensures("own b : array<i32, {bits_b `at_type` (int i32)}>")]]
 [[rc::ensures("own result : array<i32, {bits_result `at_type` (int i32)}>")]]
