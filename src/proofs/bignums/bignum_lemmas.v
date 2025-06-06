@@ -14,6 +14,11 @@ Definition partial_sum_correct (i : nat) (carry : Z) (partial : list Z)
     sum = (bits_to_nat (take i bits_a) + bits_to_nat (take i bits_b)) ∧
     bits_to_nat partial + Z.to_nat carry * 2^i = sum.
 
+Lemma bits_to_nat_app (bits1 bits2 : list Z) :
+  bits_to_nat (bits1 ++ bits2) =
+  bits_to_nat bits1 + bits_to_nat bits2 * 2^(length bits1).
+Proof. Admitted.
+
 Close Scope nat_scope.
 
 (* Check if all elements are binary (0 or 1) *)
@@ -45,15 +50,12 @@ Lemma binary_add_carry_bound (bits_a bits_b : list Z) (i : nat) :
   bits_to_nat (take i bits_a) + bits_to_nat (take i bits_b) < 2^(i+1).
 Proof. Admitted.
 
-Lemma bits_to_nat_app (bits1 bits2 : list Z) :
-  bits_to_nat (bits1 ++ bits2) = 
-  bits_to_nat bits1 + bits_to_nat bits2 * 2^(length bits1).
-Proof. Admitted.
 
 Lemma bits_to_nat_all_zero (bits : list Z) :
   is_binary bits →
-  (∀ i, bits !! i = Some 0) ↔ bits_to_nat bits = 0.
+  (∀ i : nat, bits !! i = Some 0) ↔ bits_to_nat bits = 0%nat.
 Proof. Admitted.
+
 
 Lemma bignum_compare_from_msb (bits_a bits_b : list Z) :
   is_binary bits_a →
