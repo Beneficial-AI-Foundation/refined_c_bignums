@@ -60,5 +60,5 @@ Lemma partial_sum_complete (n : nat) (carry_val : Z) (bits_result : list Z)
   length bits_result = Z.to_nat (Z.of_nat n + 1) →
   partial_sum_correct n carry_val bits_result bits_a bits_b →
   bits_result !!! n = carry_val →
-  bits_to_nat bits_result = bits_to_nat bits_a + bits_to_nat bits_b.
+  bits_to_nat bits_result = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
 Proof. Admitted.
