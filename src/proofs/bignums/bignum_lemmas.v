@@ -51,3 +51,14 @@ Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (partial_result : li
   bits_b !! length partial_result = Some y0 →
   y + y0 <= max_int i32.
 Proof. Admitted.
+
+(* New lemma for the final step *)
+Lemma partial_sum_complete (n : nat) (carry_val : Z) (bits_result : list Z) 
+                          (bits_a bits_b : list Z) :
+  length bits_a = n →
+  length bits_b = n →
+  length bits_result = n + 1 →
+  partial_sum_correct n carry_val bits_result bits_a bits_b →
+  bits_result !!! n = carry_val →
+  bits_to_nat bits_result = bits_to_nat bits_a + bits_to_nat bits_b.
+Proof. Admitted.
