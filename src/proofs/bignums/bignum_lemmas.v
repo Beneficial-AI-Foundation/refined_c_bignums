@@ -8,11 +8,11 @@ Definition bits_to_nat (bits : list Z) : nat :=
 
 
 (* Partial sum correctness for the first i digits *)
-Definition partial_sum_correct (i : nat) (carry : Z) (partial : list Z)
+Definition partial_sum_correct (i : nat) (carry : Z) (bits_result : list Z)
                               (bits_a bits_b : list Z) :=
   ∃ (sum : nat),
     sum = (bits_to_nat (take i bits_a) + bits_to_nat (take i bits_b)) ∧
-    bits_to_nat partial + Z.to_nat carry * 2^i = sum.
+    bits_to_nat (take i bits_result) + Z.to_nat carry * 2^i = sum.
 
 Lemma bits_to_nat_app (bits1 bits2 : list Z) :
   bits_to_nat (bits1 ++ bits2) =
