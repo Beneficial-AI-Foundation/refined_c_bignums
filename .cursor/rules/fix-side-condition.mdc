@@ -1,0 +1,77 @@
+---
+description: 
+globs: src/*.c
+alwaysApply: false
+---
+To fix an error like:
+
+```
+Cannot solve side condition in function "bignum_add" !
+Location: "src/bignums.c" [ 41 : 22 - 41 : 33 ]
+Location: "src/bignums.c" [ 41 : 22 - 41 : 41 ]
+Location: "src/bignums.c" [ 40 : 20 - 40 : 25 ]
+up to date: true
+Case distinction (if bool_decide (length partial_result < n)) -> true
+at "src/bignums.c" [ 40 : 20 - 40 : 25 ]
+Goal:
+bits_a : (list Z)
+bits_b : (list Z)
+n : Z
+H : (length bits_a = Z.to_nat n)
+H0 : (length bits_b = Z.to_nat n)
+H1 : (is_binary bits_a)
+H2 : (is_binary bits_b)
+H3 : (n > 0)
+H4 : (n < max_int i32)
+carry_val : Z
+partial_result : (list Z)
+H6 : (length partial_result ≤ n)
+H5 : (0 ≤ length partial_result)
+H7 : (carry_val = 0 ∨ carry_val = 1)
+H8 : (is_binary partial_result)
+H9 :
+(partial_sum_correct (length partial_result) carry_val partial_result bits_a
+   bits_b)
+H10 : (min_int i32 ≤ length partial_result)
+H11 : (length partial_result ≤ max_int i32)
+H12 : (min_int i32 ≤ n)
+H13 : (n ≤ max_int i32)
+H14 : (length partial_result < n)
+y : Z
+H15 : (bits_a !! length partial_result = Some y)
+H16 : (length partial_result < length bits_a)%nat
+y0 : Z
+H17 : (bits_b !! length partial_result = Some y0)
+H18 : (length partial_result < length bits_b)%nat
+H19 : (min_int i32 ≤ y)
+H20 : (y ≤ max_int i32)
+H21 : (min_int i32 ≤ y0)
+H22 : (y0 ≤ max_int i32)
+---------------------------------------
+(y + y0 ≤ max_int i32)
+```
+
+Add the following to src/proofs/bigums/bignum_lemmas.v
+```coq
+Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (partial_result : list Z) (y y0 : Z) :
+  is_binary bits_a →
+  is_binary bits_b →
+  bits_a !! length partial_result = Some y →
+  bits_b !! length partial_result = Some y0 →
+  y + y0 <= max_int i32.
+Proof. Admitted.
+```
+Each hypothesis must appear exactly as-is in the error message,
+and the goal must also exactly match the error message's goal.
+
+Include all the hypotheses that seem relevant for proving the goal.
+
+Then add the lemma to the list of lemmas, and add a tactic that applies the lemma:
+```c
+[[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds")]]
+[[rc::tactics("all: try by apply (binary_sum_within_i32_bounds bits_a bits_b partial_result y y0 H1 H2 H15 H17).")]]
+```
+
+It's important that the tactic calls the hypotheses with their labels from the error message.
+
+Don't try proving the lemma---the user will ask separately for that.
