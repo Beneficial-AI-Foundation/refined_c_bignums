@@ -71,6 +71,7 @@ def get_check_result(check_uuid: str) -> str:
 def count_side_conditions(check_uuid: str) -> str:
     """
     Counts the number of unsolved side conditions in a check result.
+    This can be run before or after get_check_result.
     Note: Will return 0 if there are syntax/type errors that prevent reaching side condition checks.
 
     Args:
