@@ -2,30 +2,11 @@ from mcp.server.fastmcp import FastMCP
 import subprocess
 import os
 import uuid
-from multiprocessing import Process
 
 mcp = FastMCP("RefinedC Server")
 
-def run_check(filename: str, check_uuid: str) -> None:
-    """
-    Runs the check and writes results to a temp file
-    """
-    env = os.environ.copy()
-    env["command"] = f"refinedc check {filename}"
-    
-    result = subprocess.run(
-        ["./run.sh"],
-        env=env,
-        capture_output=True,
-        text=True
-    )
-
-    output = result.stdout
-    if result.stderr:
-        output += "\n" + result.stderr
-
-    with open(f"/tmp/tmp_{check_uuid}", "w") as f:
-        f.write(output)
+# Store running processes
+processes = {}
 
 @mcp.tool()
 def start_check(filename: str) -> str:
@@ -39,9 +20,23 @@ def start_check(filename: str) -> str:
         UUID string to use for getting results
     """
     check_uuid = str(uuid.uuid4())
+    output_file = f"/tmp/tmp_{check_uuid}"
     
-    # Start check in background process
-    Process(target=run_check, args=(filename, check_uuid)).start()
+    env = os.environ.copy()
+    env["command"] = f"refinedc check {filename}"
+    
+    # Start process asynchronously
+    with open(output_file, 'w') as f:
+        proc = subprocess.Popen(
+            ["./run.sh"],
+            env=env,
+            stdout=f,
+            stderr=subprocess.STDOUT,
+            text=True
+        )
+    
+    # Store process object
+    processes[check_uuid] = proc
     
     return check_uuid
 
@@ -54,13 +49,24 @@ def get_check_result(check_uuid: str) -> str:
         check_uuid: UUID returned from start_check
 
     Returns:
-        The check results if complete, or empty string if still running
+        The check results if complete, or status message if still running
     """
+    if check_uuid not in processes:
+        return "Unknown check ID"
+        
+    proc = processes[check_uuid]
+    if proc.poll() is None:
+        return "Check still running"
+        
+    # Process finished
     try:
         with open(f"/tmp/tmp_{check_uuid}", "r") as f:
-            return f.read()
+            result = f.read()
+        # Clean up
+        del processes[check_uuid]
+        return result
     except FileNotFoundError:
-        return "File not found"
+        return "Output file not found"
 
 if __name__ == "__main__":
     # Run with SSE transport (default)
