@@ -1,0 +1,22 @@
+---
+description:
+globs: src/*.c
+alwaysApply: false
+---
+```c
+[[rc::parameters("ar : loc", "elts : {list Z}", "i : nat", "j : nat", "v1: Z", "v2: Z")]]
+[[rc::args("ar @&own<array<i32, {elts `at_type` (int i32)}>>")]]
+[[rc::args("i @ int<i32>", "j @ int<i32>")]]
+[[rc::requires("{elts !! i = Some v1}", "{elts !! j = Some v2}", "{i ≠ j}")]]
+[[rc::ensures("own ar : array<i32, {<[j:=v1]>(<[i:=v2]>elts) `at_type` (int i32)}>")]]
+void permute(int* ar, int i, int j){
+  int k = ar[i];
+  ar[i] = ar[j];
+  ar[j] = k;
+}
+```
+Observe:
+- the notation for updating a Coq list
+- `elts` is a Coq variable and hence immutable. So we can't say that `elts` changes.
+   So what we can say is that `ar` originally had the value of `elts`,
+   but after the function `ar` has the value of `elts` if `elts` had two terms swapped.
