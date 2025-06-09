@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "server-123": {
+      "command": "bash",
+      "args": ["start_mcp_server.bash"],
+      "env": {
+        "API_KEY": "value"
+      }
+    }
+  }
+}
