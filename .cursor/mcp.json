@@ -1,38 +1,10 @@
 {
   "mcpServers": {
-    "server-123": {
-      "command": "bash",
-      "args": ["start_mcp_server.bash"],
-      "env": {
-        "API_KEY": "value"
-      }
-    },
-    "server-456": {
-      "command": "python",
-      "args": ["mcp/serverfoo.py"],
-      "env": {
-        "API_KEY": "value"
-      }
-    },
-    "server-3": {
-      "command": "python",
-      "args": ["mcp/server.py"],
-      "env": {
-        "API_KEY": "value"
-      }
-    },
     "server-sse": {
         "url": "http://localhost:8000/sse",
         "env": {
           "API_KEY": "value"
         }
-    },
-    "server-4": {
-      "command": "mcp",
-      "args": ["run mcp/server.py"],
-      "env": {
-        "API_KEY": "value"
-      }
     }
   }
 }

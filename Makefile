@@ -25,4 +25,7 @@ run: build
 clean:
 	rm -f $(TARGET)
 
+start-mcp:
+	python mcp/server4.py
+
 .PHONY: all build run clean
