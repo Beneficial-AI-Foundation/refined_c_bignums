@@ -25,7 +25,7 @@ run: build
 clean:
 	rm -f $(TARGET)
 
-error.txt: src/bignums.c
+error.txt: src/bignums.c src/proofs/bignums/bignum_lemmas.v
 	-command="refinedc check src/bignums.c" ./run.sh > error.txt
 
 test: error.txt
