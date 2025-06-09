@@ -25,4 +25,13 @@ run: build
 clean:
 	rm -f $(TARGET)
 
-.PHONY: all build run clean 
+error.txt: src/bignums.c
+	command="refinedc check src/bignums.c" ./run.sh > error.txt
+
+test: error.txt
+	cat error.txt
+
+count: error.txt
+	grep -c Cannot error.txt
+
+.PHONY: all build run clean test count

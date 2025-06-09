@@ -8,3 +8,4 @@ _opam
 .direnv
 *.out
 error
+error.txt
