@@ -25,7 +25,4 @@ run: build
 clean:
 	rm -f $(TARGET)
 
-start-mcp:
-	python mcp/refinedc_server.py
-
-.PHONY: all build run clean start-mcp
+.PHONY: all build run clean 
