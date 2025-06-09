@@ -62,8 +62,6 @@ def get_check_result(check_uuid: str) -> str:
     try:
         with open(f"/tmp/tmp_{check_uuid}", "r") as f:
             result = f.read()
-        # Clean up
-        del processes[check_uuid]
         return result
     except FileNotFoundError:
         return "Output file not found"
