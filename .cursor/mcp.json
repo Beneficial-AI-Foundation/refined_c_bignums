@@ -2,7 +2,7 @@
   "mcpServers": {
     "refinedc": {
       "command": "uv",
-      "args": ["run", "mcp/refinedc_server.py"]
+      "args": ["run", "refinedc_server.py"]
     }
   }
 }
