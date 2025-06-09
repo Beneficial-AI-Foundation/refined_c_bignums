@@ -24,6 +24,7 @@ def start_check(filename: str) -> str:
     
     env = os.environ.copy()
     env["command"] = f"refinedc check {filename}"
+    env["TTY"] = "false"
     
     # Start process asynchronously
     with open(output_file, 'w') as f:
