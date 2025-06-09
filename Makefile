@@ -26,6 +26,6 @@ clean:
 	rm -f $(TARGET)
 
 start-mcp:
-	python mcp/server4.py
+	python mcp/refinedc_server.py
 
-.PHONY: all build run clean
+.PHONY: all build run clean start-mcp
