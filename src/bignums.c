@@ -28,9 +28,9 @@
 [[rc::ensures("{is_binary bits_result}")]]
 [[rc::ensures("{bits_to_nat bits_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
 [[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", "partial_sum_complete", "binary_sum_min_bound")]]
-[[rc::tactics("all: try by exact (binary_sum_within_i32_bounds bits_a bits_b i y y0 ? ? ? ?).")]]
-[[rc::tactics("all: try by exact (binary_sum_min_bound bits_a bits_b i y y0 ? ? ? ?).")]]
-[[rc::tactics("all: try by exact (partial_sum_complete i carry_val bits_result bits_a bits_b n ? ? ?).")]]
+[[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds].")]]
+[[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
+[[rc::tactics("all: try solve [eauto using partial_sum_complete].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
