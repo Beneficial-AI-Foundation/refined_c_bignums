@@ -10,7 +10,6 @@ pkgs.mkShellNoCC {
   packages = with pkgs; [
     mdformat
     code-cursor
-    python312Packages.mcp
-    python312Packages.typer
+    uv
   ];
 }
