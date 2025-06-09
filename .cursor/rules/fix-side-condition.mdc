@@ -51,7 +51,7 @@ H22 : (y0 ≤ max_int i32)
 (y + y0 ≤ max_int i32)
 ```
 
-Add the following to src/proofs/bigums/bignum_lemmas.v
+Add the following to src/proofs/bignums/bignum_lemmas.v
 ```coq
 Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (partial_result : list Z) (y y0 : Z) :
   is_binary bits_a →
