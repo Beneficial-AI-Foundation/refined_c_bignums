@@ -68,6 +68,33 @@ def get_check_result(check_uuid: str) -> str:
     except FileNotFoundError:
         return "Output file not found"
 
+@mcp.tool()
+def count_side_conditions(check_uuid: str) -> str:
+    """
+    Counts the number of unsolved side conditions in a check result.
+    Note: Will return 0 if there are syntax/type errors that prevent reaching side condition checks.
+
+    Args:
+        check_uuid: UUID returned from start_check
+
+    Returns:
+        Number of unsolved side conditions found in the output
+    """
+    if check_uuid not in processes:
+        return "Unknown check ID"
+        
+    proc = processes[check_uuid]
+    if proc.poll() is None:
+        return "Check still running"
+        
+    try:
+        with open(f"/tmp/tmp_{check_uuid}", "r") as f:
+            content = f.read()
+            count = content.count("Cannot solve side condition")
+            return str(count)
+    except FileNotFoundError:
+        return "Output file not found"
+
 if __name__ == "__main__":
     # Run with SSE transport (default)
     mcp.run(transport="sse")
