@@ -27,8 +27,9 @@
 [[rc::ensures("{length bits_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary bits_result}")]]
 [[rc::ensures("{bits_to_nat bits_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
-[[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", "partial_sum_complete")]]
+[[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", "partial_sum_complete", "binary_sum_min_bound")]]
 [[rc::tactics("all: try by apply (binary_sum_within_i32_bounds bits_a bits_b partial_result y y0 H1 H2 H15 H17).")]]
+[[rc::tactics("all: try by apply (binary_sum_min_bound bits_a bits_b i y y0 H1 H2 H15 H17).")]]
 [[rc::tactics("all: try by apply (partial_sum_complete i carry_val bits_result bits_a bits_b n H6 H14 H9).")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;

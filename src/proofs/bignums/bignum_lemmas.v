@@ -60,3 +60,11 @@ Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
   partial_sum_correct i carry_val bits_result bits_a bits_b →
   bits_to_nat bits_result = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
 Proof. Admitted.
+
+Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
+  is_binary bits_a →
+  is_binary bits_b →
+  bits_a !! i = Some y →
+  bits_b !! i = Some y0 →
+  min_int i32 ≤ y + y0.
+Proof. Admitted.
