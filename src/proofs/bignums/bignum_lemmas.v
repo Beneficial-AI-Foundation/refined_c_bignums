@@ -96,3 +96,39 @@ Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   (carry_val = 0 ∨ carry_val = 1) →
   (y + y0 + carry_val) `quot` 2 = 0 ∨ (y + y0 + carry_val) `quot` 2 = 1.
 Proof. Admitted.
+
+(* New lemmas for bignum_add verification *)
+Lemma initial_partial_sum_correct :
+  ∀ bits_a bits_b bits_result,
+  is_binary bits_a →
+  is_binary bits_b →
+  partial_sum_correct 0 0 bits_result bits_a bits_b.
+Proof. Admitted.
+
+Lemma partial_sum_step :
+  ∀ bits_a bits_b bits_result i carry_val y y0 y1,
+  is_binary bits_a →
+  is_binary bits_b →
+  partial_sum_correct i carry_val bits_result bits_a bits_b →
+  bits_a !! i = Some y →
+  bits_b !! i = Some y0 →
+  bits_result !! i = Some y1 →
+  (y + y0 + carry_val) `rem` 2 = y1 →
+  partial_sum_correct (i + 1) ((y + y0 + carry_val) `quot` 2) bits_result bits_a bits_b.
+Proof. Admitted.
+
+Lemma result_is_binary :
+  ∀ bits_a bits_b bits_result n,
+  is_binary bits_a →
+  is_binary bits_b →
+  length bits_result = Z.to_nat (n + 1) →
+  length bits_a = Z.to_nat n →
+  length bits_b = Z.to_nat n →
+  is_binary bits_result.
+Proof. Admitted.
+
+Lemma carry_final_value :
+  ∀ bits_a bits_b bits_result n carry_val,
+  partial_sum_correct (Z.to_nat n) carry_val bits_result bits_a bits_b →
+  bits_result !! Z.to_nat n = Some carry_val.
+Proof. Admitted.
