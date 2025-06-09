@@ -2,11 +2,11 @@ from mcp.server.fastmcp import FastMCP
 import subprocess
 import os
 import uuid
-from threading import Thread
+from multiprocessing import Process
 
 mcp = FastMCP("RefinedC Server")
 
-def run_check(filename: str, check_uuid: str):
+def run_check(filename: str, check_uuid: str) -> None:
     """
     Runs the check and writes results to a temp file
     """
@@ -40,8 +40,8 @@ def start_check(filename: str) -> str:
     """
     check_uuid = str(uuid.uuid4())
     
-    # Start check in background thread
-    Thread(target=run_check, args=(filename, check_uuid)).start()
+    # Start check in background process
+    Process(target=run_check, args=(filename, check_uuid)).start()
     
     return check_uuid
 
