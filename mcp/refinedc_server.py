@@ -60,7 +60,7 @@ def get_check_result(check_uuid: str) -> str:
         with open(f"/tmp/tmp_{check_uuid}", "r") as f:
             return f.read()
     except FileNotFoundError:
-        return ""
+        return "File not found"
 
 if __name__ == "__main__":
     # Run with SSE transport (default)
