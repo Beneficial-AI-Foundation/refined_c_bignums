@@ -1,7 +1,7 @@
 let
   nixpkgs = fetchTarball {
-	url = "https://github.com/NixOS/nixpkgs/tarball/8f1b52b04f2cb6e5ead50bd28d76528a2f0380ef";
-	sha256 = "sha256:0854a0169bh2rlfvrsibaqlmsql0dp3ycwq5z8178kdl7q9h6rrq";
+	url = "https://github.com/NixOS/nixpkgs/tarball/08fcb0dcb59df0344652b38ea6326a2d8271baff";
+	sha256 = "sha256:0xwng9xf2985xqbrbgpip113g0gf70mzv43da42g66y88b6i0whx";
 	};
   pkgs = import nixpkgs { config = {}; overlays = []; };
 in
@@ -9,5 +9,6 @@ in
 pkgs.mkShellNoCC {
   packages = with pkgs; [
     mdformat
+    code-cursor
   ];
 }
