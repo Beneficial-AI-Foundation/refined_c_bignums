@@ -78,7 +78,7 @@ Lemma binary_sum_with_carry_bound (bits_a bits_b : list Z) (i : nat) (y y0 carry
   y + y0 + carry_val ≤ max_int i32.
 Proof. Admitted.
 
-Lemma binary_add_rem (bits_a bits_b : list Z) (i : nat) (y y0 carry_val y1 : Z) :
+Lemma binary_add_rem (bits_a bits_b bits_result : list Z) (i : nat) (y y0 carry_val y1 : Z) :
   is_binary bits_a →
   is_binary bits_b →
   bits_a !! i = Some y →
