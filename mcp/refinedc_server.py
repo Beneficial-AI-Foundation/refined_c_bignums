@@ -96,5 +96,4 @@ def count_side_conditions(check_uuid: str) -> str:
         return "Output file not found"
 
 if __name__ == "__main__":
-    # Run with SSE transport (default)
-    mcp.run(transport="sse")
+    mcp.run()

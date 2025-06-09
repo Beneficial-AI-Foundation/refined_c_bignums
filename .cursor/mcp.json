@@ -1,7 +1,8 @@
 {
   "mcpServers": {
     "refinedc": {
-        "url": "http://localhost:8000/sse"
+      "command": "uv",
+      "args": ["run", "mcp/refinedc_server.py"]
     }
   }
 }
