@@ -1,26 +1,18 @@
 from mcp.server.fastmcp import FastMCP
 import subprocess
 import os
+import uuid
+from threading import Thread
 
 mcp = FastMCP("RefinedC Server")
 
-@mcp.tool()
-def refinedc_check(filename: str) -> str:
+def run_check(filename: str, check_uuid: str):
     """
-    Runs 'refinedc check' on the specified file and returns the command output.
-
-    Args:
-        filename: Name of the file to check with refinedc
-
-    Returns:
-        The combined stdout and stderr from running the command
+    Runs the check and writes results to a temp file
     """
-
-    # Set up the environment variable for the command
     env = os.environ.copy()
     env["command"] = f"refinedc check {filename}"
-
-    # Run the script without shell=True
+    
     result = subprocess.run(
         ["./run.sh"],
         env=env,
@@ -28,12 +20,47 @@ def refinedc_check(filename: str) -> str:
         text=True
     )
 
-    # Combine stdout and stderr in the response
     output = result.stdout
     if result.stderr:
         output += "\n" + result.stderr
 
-    return output
+    with open(f"/tmp/tmp_{check_uuid}", "w") as f:
+        f.write(output)
+
+@mcp.tool()
+def start_check(filename: str) -> str:
+    """
+    Starts a refinedc check on the specified file and returns a UUID to track it.
+
+    Args:
+        filename: Name of the file to check with refinedc
+
+    Returns:
+        UUID string to use for getting results
+    """
+    check_uuid = str(uuid.uuid4())
+    
+    # Start check in background thread
+    Thread(target=run_check, args=(filename, check_uuid)).start()
+    
+    return check_uuid
+
+@mcp.tool()
+def get_check_result(check_uuid: str) -> str:
+    """
+    Gets the result of a check by UUID.
+
+    Args:
+        check_uuid: UUID returned from start_check
+
+    Returns:
+        The check results if complete, or empty string if still running
+    """
+    try:
+        with open(f"/tmp/tmp_{check_uuid}", "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return ""
 
 if __name__ == "__main__":
     # Run with SSE transport (default)
