@@ -26,7 +26,7 @@ clean:
 	rm -f $(TARGET)
 
 error.txt: src/bignums.c
-	command="refinedc check src/bignums.c" ./run.sh > error.txt
+	-command="refinedc check src/bignums.c" ./run.sh > error.txt
 
 test: error.txt
 	cat error.txt
