@@ -16,7 +16,7 @@
            "b @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
            "result @ &own<array<i32, {bits_result `at_type` (int i32)}>>",
            "n @ int<i32>")]]
-[[rc::requires("{bits_result = replicate (Z.to_nat (n + 1)) (0:Z)}")]]
+[[rc::requires("{length bits_result = Z.to_nat (n + 1)}")]]
 [[rc::requires("{length bits_a = Z.to_nat n}", "{length bits_b = Z.to_nat n}",
                "{is_binary bits_a}", "{is_binary bits_b}")]]
 [[rc::requires("{n > 0}", "{n < max_int i32}")]]
