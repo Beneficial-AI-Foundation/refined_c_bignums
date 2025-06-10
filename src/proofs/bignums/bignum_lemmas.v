@@ -100,14 +100,3 @@ Lemma update_preserves_binary (current_result : list Z) (n : Z) (carry_val : Z) 
   is_binary (<[Z.to_nat n:=carry_val]> current_result).
 Proof. Admitted.
 
-(* TODO True? *)
-Lemma result_is_binary :
-  ∀ bits_a bits_b bits_result n,
-  is_binary bits_a →
-  is_binary bits_b →
-  length bits_result = Z.to_nat (n + 1) →
-  length bits_a = Z.to_nat n →
-  length bits_b = Z.to_nat n →
-  is_binary bits_result.
-Proof. Admitted.
-
