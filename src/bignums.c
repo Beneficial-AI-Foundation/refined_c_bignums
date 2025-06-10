@@ -24,10 +24,10 @@
 [[rc::ensures("own a : array<i32, {bits_a `at_type` (int i32)}>")]]
 [[rc::ensures("own b : array<i32, {bits_b `at_type` (int i32)}>")]]
 [[rc::exists("final_result : {list Z}")]]
-[[rc::ensures("own result : array<i32, {final_result `at_type` (int i32)}>")]]
-[[rc::ensures("{length final_result = Z.to_nat (n + 1)}")]]
-[[rc::ensures("{is_binary final_result}")]]
-[[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
+[[rc::ensures("own result : array<i32, {current_result `at_type` (int i32)}>")]]
+[[rc::ensures("{length current_result = Z.to_nat (n + 1)}")]]
+[[rc::ensures("{is_binary current_result}")]]
+[[rc::ensures("{bits_to_nat current_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
 [[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", 
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound", "binary_add_rem", 
              "binary_add_quot", "initial_partial_sum_correct", "result_is_binary")]]
@@ -39,10 +39,12 @@
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
-    [[rc::exists("i_val : nat", "carry_val : Z")]]
-    [[rc::inv_vars("i : i_val @ int<i32>", "carry : carry_val @ int<i32>")]]
+    [[rc::exists("i_val : nat", "carry_val : Z", "current_result : {list Z}")]]
+    [[rc::inv_vars("i : i_val @ int<i32>", "carry : carry_val @ int<i32>", 
+                   "result : current_result @ &own<array<i32, {current_result `at_type` (int i32)}>>")]]
     [[rc::constraints("{0 <= i_val}", "{i_val <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
-    [[rc::constraints("{partial_sum_correct i_val carry_val final_result bits_a bits_b}")]]
+    [[rc::constraints("{length current_result = Z.to_nat (n + 1)}")]]
+    [[rc::constraints("{partial_sum_correct i_val carry_val current_result bits_a bits_b}")]]
     for (int i = 0; i < n; i++) {
         int bit_sum = a[i] + b[i] + carry;
         result[i] = bit_sum % 2;
