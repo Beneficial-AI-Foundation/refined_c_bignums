@@ -29,13 +29,6 @@ Definition is_binary (bits : list Z) :=
 
 
 
-Lemma binary_add_step (a b carry : Z) :
-  (a = 0 ∨ a = 1) →
-  (b = 0 ∨ b = 1) →
-  (carry = 0 ∨ carry = 1) →
-  let sum := a + b + carry in
-  (sum mod 2 = 0 ∨ sum mod 2 = 1) ∧ (sum `div` 2 = 0 ∨ sum `div` 2 = 1).
-Proof. Admitted.
 
 Lemma binary_add_carry_bound (bits_a bits_b : list Z) (i : nat) :
   is_binary bits_a →

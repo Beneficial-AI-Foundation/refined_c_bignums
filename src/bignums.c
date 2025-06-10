@@ -28,7 +28,7 @@
 [[rc::ensures("{length final_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary final_result}")]]
 [[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
-[[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", 
+[[rc::lemmas("binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds",
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct", "result_is_binary", "partial_sum_step", 
              "partial_sum_step_exact")]]
