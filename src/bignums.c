@@ -39,10 +39,10 @@
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
-    [[rc::exists("i : nat", "carry_val : Z")]]
-    [[rc::inv_vars("i : i @ int<i32>", "carry : carry_val @ int<i32>")]]
-    [[rc::constraints("{0 <= i}", "{i <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
-    [[rc::constraints("{partial_sum_correct i carry_val final_result bits_a bits_b}")]]
+    [[rc::exists("i_val : nat", "carry_val : Z")]]
+    [[rc::inv_vars("i : i_val @ int<i32>", "carry : carry_val @ int<i32>")]]
+    [[rc::constraints("{0 <= i_val}", "{i_val <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
+    [[rc::constraints("{partial_sum_correct i_val carry_val final_result bits_a bits_b}")]]
     for (int i = 0; i < n; i++) {
         int bit_sum = a[i] + b[i] + carry;
         result[i] = bit_sum % 2;
