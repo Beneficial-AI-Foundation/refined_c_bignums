@@ -11,11 +11,12 @@
 
 /* Add two bignums with carry */
 [[rc::parameters("a : loc", "b : loc", "result : loc", 
-                 "bits_a : {list Z}", "bits_b : {list Z}", "n : Z", "bits_result : {list Z}")]]
+                 "bits_a : {list Z}", "bits_b : {list Z}", "n : Z", "result_array : {list Z}")]]
 [[rc::args("a @ &own<array<i32, {bits_a `at_type` (int i32)}>>",
            "b @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
-           "result @ &own<array<i32, {Z.to_nat (n + 1)}>",
+           "result @ &own<array<i32, {result_array `at_type` (int i32)}>>",
            "n @ int<i32>")]]
+[[rc::requires("{length result_array = Z.to_nat (n + 1)}")]]
 [[rc::requires("{length bits_a = Z.to_nat n}", "{length bits_b = Z.to_nat n}",
                "{is_binary bits_a}", "{is_binary bits_b}")]]
 [[rc::requires("{n > 0}", "{n < max_int i32}")]]
@@ -29,12 +30,14 @@
 [[rc::ensures("{bits_to_nat bits_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
 [[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", 
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound", "binary_add_rem", 
-             "binary_add_quot", "initial_partial_sum_correct", "result_is_binary")]]
+             "binary_add_quot", "initial_partial_sum_correct", "result_is_binary", "partial_sum_step", "carry_final_value")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_rem | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
 [[rc::tactics("all: try solve [eauto using partial_sum_complete].")]]
 [[rc::tactics("all: try solve [eauto using result_is_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
+[[rc::tactics("all: try solve [eauto using partial_sum_step].")]]
+[[rc::tactics("all: try solve [eauto using carry_final_value].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
