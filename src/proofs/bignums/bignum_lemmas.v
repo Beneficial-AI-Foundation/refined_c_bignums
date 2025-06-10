@@ -28,7 +28,6 @@ Definition is_binary (bits : list Z) :=
 
 
 
-(* Key lemmas (statements only) *)
 
 Lemma binary_add_step (a b carry : Z) :
   (a = 0 ∨ a = 1) →
@@ -66,7 +65,6 @@ Lemma partial_sum_step (i : nat) (carry_val : Z) (bits_result : list Z)
     (<[i:=(y + y0 + carry_val) `rem` 2]> bits_result) bits_a bits_b.
 Proof. Admitted.
 
-(* Specialized lemma for the exact form of the first goal *)
 Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
                             (y y0 y1 : Z) :
