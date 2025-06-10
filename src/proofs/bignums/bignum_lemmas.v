@@ -51,8 +51,7 @@ Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : 
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof. Admitted.
 
-(* New lemma for the final step *)
-Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z) 
+Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
   i ≤ n →
   ¬ i < n →
