@@ -33,10 +33,10 @@
              "binary_add_quot", "initial_partial_sum_correct", "result_is_binary", "partial_sum_step")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_rem | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
-[[rc::tactics("all: try solve [eauto using partial_sum_complete].")]]
 [[rc::tactics("all: try solve [eauto using result_is_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
 [[rc::tactics("all: try solve [eapply partial_sum_step; eauto; try (left; reflexivity || right; reflexivity)].")]]
+[[rc::tactics("all: try solve [eapply partial_sum_complete; eauto].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
