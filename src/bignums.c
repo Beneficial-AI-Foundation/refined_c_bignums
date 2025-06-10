@@ -10,7 +10,7 @@
 // Definition is_binary (bits : list Z) := Forall (fun b => b = 0 ∨ b = 1) bits.
 
 /* Add two bignums with carry */
-[[rc::parameters("a : loc", "b : loc", "result : loc", 
+[[rc::parameters("a_loc : loc", "b_loc : loc", "result_loc : loc", 
                  "bits_a : {list Z}", "bits_b : {list Z}", "n : Z", "initial_result : {list Z}")]]
 [[rc::args("a @ &own<array<i32, {bits_a `at_type` (int i32)}>>",
            "b @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
@@ -21,10 +21,10 @@
                "{is_binary bits_a}", "{is_binary bits_b}")]]
 [[rc::requires("{n > 0}", "{n < max_int i32}")]]
 [[rc::returns("void")]]
-[[rc::ensures("own a : array<i32, {bits_a `at_type` (int i32)}>")]]
-[[rc::ensures("own b : array<i32, {bits_b `at_type` (int i32)}>")]]
+[[rc::ensures("own a_loc : array<i32, {bits_a `at_type` (int i32)}>")]]
+[[rc::ensures("own b_loc : array<i32, {bits_b `at_type` (int i32)}>")]]
 [[rc::exists("final_result : {list Z}")]]
-[[rc::ensures("own result : array<i32, {final_result `at_type` (int i32)}>")]]
+[[rc::ensures("own result_loc : array<i32, {final_result `at_type` (int i32)}>")]]
 [[rc::ensures("{length final_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary final_result}")]]
 [[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
@@ -41,7 +41,7 @@ void bignum_add(int* a, int* b, int* result, int n) {
     
     [[rc::exists("i_val : nat", "carry_val : Z", "current_result : {list Z}")]]
     [[rc::inv_vars("i : i_val @ int<i32>", "carry : carry_val @ int<i32>", 
-                   "result : result @ &own<array<i32, {current_result `at_type` (int i32)}>>")]]
+                   "result : result_loc @ &own<array<i32, {current_result `at_type` (int i32)}>>")]]
     [[rc::constraints("{0 <= i_val}", "{i_val <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
     [[rc::constraints("{length current_result = Z.to_nat (n + 1)}")]]
     [[rc::constraints("{partial_sum_correct i_val carry_val current_result bits_a bits_b}")]]
