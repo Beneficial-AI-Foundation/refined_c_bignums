@@ -66,13 +66,66 @@ Lemma partial_sum_step (i : nat) (carry_val : Z) (bits_result : list Z)
     (<[i:=(y + y0 + carry_val) `rem` 2]> bits_result) bits_a bits_b.
 Proof. Admitted.
 
+(* Specialized lemma for the exact form of the first goal *)
+Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
+                            (i_val : nat) (carry_val : Z) (current_result : list Z)
+                            (y y0 y1 : Z) :
+  length initial_result = Z.to_nat (n + 1) →
+  length bits_a = Z.to_nat n →
+  length bits_b = Z.to_nat n →
+  is_binary bits_a →
+  is_binary bits_b →
+  n > 0 →
+  n < max_int i32 →
+  0 ≤ i_val →
+  i_val ≤ n →
+  carry_val = 0 ∨ carry_val = 1 →
+  length current_result = Z.to_nat (n + 1) →
+  partial_sum_correct i_val carry_val current_result bits_a bits_b →
+  min_int i32 ≤ i_val →
+  i_val ≤ max_int i32 →
+  min_int i32 ≤ n →
+  n ≤ max_int i32 →
+  i_val < n →
+  bits_a !! i_val = Some y →
+  i_val < length bits_a →
+  bits_b !! i_val = Some y0 →
+  i_val < length bits_b →
+  min_int i32 ≤ y →
+  y ≤ max_int i32 →
+  min_int i32 ≤ y0 →
+  y0 ≤ max_int i32 →
+  min_int i32 ≤ y + y0 →
+  y + y0 ≤ max_int i32 →
+  min_int i32 ≤ carry_val →
+  carry_val ≤ max_int i32 →
+  min_int i32 ≤ y + y0 + carry_val →
+  y + y0 + carry_val ≤ max_int i32 →
+  min_int i32 ≤ 2 →
+  current_result !! i_val = Some y1 →
+  i_val < length current_result →
+  partial_sum_correct (i_val + 1) ((y + y0 + carry_val) `quot` 2)
+    (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
+Proof.
+  intros. eapply partial_sum_step; eauto.
+  - assumption. (* partial_sum_correct *)
+  - assumption. (* bits_a !! i_val *)
+  - assumption. (* bits_b !! i_val *)
+  - assumption. (* current_result !! i_val *)
+  - assumption. (* carry_val = 0 ∨ 1 *)
+  - destruct H3. (* is_binary bits_a *)
+    apply Forall_lookup_1 with (i := i_val) (x := y) in H3; auto.
+  - destruct H4. (* is_binary bits_b *)
+    apply Forall_lookup_1 with (i := i_val) (x := y0) in H4; auto.
+Qed.
+
 (* New lemma for the final step *)
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z) 
                           (bits_a bits_b : list Z) (n : Z) :
   i ≤ n →
   ¬ i < n →
   partial_sum_correct i carry_val bits_result bits_a bits_b →
-  bits_to_nat bits_result = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
+  bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
 Proof. Admitted.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
