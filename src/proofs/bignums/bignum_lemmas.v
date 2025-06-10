@@ -52,6 +52,20 @@ Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (i : nat) (y y0 : Z)
   y + y0 <= max_int i32.
 Proof. Admitted.
 
+(* Lemma for the loop iteration step *)
+Lemma partial_sum_step (i : nat) (carry_val : Z) (bits_result : list Z)
+                      (bits_a bits_b : list Z) (y y0 y1 : Z) :
+  partial_sum_correct i carry_val bits_result bits_a bits_b →
+  bits_a !! i = Some y →
+  bits_b !! i = Some y0 →
+  bits_result !! i = Some y1 →
+  (carry_val = 0 ∨ carry_val = 1) →
+  (y = 0 ∨ y = 1) →
+  (y0 = 0 ∨ y0 = 1) →
+  partial_sum_correct (i + 1) ((y + y0 + carry_val) `quot` 2)
+    (<[i:=(y + y0 + carry_val) `rem` 2]> bits_result) bits_a bits_b.
+Proof. Admitted.
+
 (* New lemma for the final step *)
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z) 
                           (bits_a bits_b : list Z) (n : Z) :
