@@ -14,15 +14,15 @@
                  "bits_a : {list Z}", "bits_b : {list Z}", "n : Z", "bits_result : {list Z}")]]
 [[rc::args("a @ &own<array<i32, {bits_a `at_type` (int i32)}>>",
            "b @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
-           "result @ &own<array<i32, {bits_result `at_type` (int i32)}>>",
+           "result @ &own<array<i32, {Z.to_nat (n + 1)}>",
            "n @ int<i32>")]]
-[[rc::requires("{length bits_result = Z.to_nat (n + 1)}")]]
 [[rc::requires("{length bits_a = Z.to_nat n}", "{length bits_b = Z.to_nat n}",
                "{is_binary bits_a}", "{is_binary bits_b}")]]
 [[rc::requires("{n > 0}", "{n < max_int i32}")]]
 [[rc::returns("void")]]
 [[rc::ensures("own a : array<i32, {bits_a `at_type` (int i32)}>")]]
 [[rc::ensures("own b : array<i32, {bits_b `at_type` (int i32)}>")]]
+[[rc::exists("bits_result : {list Z}")]]
 [[rc::ensures("own result : array<i32, {bits_result `at_type` (int i32)}>")]]
 [[rc::ensures("{length bits_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary bits_result}")]]
