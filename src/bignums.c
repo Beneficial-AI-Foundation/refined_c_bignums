@@ -12,9 +12,9 @@
 /* Add two bignums with carry */
 [[rc::parameters("a_loc : loc", "b_loc : loc", "result_loc : loc", 
                  "bits_a : {list Z}", "bits_b : {list Z}", "n : Z", "initial_result : {list Z}")]]
-[[rc::args("a @ &own<array<i32, {bits_a `at_type` (int i32)}>>",
-           "b @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
-           "result @ &own<array<i32, {initial_result `at_type` (int i32)}>>",
+[[rc::args("a_loc @ &own<array<i32, {bits_a `at_type` (int i32)}>>",
+           "b_loc @ &own<array<i32, {bits_b `at_type` (int i32)}>>", 
+           "result_loc @ &own<array<i32, {initial_result `at_type` (int i32)}>>",
            "n @ int<i32>")]]
 [[rc::requires("{length initial_result = Z.to_nat (n + 1)}")]]
 [[rc::requires("{length bits_a = Z.to_nat n}", "{length bits_b = Z.to_nat n}",
