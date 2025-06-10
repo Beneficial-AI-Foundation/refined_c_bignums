@@ -116,7 +116,6 @@ Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   (y + y0 + carry_val) `quot` 2 = 0 ∨ (y + y0 + carry_val) `quot` 2 = 1.
 Proof. Admitted.
 
-(* New lemmas for bignum_add verification *)
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
   is_binary bits_a →
