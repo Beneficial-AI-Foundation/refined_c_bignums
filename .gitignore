@@ -9,3 +9,10 @@ _opam
 *.out
 error
 error.txt
+
+.lia.cache
+*.aux
+*.glob
+*.vo
+*.vok
+*.vos
