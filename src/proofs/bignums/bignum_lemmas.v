@@ -116,24 +116,3 @@ Lemma result_is_binary :
   is_binary bits_result.
 Proof. Admitted.
 
-Lemma partial_sum_step (bits_a bits_b bits_result : list Z) (i : nat) (carry_val y y0 y1 : Z) :
-  is_binary bits_a →
-  is_binary bits_b →
-  partial_sum_correct i carry_val bits_result bits_a bits_b →
-  bits_a !! i = Some y →
-  bits_b !! i = Some y0 →
-  bits_result !! i = Some y1 →
-  (y + y0 + carry_val) `rem` 2 = y1 →
-  partial_sum_correct (i + 1) ((y + y0 + carry_val) `quot` 2) bits_result bits_a bits_b.
-Proof. Admitted.
-
-Lemma carry_final_value (bits_a bits_b bits_result : list Z) (n : Z) (carry_val : Z) :
-  length bits_result = Z.to_nat (n + 1) →
-  length bits_a = Z.to_nat n →
-  length bits_b = Z.to_nat n →
-  is_binary bits_a →
-  is_binary bits_b →
-  partial_sum_correct (Z.to_nat n) carry_val bits_result bits_a bits_b →
-  bits_result !! Z.to_nat n = Some carry_val.
-Proof. Admitted.
-

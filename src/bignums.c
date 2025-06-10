@@ -30,14 +30,12 @@
 [[rc::ensures("{bits_to_nat bits_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
 [[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", 
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound", "binary_add_rem", 
-             "binary_add_quot", "initial_partial_sum_correct", "result_is_binary", "partial_sum_step", "carry_final_value")]]
+             "binary_add_quot", "initial_partial_sum_correct", "result_is_binary")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_rem | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
 [[rc::tactics("all: try solve [eauto using partial_sum_complete].")]]
 [[rc::tactics("all: try solve [eauto using result_is_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
-[[rc::tactics("all: try solve [eauto using partial_sum_step].")]]
-[[rc::tactics("all: try solve [eauto using carry_final_value].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
