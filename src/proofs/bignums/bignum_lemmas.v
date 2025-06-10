@@ -93,6 +93,13 @@ Lemma initial_partial_sum_correct :
 Proof. Admitted.
 
 
+(* Updating a list with a binary value preserves the binary property *)
+Lemma update_preserves_binary (current_result : list Z) (n : Z) (carry_val : Z) :
+  carry_val = 0 ∨ carry_val = 1 →
+  Z.to_nat n < length current_result →
+  is_binary (<[Z.to_nat n:=carry_val]> current_result).
+Proof. Admitted.
+
 (* TODO True? *)
 Lemma result_is_binary :
   ∀ bits_a bits_b bits_result n,
