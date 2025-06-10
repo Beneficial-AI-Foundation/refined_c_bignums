@@ -30,11 +30,6 @@ Definition is_binary (bits : list Z) :=
 
 
 
-Lemma binary_add_carry_bound (bits_a bits_b : list Z) (i : nat) :
-  is_binary bits_a →
-  is_binary bits_b →
-  bits_to_nat (take i bits_a) + bits_to_nat (take i bits_b) < 2^(i+1).
-Proof. Admitted.
 
 Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
