@@ -29,10 +29,10 @@
 [[rc::ensures("{is_binary final_result}")]]
 [[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
 [[rc::lemmas("binary_add_step", "binary_add_carry_bound", "bits_to_nat_app", "binary_sum_within_i32_bounds", 
-             "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound", "binary_add_rem", 
+             "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct", "result_is_binary", "partial_sum_step", 
              "partial_sum_step_exact")]]
-[[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_rem | eauto using binary_add_quot].")]]
+[[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
 [[rc::tactics("all: try solve [eauto using result_is_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]

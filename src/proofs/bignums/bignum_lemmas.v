@@ -106,15 +106,6 @@ Lemma binary_sum_with_carry_bound (bits_a bits_b : list Z) (i : nat) (y y0 carry
   y + y0 + carry_val ≤ max_int i32.
 Proof. Admitted.
 
-Lemma binary_add_rem (bits_a bits_b bits_result : list Z) (i : nat) (y y0 carry_val y1 : Z) :
-  is_binary bits_a →
-  is_binary bits_b →
-  bits_a !! i = Some y →
-  bits_b !! i = Some y0 →
-  bits_result !! i = Some y1 →
-  (carry_val = 0 ∨ carry_val = 1) →
-  (y + y0 + carry_val) `rem` 2 = y1.
-Proof. Admitted.
 
 Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   is_binary bits_a →
