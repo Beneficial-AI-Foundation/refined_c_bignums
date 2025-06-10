@@ -41,7 +41,7 @@ void bignum_add(int* a, int* b, int* result, int n) {
     
     [[rc::exists("i_val : nat", "carry_val : Z", "current_result : {list Z}")]]
     [[rc::inv_vars("i : i_val @ int<i32>", "carry : carry_val @ int<i32>", 
-                   "result : current_result @ &own<array<i32, {current_result `at_type` (int i32)}>>")]]
+                   "result : &own<array<i32, {current_result `at_type` (int i32)}>>")]]
     [[rc::constraints("{0 <= i_val}", "{i_val <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
     [[rc::constraints("{length current_result = Z.to_nat (n + 1)}")]]
     [[rc::constraints("{partial_sum_correct i_val carry_val current_result bits_a bits_b}")]]
