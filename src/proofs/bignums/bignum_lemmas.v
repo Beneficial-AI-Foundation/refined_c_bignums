@@ -14,10 +14,6 @@ Definition partial_sum_correct (i : nat) (carry : Z) (bits_result : list Z)
     sum = (bits_to_nat (take i bits_a) + bits_to_nat (take i bits_b)) ∧
     bits_to_nat (take i bits_result) + Z.to_nat carry * 2^i = sum.
 
-Lemma bits_to_nat_app (bits1 bits2 : list Z) :
-  bits_to_nat (bits1 ++ bits2) =
-  bits_to_nat bits1 + bits_to_nat bits2 * 2^(length bits1).
-Proof. Admitted.
 
 Close Scope nat_scope.
 
