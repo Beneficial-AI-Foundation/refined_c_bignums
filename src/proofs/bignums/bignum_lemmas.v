@@ -94,6 +94,7 @@ Lemma initial_partial_sum_correct :
 Proof. Admitted.
 
 
+(* TODO True? *)
 Lemma result_is_binary :
   ∀ bits_a bits_b bits_result n,
   is_binary bits_a →
