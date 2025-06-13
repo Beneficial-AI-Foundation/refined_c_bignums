@@ -75,3 +75,11 @@ Then add the lemma to the list of lemmas, and add a tactic that applies the lemm
 It's important that the tactic calls the hypotheses with their labels from the error message.
 
 Don't try proving the lemma---the user will ask separately for that.
+
+It is important that the lemma you create is in fact true.
+It's possible for you to write a lemma whose goal resolves the side conditions,
+but you've used the wrong hypotheses. This will later make it impossible to
+prove the lemma.
+
+If it is logically impossible to get the side-condition's goal from the available hypotheses,
+alert the user.
