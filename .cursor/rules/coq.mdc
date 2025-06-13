@@ -1,0 +1,16 @@
+---
+description:
+globs: *.v
+alwaysApply: false
+---
+Follow these steps exactly to prove a Coq lemma.
+
+1. Replace `Admitted.` with `Show. Qed.`
+2. Run a tool to see if the lemma verifies.
+3. If the proof verifies, remove `Show` and run the tool again to check it verifies. Stop.
+4. If you get "Attempt to save an incomplete proof", this shows that you have made progress. Go to step 6.
+5. If you get some other error, your most recent line must have been incorrect. Remove it.
+6. Add exactly one line, just before `Show`, with what you think is the correct next step.
+   It is important that `Show` is always just before `Qed`, so you can see what the unsolved goal is.
+   You may have to move `Show` inside `-`, `+`, `--`, etc, depending on how nested the first unsolved goal is.
+7. Go to step 2.
