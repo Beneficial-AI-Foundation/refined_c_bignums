@@ -121,7 +121,7 @@ Proof.
     destruct (decide (i < i_val)%nat) as [Hlt|Hnlt'].
     + (* i < i_val *)
       unfold is_binary in Hbinary.
-      apply (Forall_lookup_1 _ _ _ _ Hbinary (lookup_take_Some _ i _ i_val Hi Hlt)).
+      assert (take i_val current_result !! i = Some x) as Htake.
   Show. Qed.
 
 Lemma initial_partial_sum_correct :
