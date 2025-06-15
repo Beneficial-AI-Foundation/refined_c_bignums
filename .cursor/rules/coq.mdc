@@ -55,3 +55,8 @@ Error:
 This means you need to add a bullet point to enter a new subgoal.
 
 
+If you see this
+```
+Error: [Focus] Wrong bullet -: Current bullet - is not finished.
+```
+This means try a different bullet type, like + or --
