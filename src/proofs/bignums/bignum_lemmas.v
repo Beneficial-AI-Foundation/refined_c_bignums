@@ -85,14 +85,6 @@ Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   (y + y0 + carry_val) `quot` 2 = 0 ∨ (y + y0 + carry_val) `quot` 2 = 1.
 Proof. Admitted.
 
-Lemma binary_rem_is_binary (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
-  is_binary bits_a →
-  is_binary bits_b →
-  bits_a !! i = Some y →
-  bits_b !! i = Some y0 →
-  (carry_val = 0 ∨ carry_val = 1) →
-  (y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1.
-Proof. Admitted.
 
 Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bits_a bits_b : list Z) (y y0 carry_val : Z) :
   is_binary (take i_val current_result) →
