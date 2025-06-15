@@ -112,24 +112,8 @@ Proof.
   - (* Case: i = Z.to_nat n *)
     subst i.
     rewrite list_lookup_insert in Hi.
-    injection Hi as Hi.
-    subst x.
-    exact Hcarry.
-  - (* Case: i ≠ Z.to_nat n *)
-    rewrite list_lookup_insert_ne in Hi; auto.
-    destruct (decide (i < i_val)) as [Hlt|Hnlt'].
-    + (* i < i_val *)
-      apply (Forall_lookup_1 _ _ _ _ Hbinary).
-      rewrite lookup_take; auto.
-    + (* i ≥ i_val *)
-      assert (i_val = Z.to_nat n) as Heq.
-      { apply Z2Nat.inj; try lia.
-        rewrite Nat2Z.id.
-        apply (anti_symm (≤)); auto.
-        apply not_lt in Hnlt'.
-        apply not_lt in Hnlt.
-        lia. }
-      contradiction.
+    + injection Hi as Hi; subst x; exact Hcarry.
+    + Show.
   Qed.
 
 Lemma initial_partial_sum_correct :
