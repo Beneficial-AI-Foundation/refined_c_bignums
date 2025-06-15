@@ -30,7 +30,7 @@ Follow these steps exactly to prove a Coq lemma with a half-finished proof:
 2. If the proof verifies, remove `Show` and run the tool again to check it verifies. Stop.
 3. If you get "Attempt to save an incomplete proof", this shows that the proof so far is correct.
    Go to step 5.
-4. If you get some other error, remove all lines starting with that one with just `Show. Qed.`
+4. If you get some other error, remove ALL lines starting with that one with just `Show. Qed.`
 5. Add exactly one line, just before `Show`, with what you think is the correct next step.
    It is important that `Show` is always just before `Qed`, so you can see what the unsolved goal is.
    You may have to move `Show` inside `-`, `+`, `--`, etc, depending on how nested the first unsolved goal is.
