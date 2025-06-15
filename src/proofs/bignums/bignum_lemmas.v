@@ -101,7 +101,7 @@ Proof.
   intros x Hin.
   apply elem_of_list_lookup in Hin as [j Hj].
   assert (j < i_val + 1)%nat as Hj_bound.
-  { apply lookup_lt_Some in Hj. }
+  - apply lookup_lt_Some in Hj.
   destruct (decide (j = i_val)) as [Heq|Hneq].
   Show. Qed.
 
