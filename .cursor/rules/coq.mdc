@@ -29,6 +29,7 @@ Error: Expected a single focused goal but 0 goals are focused.
 ```
 This means you have proved a subgoal under a bullet point and then tried to keep proving under that bullet point.
 Delete exactly the line mentioned in the error message.
+If the error persists, repeat the fix. You may have to make several commits, each deleting one line.
 
 
 
