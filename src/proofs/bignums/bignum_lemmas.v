@@ -121,8 +121,6 @@ Proof.
     destruct (decide (i < i_val)%nat) as [Hlt|Hnlt'].
     + (* i < i_val *)
       unfold is_binary in Hbinary.
-      apply elem_of_list_In.
-      apply take_In; auto.
   Show. Qed.
 
 Lemma initial_partial_sum_correct :
