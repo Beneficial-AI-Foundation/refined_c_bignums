@@ -104,6 +104,7 @@ Proof.
   { apply lookup_lt_Some in Hj.
     apply take_length_le in Hj.
     lia. }
+  destruct (decide (j = i_val)) as [Heq|Hneq].
   Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
