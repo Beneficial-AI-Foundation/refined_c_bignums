@@ -103,6 +103,7 @@ Proof.
   assert (j < i_val + 1)%nat as Hj_bound.
   - apply lookup_lt_Some in Hj.
   destruct (decide (j = i_val)) as [Heq|Hneq].
+  - subst j.
   Show. Qed.
 Qed.
 
