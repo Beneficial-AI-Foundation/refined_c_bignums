@@ -120,10 +120,9 @@ Proof.
     rewrite list_lookup_insert_ne in Hi; auto.
     destruct (decide (i < i_val)%nat) as [Hlt|Hnlt'].
     + (* i < i_val *)
-      apply Forall_forall in Hbinary.
-      apply Hbinary.
-      apply elem_of_list_lookup.
-      exists i; auto.
+      unfold is_binary in Hbinary.
+      apply elem_of_list_In.
+      apply take_In; auto.
   Show. Qed.
 
 Lemma initial_partial_sum_correct :
