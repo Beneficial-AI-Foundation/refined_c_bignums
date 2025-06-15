@@ -122,7 +122,7 @@ Proof.
     + (* i < i_val *)
       unfold is_binary in Hbinary.
       assert (take i_val current_result !! i = Some x) as Htake.
-      { apply lookup_take; auto. }
+      { rewrite lookup_take; auto. }
   Show. Qed.
 
 Lemma initial_partial_sum_correct :
