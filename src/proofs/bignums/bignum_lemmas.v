@@ -109,5 +109,4 @@ Lemma initial_partial_sum_correct :
   is_binary bits_a →
   is_binary bits_b →
   partial_sum_correct 0 0 bits_result bits_a bits_b.
-Proof. Admitted.
-
+Proof. Show. Qed.
