@@ -134,7 +134,7 @@ Proof.
         apply Z2Nat.inj_le in H; try lia.
         rewrite Nat2Z.id in H. exact H. }
       lia.
-  Show. Qed.
+  Qed.
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
