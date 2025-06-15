@@ -101,6 +101,7 @@ Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n :
   (carry_val = 0 ∨ carry_val = 1) →
   i_val ≤ n →
   ¬ i_val < n →
+  (length current_result = Z.to_nat (n + 1)) ->
   is_binary (<[Z.to_nat n:=carry_val]> current_result).
 Proof.
   intros Hbinary Hcarry Hle Hnlt.
