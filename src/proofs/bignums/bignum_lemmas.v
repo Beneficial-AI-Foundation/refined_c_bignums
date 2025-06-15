@@ -127,7 +127,6 @@ Proof.
       apply elem_of_list_lookup.
       exists i; auto.
     + (* i ≥ i_val *)
-      exfalso.
   Show. Qed.
 
 Lemma initial_partial_sum_correct :
