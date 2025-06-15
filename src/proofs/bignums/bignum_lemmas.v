@@ -118,7 +118,6 @@ Proof.
       rewrite Z2Nat.inj_add; try lia.
       rewrite Nat.add_1_r.
       apply Nat.lt_succ_diag_r.
-      Show.
   Qed.
 
 Lemma initial_partial_sum_correct :
