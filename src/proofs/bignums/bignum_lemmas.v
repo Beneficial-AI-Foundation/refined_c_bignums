@@ -114,7 +114,11 @@ Proof.
     subst i.
     rewrite list_lookup_insert in Hi.
     + injection Hi as Hi; subst x; exact Hcarry.
-    + Show.
+    + rewrite Hlength.
+      rewrite Z2Nat.inj_add; try lia.
+      rewrite Nat.add_1_r.
+      apply Nat.lt_succ_diag_r.
+      Show.
   Qed.
 
 Lemma initial_partial_sum_correct :
