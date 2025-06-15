@@ -110,7 +110,7 @@ Proof.
   intros x Hin.
   apply elem_of_list_lookup in Hin as [i Hi].
   destruct (decide (i = Z.to_nat n)) as [Heq|Hneq].
-  - (* Case: i = Z.to_nat n *)
+  * (* Case: i = Z.to_nat n *)
     subst i.
     rewrite list_lookup_insert in Hi.
     + injection Hi as Hi; subst x; exact Hcarry.
@@ -118,7 +118,7 @@ Proof.
       rewrite Z2Nat.inj_add; try lia.
       rewrite Nat.add_1_r.
       apply Nat.lt_succ_diag_r.
-  - (* Case: i ≠ Z.to_nat n *)
+  * (* Case: i ≠ Z.to_nat n *)
     rewrite list_lookup_insert_ne in Hi; auto.
     apply elem_of_list_lookup_2 in Hi.
     apply elem_of_take in Hi as [Hi1 Hi2].
