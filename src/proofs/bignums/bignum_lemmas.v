@@ -126,7 +126,12 @@ Proof.
       apply (Forall_lookup_1 _ _ _ _ Hbinary Htake).
     + (* i ≥ i_val *)
       exfalso.
-      assert (i_val ≤ i < Z.to_nat n)%nat as Hcontra by lia.
+      assert (i < Z.to_nat n)%nat.
+      { apply (lookup_lt_Some current_result i x) in Hi.
+        rewrite Hlength in Hi.
+        destruct (decide (i < Z.to_nat n)%nat); auto.
+        assert (i = Z.to_nat n) by lia. contradiction. }
+      assert (i_val ≤ i)%nat by lia.
       apply Hnlt. lia.
   Qed.
 
