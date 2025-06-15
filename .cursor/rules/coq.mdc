@@ -22,3 +22,12 @@ Error: Expected a single focused goal but 0 goals are focused.
 ```
 This means you have proved a subgoal under a bullet point and then tried to keep proving under that bullet point.
 Backtrack a little.
+
+
+If you only see this and no other information:
+```
+Error:
+ (in proof carry_update_preserves_binary): Attempt to save an incomplete proof
+(there are remaining open goals).
+```
+This means you need to add a bullet point to enter a new subgoal.
