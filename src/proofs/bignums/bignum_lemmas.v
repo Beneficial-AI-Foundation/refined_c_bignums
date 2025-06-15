@@ -104,9 +104,11 @@ Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bi
   is_binary (take (i_val + 1) (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)).
 Proof. Admitted.
 
-Lemma carry_update_preserves_binary (current_result : list Z) (n : Z) (carry_val : Z) :
-  is_binary (take (Z.to_nat n) current_result) →
+Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
+  is_binary (take i_val current_result) →
   (carry_val = 0 ∨ carry_val = 1) →
+  i_val ≤ n →
+  ¬ i_val < n →
   is_binary (<[Z.to_nat n:=carry_val]> current_result).
 Proof. Admitted.
 
