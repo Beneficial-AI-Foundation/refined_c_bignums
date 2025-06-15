@@ -102,7 +102,39 @@ Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n :
   i_val ≤ n →
   ¬ i_val < n →
   is_binary (<[Z.to_nat n:=carry_val]> current_result).
-Proof. Admitted.
+Proof.
+  intros Hbinary Hcarry Hle Hnlt.
+  unfold is_binary.
+  apply Forall_forall.
+  intros x Hin.
+  apply elem_of_list_lookup in Hin as [i Hi].
+  destruct (decide (i = Z.to_nat n)) as [Heq|Hneq].
+  - (* Case: i = Z.to_nat n *)
+    subst i.
+    rewrite list_lookup_insert in Hi by done.
+    injection Hi as <-.
+    exact Hcarry.
+  - (* Case: i ≠ Z.to_nat n *)
+    rewrite list_lookup_insert_ne in Hi by done.
+    unfold is_binary in Hbinary.
+    apply Forall_forall in Hbinary.
+    assert (i < i_val ∨ i ≥ i_val) as [Hlt|Hge] by lia.
+    + (* Case: i < i_val *)
+      apply Hbinary.
+      apply elem_of_list_lookup.
+      exists i.
+      apply lookup_take; auto.
+      rewrite Hi. eauto.
+    + (* Case: i ≥ i_val *)
+      (* From premises, we know i_val = Z.to_nat n *)
+      assert (i_val = Z.to_nat n) as Heq.
+      { apply Z.le_ge_antisym; try lia.
+        apply Z.nlt_ge in Hnlt.
+        assert (Z.of_nat i_val ≤ n) by lia.
+        apply Z2Nat.inj_le in H; try lia.
+        rewrite Nat2Z.id in H. exact H. }
+      lia.
+  Show. Qed.
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
