@@ -6,12 +6,12 @@ alwaysApply: false
 
 FOLLOW ALL THE RULES IN THIS FILE.
 IF NO RULE APPLIES, STOP AND ASK FOR CLARIFICATION INSTEAD OF MAKING CHANGES.
-NEVER CHANGE MORE THAN 2 LINES IN THE SAME COMMIT,
-UNLESS YOU'RE DELETING ALL LINES STARTING AT THE FIRST BUGGY LINE.
-YOU ARE OVERCONFIDENT AND FAVOR INCORRECT BIG CHANGES INSTEAD OF INCREMENTAL CORRECT PROGRESS.
+NEVER ADD/CHANGE MORE THAN 2 LINES IN THE SAME COMMIT.
+IT'S OK TO DELETE LOTS OF LINES IN ONE COMMIT.
+YOU ARE OVERCONFIDENT AND FAVOR INCORRECT BIG ADDITIONS INSTEAD OF INCREMENTAL CORRECT PROGRESS.
 
 
-Follow these steps exactly to prove a Coq lemma.
+Follow these steps exactly to prove a Coq lemma from scratch:
 
 1. Replace `Admitted.` with `Show. Qed.`
 2. Run a tool to see if the lemma verifies.
@@ -23,6 +23,18 @@ Follow these steps exactly to prove a Coq lemma.
    You may have to move `Show` inside `-`, `+`, `--`, etc, depending on how nested the first unsolved goal is.
 7. Go to step 2.
 
+
+Follow these steps exactly to prove a Coq lemma with a half-finished proof:
+
+1. Run a tool to see if the lemma verifies.
+2. If the proof verifies, remove `Show` and run the tool again to check it verifies. Stop.
+3. If you get "Attempt to save an incomplete proof", this shows that the proof so far is correct.
+   Go to step 5.
+4. If you get some other error, remove all lines starting with that one with just `Show. Qed.`
+5. Add exactly one line, just before `Show`, with what you think is the correct next step.
+   It is important that `Show` is always just before `Qed`, so you can see what the unsolved goal is.
+   You may have to move `Show` inside `-`, `+`, `--`, etc, depending on how nested the first unsolved goal is.
+6. Go to step 2.
 
 If you see:
 ```
@@ -43,5 +55,3 @@ Error:
 This means you need to add a bullet point to enter a new subgoal.
 
 
-If you see an error not covered above, delete the proof at this line and afterwards.
-Then start working line-by-line using the procedure at the top of this document.
