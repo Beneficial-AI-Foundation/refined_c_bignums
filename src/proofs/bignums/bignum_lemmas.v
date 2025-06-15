@@ -128,7 +128,8 @@ Proof.
       exists i; auto.
     + (* i ≥ i_val *)
       exfalso.
-  Qed.
+      lia.
+  Show. Qed.
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
