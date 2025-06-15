@@ -103,6 +103,19 @@ Proof.
   assert (j < i_val + 1)%nat as Hj_bound.
   - apply lookup_lt_Some in Hj.
   destruct (decide (j = i_val)) as [Heq|Hneq].
+  - (* Case: j = i_val *)
+    subst j.
+    rewrite lookup_take in Hj; [|lia].
+    rewrite list_lookup_insert in Hj; [|lia].
+    injection Hj as Hj; subst x.
+    assert (Hrem: (y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1).
+    + destruct Hbinary_a as [Ha _].
+      apply Forall_lookup with (i:=i_val) in Ha; auto.
+      destruct Hbinary_b as [Hb _].
+      apply Forall_lookup with (i:=i_val) in Hb; auto.
+      destruct Ha as [Ha|Ha]; destruct Hb as [Hb|Hb]; destruct Hcarry as [Hc|Hc]; subst;
+      compute; auto.
+    + exact Hrem.
   Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
