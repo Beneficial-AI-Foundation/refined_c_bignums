@@ -43,9 +43,5 @@ Error:
 This means you need to add a bullet point to enter a new subgoal.
 
 
-If you see an error like
-```
-Error: Hnlt is already used.
-```
-Delete the proof at this line and afterwards.
+If you see an error not covered above, delete the proof at this line and afterwards.
 Then start working line-by-line using the procedure at the top of this document.
