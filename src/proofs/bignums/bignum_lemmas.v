@@ -104,6 +104,7 @@ Proof.
   - apply lookup_lt_Some in Hj.
   destruct (decide (j = i_val)) as [Heq|Hneq].
   + subst j.
+    lia.
   Show. Qed.
 Qed.
 
