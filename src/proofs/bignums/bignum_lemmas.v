@@ -129,7 +129,6 @@ Proof.
     + (* i ≥ i_val *)
       exfalso.
       apply Hnlt in Hle.
-      lia.
   Qed.
 
 Lemma initial_partial_sum_correct :
