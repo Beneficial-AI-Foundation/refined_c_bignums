@@ -125,7 +125,9 @@ Proof.
       { rewrite lookup_take; auto. }
       apply (Forall_lookup_1 _ _ _ _ Hbinary Htake).
     + (* i ≥ i_val *)
-      exfalso. lia.
+      exfalso.
+      assert (i_val ≤ i < Z.to_nat n)%nat as Hcontra by lia.
+      apply Hnlt. lia.
   Qed.
 
 Lemma initial_partial_sum_correct :
