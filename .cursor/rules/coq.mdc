@@ -14,3 +14,11 @@ Follow these steps exactly to prove a Coq lemma.
    It is important that `Show` is always just before `Qed`, so you can see what the unsolved goal is.
    You may have to move `Show` inside `-`, `+`, `--`, etc, depending on how nested the first unsolved goal is.
 7. Go to step 2.
+
+
+If you see:
+```
+Error: Expected a single focused goal but 0 goals are focused.
+```
+This means you have proved a subgoal under a bullet point and then tried to keep proving under that bullet point.
+Backtrack a little.
