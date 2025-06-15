@@ -113,20 +113,20 @@ Proof.
   * (* Case: i = Z.to_nat n *)
     subst i.
     rewrite list_lookup_insert in Hi.
-    + injection Hi as Hi; subst x; exact Hcarry.
-    + rewrite Hlength.
+    - injection Hi as Hi; subst x; exact Hcarry.
+    - rewrite Hlength.
       rewrite Z2Nat.inj_add; try lia.
       rewrite Nat.add_1_r.
       apply Nat.lt_succ_diag_r.
   * (* Case: i ≠ Z.to_nat n *)
     rewrite list_lookup_insert_ne in Hi; auto.
     destruct (decide (i < i_val)%nat) as [Hlt|Hnlt'].
-    + (* i < i_val *)
+    - (* i < i_val *)
       apply Forall_forall in Hbinary.
       apply Hbinary.
       apply elem_of_list_lookup.
       exists i; auto.
-    + (* i ≥ i_val *)
+    - (* i ≥ i_val *)
       exfalso.
       apply Hnlt in Hle.
       lia.
