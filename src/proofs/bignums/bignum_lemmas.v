@@ -94,7 +94,9 @@ Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bi
   bits_b !! i_val = Some y0 →
   (carry_val = 0 ∨ carry_val = 1) →
   is_binary (take (i_val + 1) (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)).
-Proof. Admitted.
+Proof.
+  intros Hbinary_curr Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
   is_binary (take i_val current_result) →
