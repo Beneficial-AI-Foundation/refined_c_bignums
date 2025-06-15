@@ -126,7 +126,6 @@ Proof.
     apply Hbinary.
     apply elem_of_list_lookup.
     exists i; auto.
-    Show.
   Qed.
 
 Lemma initial_partial_sum_correct :
