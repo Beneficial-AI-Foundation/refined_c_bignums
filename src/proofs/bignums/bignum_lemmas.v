@@ -105,6 +105,7 @@ Proof.
   destruct (decide (j = i_val)) as [Heq|Hneq].
   + subst j.
     lia.
+  + (* Case: j ≠ i_val *)
   Show. Qed.
 Qed.
 
