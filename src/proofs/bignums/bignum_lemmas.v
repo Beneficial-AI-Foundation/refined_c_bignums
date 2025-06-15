@@ -116,7 +116,17 @@ Proof.
     + injection Hi as Hi; subst x; exact Hcarry.
     + rewrite Hlength.
       rewrite Z2Nat.inj_add; try lia.
-  - Show.
+      rewrite Nat.add_1_r.
+      apply Nat.lt_succ_diag_r.
+  - (* Case: i ≠ Z.to_nat n *)
+    rewrite list_lookup_insert_ne in Hi; auto.
+    apply elem_of_list_lookup_2 in Hi.
+    apply elem_of_take in Hi as [Hi1 Hi2].
+    apply Forall_forall in Hbinary.
+    apply Hbinary.
+    apply elem_of_list_lookup.
+    exists i; auto.
+    Show.
   Qed.
 
 Lemma initial_partial_sum_correct :
