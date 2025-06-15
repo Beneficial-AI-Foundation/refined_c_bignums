@@ -118,12 +118,16 @@ Proof.
       rewrite Z2Nat.inj_add; try lia.
   * (* Case: i ≠ Z.to_nat n *)
     rewrite list_lookup_insert_ne in Hi; auto.
-    apply elem_of_list_lookup_2 in Hi.
-    apply elem_of_take in Hi as [Hi1 Hi2].
-    apply Forall_forall in Hbinary.
-    apply Hbinary.
-    apply elem_of_list_lookup.
-    exists i; auto.
+    destruct (decide (i < i_val)%nat) as [Hlt|Hnlt].
+    + (* i < i_val *)
+      apply Forall_forall in Hbinary.
+      apply Hbinary.
+      apply elem_of_list_lookup.
+      exists i; auto.
+    + (* i ≥ i_val *)
+      exfalso.
+      apply Hnlt in Hle.
+      lia.
   Qed.
 
 Lemma initial_partial_sum_correct :
