@@ -116,7 +116,16 @@ Proof.
       destruct Ha as [Ha|Ha]; destruct Hb as [Hb|Hb]; destruct Hcarry as [Hc|Hc]; subst;
       compute; auto.
     + exact Hrem.
-  Show. Qed.
+  - (* Case: j ≠ i_val *)
+    assert (j < i_val)%nat as Hj_lt.
+    { lia. }
+    rewrite lookup_take in Hj; [|lia].
+    rewrite list_lookup_insert_ne in Hj; [|lia].
+    unfold is_binary in Hbinary_curr.
+    assert (take i_val current_result !! j = Some x) as Htake.
+    { rewrite lookup_take; auto. }
+    apply (Forall_lookup_1 _ _ _ _ Hbinary_curr Htake).
+Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
   is_binary (take i_val current_result) →
