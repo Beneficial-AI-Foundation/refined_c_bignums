@@ -21,15 +21,8 @@ If you see:
 Error: Expected a single focused goal but 0 goals are focused.
 ```
 This means you have proved a subgoal under a bullet point and then tried to keep proving under that bullet point.
+Delete exactly the line mentioned in the error message.
 
- 1 Look carefully at the exact line number in the error message
- 2 Examine the proof structure at that specific location
- 3 Check if there are nested bullet points (like +) that have completed their subgoals
- 4 Remove only the problematic bullet points or structure at that location
- 5 Don't change unrelated parts of the proof or try to rewrite the entire proof
-
-Focus on the minimal change needed to fix the specific issue at the exact location indicated by the
-error.
 
 
 If you only see this and no other information:
