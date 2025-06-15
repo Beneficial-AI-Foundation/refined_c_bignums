@@ -102,8 +102,8 @@ Proof.
   apply elem_of_list_lookup in Hin as [j Hj].
   assert (j < i_val + 1)%nat as Hj_bound.
   { apply lookup_lt_Some in Hj.
-    rewrite take_length in Hj.
-    apply Hj. }
+    apply take_length_le in Hj.
+    lia. }
   Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
