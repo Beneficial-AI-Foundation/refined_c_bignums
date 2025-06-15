@@ -107,7 +107,7 @@ Proof.
     lia.
   + (* Case: j ≠ i_val *)
     apply lookup_lt_Some in Hj.
-    Show. Qed.
+    lia.
 Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
