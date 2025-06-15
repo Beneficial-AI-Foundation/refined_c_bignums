@@ -34,8 +34,7 @@ test: error.txt
 count: error.txt
 	grep -c Cannot error.txt
 
-test_with_details: error.txt
-	cat error.txt
+test_with_details: test
 	./extract_error_lines.sh error.txt
 
 .PHONY: all build run clean test count test_with_details
