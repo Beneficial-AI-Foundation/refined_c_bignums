@@ -123,6 +123,7 @@ Proof.
       unfold is_binary in Hbinary.
       assert (take i_val current_result !! i = Some x) as Htake.
       { rewrite lookup_take; auto. }
+      apply (Forall_lookup _ _ _ _ Hbinary Htake).
   Show. Qed.
 
 Lemma initial_partial_sum_correct :
