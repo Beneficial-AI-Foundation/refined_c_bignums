@@ -109,4 +109,14 @@ Lemma initial_partial_sum_correct :
   is_binary bits_a →
   is_binary bits_b →
   partial_sum_correct 0 0 bits_result bits_a bits_b.
-Proof. Show. Qed.
+Proof.
+  intros bits_a bits_b bits_result _ _.
+  unfold partial_sum_correct.
+  simpl.
+  (* At position 0, take 0 returns empty list *)
+  rewrite !take_0.
+  (* bits_to_nat of empty list is 0 *)
+  simpl.
+  (* 0 + 0 = 0 *)
+  reflexivity.
+Qed.
