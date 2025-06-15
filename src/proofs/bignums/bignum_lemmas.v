@@ -149,14 +149,23 @@ Proof.
       { rewrite lookup_take; auto. }
       apply (Forall_lookup_1 _ _ _ _ Hbinary Htake).
     + (* i ≥ i_val *)
-      exfalso.
+      (* For i ≥ i_val but i ≠ Z.to_nat n, we need to show x is binary *)
       assert (i < Z.to_nat n)%nat.
       { apply (lookup_lt_Some current_result i x) in Hi.
         rewrite Hlength in Hi.
         destruct (decide (i < Z.to_nat n)%nat); auto.
         assert (i = Z.to_nat n) by lia. contradiction. }
-      assert (i_val ≤ i)%nat by lia.
-      apply Hnlt. lia.
+      assert (i_val ≤ i < Z.to_nat n)%nat by lia.
+      
+      (* Since i_val ≤ n and ¬(i_val < n), we have i_val = Z.to_nat n *)
+      assert (i_val = Z.to_nat n)%nat.
+      { apply Z2Nat.inj_le in Hle; try lia.
+        apply Nat.le_antisymm; auto.
+        apply Nat.lt_le_incl.
+        apply Nat.not_lt_iff_ge in Hnlt. auto. }
+      
+      (* This is a contradiction since i < Z.to_nat n = i_val ≤ i *)
+      lia.
   Qed.
 
 Lemma initial_partial_sum_correct :
