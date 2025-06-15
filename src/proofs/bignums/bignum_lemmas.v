@@ -98,6 +98,7 @@ Proof.
   intros Hbinary_curr Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
   unfold is_binary.
   apply Forall_forall.
+  intros x Hin.
   Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
