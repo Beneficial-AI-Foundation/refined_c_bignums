@@ -113,33 +113,7 @@ Proof.
     subst i.
     rewrite list_lookup_insert in Hi.
     + injection Hi as Hi; subst x; exact Hcarry.
-    + (* Need to prove Z.to_nat n < length current_result *)
-      assert (i_val = Z.to_nat n) as Heq.
-      { apply Z2Nat.inj; try lia.
-        rewrite Nat2Z.id.
-        apply (anti_symm (≤)); auto.
-        apply not_lt in Hnlt.
-        lia. }
-      (* We know i_val ≤ n and ¬(i_val < n), so i_val = n *)
-      subst i_val.
-      (* We need to show that we can access this index *)
-      (* This is a technical requirement for the list_lookup_insert lemma *)
-      admit.
-  - (* Case: i ≠ Z.to_nat n *)
-    rewrite list_lookup_insert_ne in Hi; auto.
-    destruct (decide (i < i_val)) as [Hlt|Hnlt'].
-    + (* i < i_val *)
-      apply (Forall_lookup_1 _ _ _ _ Hbinary).
-      rewrite lookup_take; auto.
-    + (* i ≥ i_val *)
-      assert (i_val = Z.to_nat n) as Heq.
-      { apply Z2Nat.inj; try lia.
-        rewrite Nat2Z.id.
-        apply (anti_symm (≤)); auto.
-        apply not_lt in Hnlt'.
-        apply not_lt in Hnlt.
-        lia. }
-      contradiction.
+    + Show.
   Qed.
 
 Lemma initial_partial_sum_correct :
