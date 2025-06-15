@@ -116,7 +116,6 @@ Proof.
     + injection Hi as Hi; subst x; exact Hcarry.
     + rewrite Hlength.
       rewrite Z2Nat.inj_add; try lia.
-      rewrite Nat.add_1_r.
       apply Nat.lt_succ_diag_r.
   * (* Case: i ≠ Z.to_nat n *)
     rewrite list_lookup_insert_ne in Hi; auto.
