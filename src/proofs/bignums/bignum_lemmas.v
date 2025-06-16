@@ -98,7 +98,10 @@ Proof.
     (* This is a contradiction since n+1 > 0 *)
     exfalso. 
     rewrite Z2Nat.inj_add in Hlen; try lia.
-  - Show.
+  - (* Non-empty list case *)
+    (* First, simplify the left-hand side *)
+    simpl.
+    Show.
   Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
