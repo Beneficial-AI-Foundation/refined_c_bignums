@@ -122,7 +122,9 @@ Proof.
     { 
       f_equal. 
       f_equal.
-      rewrite <- Hlen_minus_1.
+      assert ((length bits_result - 1)%nat = length bits_result - 1) as Hscope by admit.
+      rewrite Hscope.
+      exact Hlen_minus_1.
       Show.
     }
     rewrite Hacc.
