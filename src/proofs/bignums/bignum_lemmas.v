@@ -2,12 +2,12 @@ From refinedc.typing Require Import typing.
 
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
-  let fix go i acc l :=
+  let fix go (i:nat) l :=
     match l with
-    | [] => Z.to_nat acc
-    | b :: bs => Z.to_nat (go (i-1) (acc + Z.to_nat b * 2^i) bs)
+    | [] => Z.to_nat 0
+    | b :: bs => (Z.to_nat (b * 2^i) + Z.to_nat (go (i-1) bs))%nat
     end
-  in go (length bits - 1) 0 (rev bits).
+  in go (length bits - 1)%nat (rev bits).
 
 Open Scope nat_scope.
 
