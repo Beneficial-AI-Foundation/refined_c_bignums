@@ -144,6 +144,11 @@ Proof.
     rewrite Hl.
     rewrite <- Hl in Hdrop_rev.
     
+    (* Simplify the nested drop expressions on the right side *)
+    assert (drop 1 (z :: drop 1 (z :: l)) = drop 1 (z :: l)) as Hdrop_simplify.
+    { simpl. reflexivity. }
+    rewrite Hdrop_simplify.
+    
     Show.
   Qed.
 
