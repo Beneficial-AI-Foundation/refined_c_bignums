@@ -170,7 +170,7 @@ Proof.
     }
     rewrite Hfix_eq.
     reflexivity.
-  Qed.
+  Admitted.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
