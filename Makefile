@@ -30,12 +30,12 @@ error.txt: src/bignums.c src/proofs/bignums/bignum_lemmas.v
 
 test: error.txt
 	cat error.txt
-	@grep -q "The call to \[dune\] returned with error code" error.txt && exit 1 || exit 0
 
 count: error.txt
 	grep -c Cannot error.txt
 
 test_with_details: test
 	./extract_error_lines.sh error.txt
+	@grep -q "The call to \[dune\] returned with error code" error.txt && exit 1 || exit 0
 
 .PHONY: all build run clean test count test_with_details
