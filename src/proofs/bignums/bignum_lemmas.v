@@ -96,6 +96,7 @@ Proof.
   intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
   unfold is_binary in Hbinary_a, Hbinary_b.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
+  apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
   Show. Qed.
 
 
