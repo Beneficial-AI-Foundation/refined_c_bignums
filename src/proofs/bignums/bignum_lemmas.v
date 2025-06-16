@@ -75,8 +75,7 @@ Proof.
   assert (i = Z.to_nat n) as Heq by lia.
   rewrite Heq in Hpartial.
   unfold partial_sum_correct in Hpartial.
-  assert (take (Z.to_nat n) bits_a = bits_a ∨ length bits_a ≤ Z.to_nat n) as Htake_a.
-  { destruct (decide (length bits_a ≤ Z.to_nat n)%nat); auto. }
+  destruct (decide (length bits_a ≤ Z.to_nat n)%nat) as [Hlen_a|Hnlen_a].
   Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
