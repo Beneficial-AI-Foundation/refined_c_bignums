@@ -77,6 +77,14 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
 Proof.
   Admitted.
 
+(* Lemma relating drop, rev and take *)
+Lemma drop_rev_take (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result).
+Proof.
+  Admitted.
+
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -94,7 +102,7 @@ Proof.
   
   (* Expand the function definition *)
   assert (drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result)) as Hdrop_rev.
-  { admit. }
+  { apply drop_rev_take; auto. }
   
   (* Now we can relate the left and right sides *)
   destruct (rev bits_result) eqn:Hrev.
