@@ -148,7 +148,6 @@ Proof.
       assert (take i_val current_result !! j = Some x) as Htake.
       { rewrite lookup_take; auto. }
       apply (Forall_lookup_1 _ _ _ _ Hbinary_curr Htake).
-    Show.
 Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
