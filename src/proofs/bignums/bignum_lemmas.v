@@ -4,9 +4,7 @@ From refinedc.typing Require Import typing.
 Open Scope nat_scope.
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
-  let powers := map (fun i => 2^i) (seq 0 (length bits)) in
-  let bits_nat := map Z.to_nat bits in
-  fold_left plus (map (fun '(a, b) => a * b) (combine bits_nat powers)) 0.
+  fold_left (fun acc b => acc + Z.to_nat b * 2^(length acc)) 0 bits.
 
 
 (* Partial sum correctness for the first i digits *)
