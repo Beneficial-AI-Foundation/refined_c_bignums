@@ -135,12 +135,12 @@ Proof.
     assert ((fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
          match l0 with
          | [] => Z.to_nat 0
-         | b :: bs => Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs)
+         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
          end) (length bits_result - 1 - 1) l =
          (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
          match l0 with
          | [] => Z.to_nat 0
-         | b :: bs => Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs)
+         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
          end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
       f_equal.
