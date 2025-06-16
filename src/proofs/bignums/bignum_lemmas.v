@@ -119,8 +119,23 @@ Proof.
     (* Now we need to handle the accumulator difference *)
     assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) = 
             Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
-    { rewrite Hlen_minus_1. reflexivity. }
+    { f_equal. exact Hlen_minus_1. }
     rewrite Hacc.
+    
+    (* Now we need to show that the recursive function calls are equal *)
+    assert ((fix go (i acc : nat) (l0 : list Z) {struct l0} : nat :=
+              match l0 with
+              | [] => acc
+              | b :: bs => go (i - 1) (acc + Z.to_nat b * 2 ^ i) bs
+              end) (Z.to_nat n - 1) (Z.to_nat carry_val * 2 ^ Z.to_nat n) l =
+            ((fix go (i acc : nat) (l0 : list Z) {struct l0} : nat :=
+                match l0 with
+                | [] => acc
+                | b :: bs => go (i - 1) (acc + Z.to_nat b * 2 ^ i) bs
+                end) (Z.to_nat n - 1) 0 l + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfinal.
+    { admit. }
+    rewrite Hfinal.
+    reflexivity.
     Show.
   Qed.
 
