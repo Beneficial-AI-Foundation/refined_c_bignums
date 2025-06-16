@@ -142,6 +142,7 @@ Proof.
     (* Focus on the recursive function applications *)
     assert (l = drop 1 (z :: l)) as Hl by reflexivity.
     rewrite Hl.
+    rewrite <- Hl in Hdrop_rev.
     
     Show.
   Qed.
