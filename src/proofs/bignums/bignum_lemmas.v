@@ -69,6 +69,13 @@ Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : 
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof. Admitted.
 
+(* Lemma for relating rev and insertion *)
+Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
+Proof. Admitted.
+
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -79,9 +86,9 @@ Proof.
   unfold bits_to_nat.
   rewrite length_insert.
   
-  (* Admit that rev of list with insertion relates to insertion at beginning of rev list *)
+  (* Use the lemma about rev and insertion *)
   assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result)) as Hrev_insert.
-  { admit. }
+  { apply rev_insert_first; auto. }
   rewrite Hrev_insert.
   
   (* Expand the function definition *)
