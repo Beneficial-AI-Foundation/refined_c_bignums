@@ -74,7 +74,9 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
-Proof. Admitted.
+Proof.
+  intros Hlen Hn.
+  Show. Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
