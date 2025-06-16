@@ -83,8 +83,9 @@ Proof.
     destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; destruct Hcarry as [Hc0 | Hc1]; subst;
     try (rewrite Hy0); try (rewrite Hy1); try (rewrite Hy00); try (rewrite Hy01); try (rewrite Hc0); try (rewrite Hc1); lia.
   }
+  Search max_int.
   assert (3 ≤ max_int i32) as H2.
-  { unfold max_int. simpl. lia. }
+  { unfold max_int. simpl. exact (Z.le_refl _). }
   lia.
 Qed.
 
