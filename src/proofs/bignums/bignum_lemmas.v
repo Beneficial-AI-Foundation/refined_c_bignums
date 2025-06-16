@@ -78,13 +78,14 @@ Proof.
   unfold is_binary in Hbinary_a, Hbinary_b.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
-  assert (y + y0 + carry_val ≤ 3) as H.
-  {
-    destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; destruct Hcarry as [Hc0 | Hc1]; subst;
-    try (rewrite Hy0); try (rewrite Hy1); try (rewrite Hy00); try (rewrite Hy01); try (rewrite Hc0); try (rewrite Hc1); lia.
-  }
-  assert (3 ≤ max_int i32) as H2.
-  { pose proof (max_int_ge_127 i32). lia. }
+  
+  (* Since y, y0, and carry_val are all either 0 or 1, their sum is at most 3 *)
+  assert (y + y0 + carry_val ≤ 3) by (
+    destruct Hbinary_a, Hbinary_b, Hcarry; subst; lia
+  ).
+  
+  (* And 3 is certainly less than max_int i32 (which is at least 127) *)
+  pose proof (max_int_ge_127 i32).
   lia.
 Qed.
 
