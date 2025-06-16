@@ -165,22 +165,7 @@ Proof.
         end) (Z.to_nat n - 1)%Z 0%Z (drop 1 (z :: l)) +
      Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfix_eq.
     {
-      (* First, establish that the accumulator terms are equal *)
-      assert ((0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1)) = 
-              (Z.to_nat carry_val * 2 ^ Z.to_nat n))%nat as Hacc_eq.
-      { 
-        f_equal. f_equal.
-        rewrite Hlen_minus_1. reflexivity.
-      }
-      
-      (* Now use this to relate the recursive function applications *)
-      remember (drop 1 (z :: l)) as remaining_list.
-      destruct remaining_list.
-      - (* Empty list case *)
-        simpl. rewrite Nat.add_0_r. reflexivity.
-      - (* Non-empty list case *)
-        (* The key insight is that the accumulator difference propagates through *)
-        admit.
+      Show.
     }
     rewrite Hfix_eq.
     reflexivity.
