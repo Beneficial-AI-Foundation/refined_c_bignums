@@ -80,8 +80,6 @@ Proof.
   - (* Base case: empty list *)
     simpl in Hlen.
     rewrite Z2Nat.inj_add in Hlen; try lia.
-    simpl in Hlen.
-    lia. (* Contradiction: length [] = Z.to_nat (n + 1) can't be true for n >= 0 *)
   - (* Inductive case *)
     simpl in *.
     Show. Qed.
