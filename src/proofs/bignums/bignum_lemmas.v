@@ -91,7 +91,7 @@ Proof.
   rewrite Hbits. symmetry.
   (* We need to convert between nat and Z *)
   rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
-Admitted.
+  Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
