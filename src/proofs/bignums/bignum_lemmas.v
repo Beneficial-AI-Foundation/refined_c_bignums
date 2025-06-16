@@ -150,7 +150,7 @@ Proof.
     { 
       f_equal. 
       f_equal.
-      apply length_minus_one_nat_z.
+      assert ((length bits_result - 1)%nat = Z.to_nat (length bits_result - 1)) as Hscope by (apply length_minus_one_nat_z).
       rewrite Hscope.
       rewrite Hlen_minus_1.
       lia.
