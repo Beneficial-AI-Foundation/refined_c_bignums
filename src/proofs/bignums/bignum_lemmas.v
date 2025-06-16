@@ -150,7 +150,8 @@ Proof.
     rewrite Hgo_eq.
     rewrite Nat.add_comm.
     f_equal.
-    -- apply Z2Nat.id.
+    -- admit.
+    -- Show.
     Qed.
     
 
