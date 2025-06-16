@@ -115,6 +115,9 @@ Proof.
       apply Z.rem_bound_pos; try lia.
       assert (0 ≤ y + y0 + carry_val) by lia.
       exact H.
+    + (* Case: j ≠ i_val *)
+      rewrite lookup_take in Hj; try lia.
+      rewrite list_lookup_insert_ne in Hj; auto.
     Show.
 Qed.
 
