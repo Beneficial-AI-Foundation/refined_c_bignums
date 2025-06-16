@@ -97,7 +97,8 @@ Proof.
   unfold is_binary in Hbinary_a, Hbinary_b.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
-  Show. Qed.
+  destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; destruct Hcarry as [Hc0 | Hc1]; subst; lia.
+  Qed.
 
 
 Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bits_a bits_b : list Z) (y y0 carry_val : Z) (n : Z) :
