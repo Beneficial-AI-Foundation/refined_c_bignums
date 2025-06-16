@@ -112,7 +112,30 @@ Proof.
       rewrite lookup_take in Hj; try lia.
       rewrite list_lookup_insert in Hj; try lia.
     -- injection Hj as Hj; subst x.
-      apply Z.rem_bound_pos.
+      assert (0 <= (y + y0 + carry_val) `rem` 2 < 2) as Hrem.
+      { 
+        apply Z.rem_bound_pos; try lia.
+        - (* Prove 2 > 0 *)
+          lia.
+        - (* Prove y + y0 + carry_val >= 0 *)
+          destruct Hbinary_a as [Ha _].
+          destruct Hbinary_b as [Hb _].
+          apply (Forall_lookup_1 _ _ _ _ Ha) in Hlookup_a.
+          apply (Forall_lookup_1 _ _ _ _ Hb) in Hlookup_b.
+          destruct Hlookup_a as [Hy|Hy]; destruct Hlookup_b as [Hy0|Hy0]; 
+          destruct Hcarry as [Hc|Hc]; subst; lia.
+      }
+      destruct Hrem as [Hrem_lower Hrem_upper].
+      assert ((y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1) as H.
+      {
+        assert (Z.to_nat ((y + y0 + carry_val) `rem` 2) < 2)%nat by lia.
+        destruct (Z.to_nat ((y + y0 + carry_val) `rem` 2)) as [|n] eqn:E.
+        - left. apply Z2Nat.inj; try lia.
+        - destruct n as [|n'].
+          + right. apply Z2Nat.inj; try lia.
+          + lia.
+      }
+      exact H.
     Show.
 Qed.
 
