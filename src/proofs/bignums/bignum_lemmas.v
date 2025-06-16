@@ -169,8 +169,7 @@ Proof.
       admit.
     }
     rewrite Hfix_eq.
-    
-    Show.
+    reflexivity.
   Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
