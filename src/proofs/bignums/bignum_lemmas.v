@@ -112,6 +112,12 @@ Proof.
     (* Focus on the left-hand side *)
     assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
     { rewrite Hlen_minus_1. reflexivity. }
+    
+    (* Show that the indices in both expressions are the same *)
+    rewrite Hleft_index.
+    
+    (* Show that the lists being processed are the same *)
+    rewrite <- Hdrop_rev.
     Show.
   Qed.
 
