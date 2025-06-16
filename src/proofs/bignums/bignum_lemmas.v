@@ -130,6 +130,9 @@ Proof.
     
     (* Now we need to relate the two expressions *)
     rewrite Hdrop_rev.
+    
+    (* Rewrite the right-hand side using Hleft_index *)
+    rewrite Hleft_index.
     Show.
     Qed.
     
