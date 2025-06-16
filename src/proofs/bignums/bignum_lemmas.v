@@ -122,7 +122,7 @@ Proof.
     { 
       f_equal. 
       f_equal.
-      exact Hlen_minus_1.
+      rewrite <- Hlen_minus_1.
       Show.
     }
     rewrite Hacc.
