@@ -88,8 +88,9 @@ Proof.
   assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
          (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
   { admit. }
-  rewrite Hbits. symmetry. 
-  rewrite <- Z2Nat.inj_add; try lia.
+  rewrite Hbits. symmetry.
+  (* We need to convert between nat and Z *)
+  rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
   exact Hresult.
 Admitted.
 
