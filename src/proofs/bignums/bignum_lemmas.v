@@ -167,7 +167,7 @@ Proof.
     {
       (* First, establish that the accumulator terms are equal *)
       assert ((0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1)) = 
-              (Z.to_nat carry_val * 2 ^ Z.to_nat n))%nat as Hacc_direct.
+              (Z.to_nat carry_val * 2 ^ Z.to_nat n))%nat as Hacc_eq.
       { 
         rewrite Hlen_minus_1. reflexivity.
       }
