@@ -1,15 +1,15 @@
 From refinedc.typing Require Import typing.
 
-
-Open Scope nat_scope.
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
   let fix go i acc l :=
     match l with
-    | [] => acc
-    | b :: bs => go (i-1) (acc + Z.to_nat b * 2^i) bs
+    | [] => Z.to_nat acc
+    | b :: bs => Z.to_nat (go (i-1) (acc + Z.to_nat b * 2^i) bs)
     end
   in go (length bits - 1) 0 (rev bits).
+
+Open Scope nat_scope.
 
 
 (* Partial sum correctness for the first i digits *)
