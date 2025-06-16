@@ -112,18 +112,7 @@ Proof.
       rewrite lookup_take in Hj; try lia.
       rewrite list_lookup_insert in Hj; try lia.
     -- injection Hj as Hj; subst x.
-      apply Z.rem_bound_pos; try lia.
-      - exact 2.
-      - assert (0 ≤ y + y0 + carry_val) as H.
-        {
-          destruct Hbinary_a as [Ha _].
-          destruct Hbinary_b as [Hb _].
-          apply (Forall_lookup_1 _ _ _ _ Ha) in Hlookup_a.
-          apply (Forall_lookup_1 _ _ _ _ Hb) in Hlookup_b.
-          destruct Hlookup_a as [Hy|Hy]; destruct Hlookup_b as [Hy0|Hy0]; 
-          destruct Hcarry as [Hc|Hc]; subst; lia.
-        }
-        exact H.
+      apply Z.rem_bound_pos.
     Show.
 Qed.
 
