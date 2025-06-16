@@ -64,7 +64,19 @@ Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   bits_a !! i = Some y →
   bits_b !! i = Some y0 →
   min_int i32 ≤ y + y0.
-Proof. Admitted.
+Proof.
+  intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b.
+  unfold is_binary in Hbinary_a, Hbinary_b.
+  apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
+  apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
+  
+  (* Since y and y0 are binary digits (0 or 1), their sum is at least 0 *)
+  destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; subst; try lia.
+  
+  (* And min_int i32 is at most 0 (it's negative) *)
+  pose proof (min_int_le_0 i32).
+  lia.
+Qed.
 
 Lemma binary_sum_with_carry_bound (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   is_binary bits_a →
