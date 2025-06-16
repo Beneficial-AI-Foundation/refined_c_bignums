@@ -74,6 +74,7 @@ Proof.
   intros Hle Hnlt Hpartial.
   assert (i = Z.to_nat n) as Heq by lia.
   rewrite Heq in Hpartial.
+  unfold partial_sum_correct in Hpartial.
   Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
