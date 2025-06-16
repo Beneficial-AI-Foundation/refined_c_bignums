@@ -73,7 +73,11 @@ Proof. Admitted.
 Lemma rev_empty_is_empty (l : list Z) :
   rev l = [] -> l = [].
 Proof.
-  Admitted.
+  intro H.
+  apply rev_inj.
+  rewrite H.
+  reflexivity.
+  Qed.
 
 (* Lemma relating nat subtraction and Z.to_nat *)
 Lemma length_minus_one_nat_z (l : list Z) :
