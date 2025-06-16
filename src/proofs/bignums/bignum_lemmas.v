@@ -73,7 +73,9 @@ Lemma binary_sum_with_carry_bound (bits_a bits_b : list Z) (i : nat) (y y0 carry
   bits_b !! i = Some y0 →
   (carry_val = 0 ∨ carry_val = 1) →
   y + y0 + carry_val ≤ max_int i32.
-Proof. Admitted.
+Proof.
+  intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  Show. Qed.
 
 
 Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
