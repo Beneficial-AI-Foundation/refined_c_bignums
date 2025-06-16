@@ -69,6 +69,12 @@ Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : 
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof. Admitted.
 
+(* Lemma showing that if the reverse of a list is empty, the list is empty *)
+Lemma rev_empty_is_empty (l : list Z) :
+  rev l = [] -> l = [].
+Proof.
+  Admitted.
+
 (* Lemma for relating rev and insertion *)
 Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
@@ -108,8 +114,7 @@ Proof.
   destruct (rev bits_result) eqn:Hrev.
   - (* Empty list case *)
     (* If rev bits_result is empty, then bits_result must be empty too *)
-    Show.
-    assert (bits_result = []) by (admit).
+    assert (bits_result = []) by (apply rev_empty_is_empty; auto).
     subst bits_result.
     rewrite length_nil in Hlen.
     (* This is a contradiction since n+1 > 0 *)
