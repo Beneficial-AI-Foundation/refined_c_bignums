@@ -79,7 +79,7 @@ Proof.
   rewrite length_insert.
   
   (* Admit that rev of list with insertion relates to insertion at beginning of rev list *)
-  assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0:=carry_val]> (rev bits_result)) as Hrev_insert.
+  assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result)) as Hrev_insert.
   { admit. }
   rewrite Hrev_insert.
   
