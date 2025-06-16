@@ -225,8 +225,7 @@ Proof.
        pose proof rearrange_nat as H2.
        rewrite H2.
        reflexivity.
-       Show.
-    Admitted.
+    Qed.
     
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
@@ -257,7 +256,7 @@ Proof.
   rewrite Hbits. symmetry.
   (* We need to convert between nat and Z *)
   rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
-  Show. Qed.
+  Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
