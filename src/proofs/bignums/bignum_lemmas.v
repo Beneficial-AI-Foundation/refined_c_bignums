@@ -113,11 +113,14 @@ Proof.
     assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
     { rewrite Hlen_minus_1. reflexivity. }
     
-    (* Show that the indices in both expressions are the same *)
-    rewrite Hleft_index.
-    
     (* Show that the lists being processed are the same *)
     rewrite <- Hdrop_rev.
+    
+    (* Now we need to handle the accumulator difference *)
+    assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) = 
+            Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
+    { rewrite Hlen_minus_1. reflexivity. }
+    rewrite Hacc.
     Show.
   Qed.
 
