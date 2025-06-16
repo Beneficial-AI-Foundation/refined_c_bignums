@@ -112,6 +112,7 @@ Proof.
       rewrite lookup_take in Hj; try lia.
       rewrite list_lookup_insert in Hj; try lia.
     -- injection Hj as Hj; subst x.
+      Search "rem_bound" Z.
     Show.
 Qed.
 
