@@ -31,14 +31,14 @@
 [[rc::lemmas("binary_sum_within_i32_bounds",
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct",
-             "carry_update_preserves_binary", "binary_update_preserves_binary",
+             "carry_update_preserves_binary",
              "partial_sum_step_exact")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
+[[rc::tactics("all: try solve [eauto using binary_update_preserves_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
 [[rc::tactics("all: try solve [eapply partial_sum_complete with (i:=i_val) (carry_val:=carry_val) (bits_result:=current_result) (bits_a:=bits_a) (bits_b:=bits_b) (n:=n); eauto].")]]
 [[rc::tactics("all: try solve [eapply carry_update_preserves_binary with (i_val:=i_val) (carry_val:=carry_val); eauto].")]]
-[[rc::tactics("all: try by apply (binary_update_preserves_binary current_result i_val bits_a bits_b y y0 carry_val n H10 H2 H3 H17 H19 H8 H6 H7 H9).")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
     
