@@ -119,7 +119,11 @@ Proof.
     (* Now we need to handle the accumulator difference *)
     assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) = 
             Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
-    { f_equal. exact Hlen_minus_1. }
+    { 
+      f_equal. 
+      f_equal.
+      exact Hlen_minus_1.
+    }
     rewrite Hacc.
     
     (* Now we need to show that the recursive function calls are equal *)
