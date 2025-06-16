@@ -64,6 +64,12 @@ Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : 
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof. Admitted.
 
+Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
+  (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat.
+Proof. Admitted.
+
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
   i ≤ n →
@@ -87,7 +93,7 @@ Proof.
   (* We need to relate the bits_to_nat of the updated result to the original expression *)
   assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
          (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
-  { admit. }
+  { apply bits_to_nat_insert; auto. }
   rewrite Hbits. symmetry.
   (* We need to convert between nat and Z *)
   rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
