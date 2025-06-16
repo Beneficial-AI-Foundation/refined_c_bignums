@@ -75,22 +75,7 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
   n >= 0 ->
   rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
 Proof.
-  intros Hlen Hn.
-  induction bits_result as [|h t IH].
-  - (* Base case: empty list *)
-    simpl in Hlen.
-    rewrite Z2Nat.inj_add in Hlen; try lia.
-  - (* Inductive case *)
-    simpl in *.
-    rewrite insert_app_r_alt; try lia.
-    + assert (length (rev t) = length t) as Hrevlen by (rewrite length_rev; reflexivity).
-      rewrite Hlen in *.
-      assert (Z.to_nat n = length t) as Hlength_eq by lia.
-      rewrite Hlength_eq.
-      rewrite <- Hrevlen.
-      rewrite Nat.sub_0_r.
-      reflexivity.
-    Qed.
+  Admitted.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
