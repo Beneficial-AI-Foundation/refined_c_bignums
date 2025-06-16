@@ -147,7 +147,8 @@ Proof.
       - admit.
       - exact Hdrop_rev.
     }
-    rewrite Hacc, Hgo_eq. reflexivity.
+    rewrite Hgo_eq.
+    Show.
     Qed.
     
 
