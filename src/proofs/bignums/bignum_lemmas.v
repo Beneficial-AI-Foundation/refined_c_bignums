@@ -89,7 +89,7 @@ Proof.
          (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
   { admit. }
   rewrite Hbits. symmetry. exact Hresult.
-Qed.
+Admitted.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
