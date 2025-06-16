@@ -115,6 +115,8 @@ Proof.
       apply Z.rem_bound_pos; try lia.
       assert (0 ≤ y + y0 + carry_val) by lia.
       exact H.
+    + (* Case: j ≠ i_val *)
+      rewrite lookup_take in Hj; try lia.
     Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
