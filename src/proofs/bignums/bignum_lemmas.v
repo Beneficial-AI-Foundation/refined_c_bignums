@@ -97,6 +97,14 @@ Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
 Proof.
   Admitted.
 
+(* Lemma showing that length minus one equals n *)
+Lemma length_minus_one_equals_n_simple (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  (length bits_result - 1)%nat = Z.to_nat n.
+Proof.
+  Admitted.
+
 (* Lemma relating drop, rev and take *)
 Lemma drop_rev_take (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
@@ -207,8 +215,7 @@ Proof.
     rewrite Nat.add_comm.
     f_equal.
     -- apply bits_to_nat_rev_take_eq; auto.
-    -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by admit.
-       rewrite H1.
+    -- apply length_minus_one_equals_n_simple; auto.
        assert ((Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat =  Z.to_nat (carry_val * 2 ^ Z.to_nat n)) as H2 by admit.
        rewrite H2.
        reflexivity.
