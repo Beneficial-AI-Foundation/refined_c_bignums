@@ -82,6 +82,7 @@ Proof.
     rewrite Z2Nat.inj_add in Hlen; try lia.
   - (* Inductive case *)
     simpl in *.
+    rewrite insert_app_r_alt; try lia.
     Show. Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
