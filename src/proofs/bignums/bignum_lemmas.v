@@ -165,9 +165,14 @@ Proof.
         end) (Z.to_nat n - 1)%Z 0%Z (drop 1 (z :: l)) +
      Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfix_eq.
     {
-      rewrite Hacc.
-      (* Induction on the list structure would be needed for a full proof *)
-      (* For now, we can use a simpler approach based on the definition *)
+      (* First, establish that the accumulator terms are equal *)
+      assert ((0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1)) = 
+              (Z.to_nat carry_val * 2 ^ Z.to_nat n))%nat as Hacc_direct.
+      { 
+        rewrite Hlen_minus_1. reflexivity.
+      }
+      
+      (* Now use this to relate the recursive function applications *)
       remember (drop 1 (z :: l)) as remaining_list.
       destruct remaining_list.
       - (* Empty list case *)
