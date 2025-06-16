@@ -60,3 +60,12 @@ If you see this
 Error: [Focus] Wrong bullet -: Current bullet - is not finished.
 ```
 This means try a different bullet type, like + or --
+
+If you see this
+```
+Error: The variable <lemma name> was not found in the current environment.
+```
+It's possible you've misremembered the name.
+Try searching for it by adding the `Search "<substring>" <type>` tactic,
+e.g. `Search "dec" Z.` for decidability lemmas about integers,
+or `Search "dec" _.` for all decidability lemmas.
