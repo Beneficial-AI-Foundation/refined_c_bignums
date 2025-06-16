@@ -141,7 +141,7 @@ Proof.
          match l0 with
          | [] => Z.to_nat 0
          | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
-         end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
+         end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
       f_equal.
       - rewrite Hleft_index. reflexivity.
