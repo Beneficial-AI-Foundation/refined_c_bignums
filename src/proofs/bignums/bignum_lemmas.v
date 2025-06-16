@@ -144,12 +144,9 @@ Proof.
          end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
       f_equal.
-      (* Use the equality directly instead of rewriting *)
-      - rewrite <- Hleft_index. reflexivity.
-      - reflexivity.
+      - admit.
+      - Show.
     }
-    rewrite Hgo_eq.
-    Show.
     Qed.
     
 
