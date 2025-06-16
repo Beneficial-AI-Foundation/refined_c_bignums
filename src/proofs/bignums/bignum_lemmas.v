@@ -77,7 +77,18 @@ Proof.
   intros Hlen.
   unfold bits_to_nat.
   rewrite length_insert.
-  rewrite rev_app_distr.
+  
+  (* Admit that rev of list with insertion relates to insertion at beginning of rev list *)
+  assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0:=carry_val]> (rev bits_result)) as Hrev_insert.
+  { admit. }
+  rewrite Hrev_insert.
+  
+  (* Expand the function definition *)
+  assert (drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result)) as Hdrop_rev.
+  { admit. }
+  
+  (* Now we can relate the left and right sides *)
+  simpl.
   Show. Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
