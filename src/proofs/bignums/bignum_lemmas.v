@@ -102,7 +102,8 @@ Proof.
   apply elem_of_list_lookup in Hin as [j Hj].
   assert (j < i_val + 1)%nat as Hj_bound.
   - assert (j < length (take (i_val + 1) (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)))%nat by (apply lookup_lt_Some in Hj; auto).
-    rewrite take_length. lia.
+    Search "take" "length" _.
+    Show. Qed.
   destruct (decide (j = i_val)) as [Heq|Hneq].
   + subst j.
     rewrite list_lookup_insert in Hj; [|lia].
