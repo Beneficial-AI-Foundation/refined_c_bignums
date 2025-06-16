@@ -85,6 +85,7 @@ Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   (y + y0 + carry_val) `quot` 2 = 0 ∨ (y + y0 + carry_val) `quot` 2 = 1.
 Proof.
   intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  unfold is_binary in Hbinary_a, Hbinary_b.
   Show. Qed.
 
 Lemma binary_sum_non_negative (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
