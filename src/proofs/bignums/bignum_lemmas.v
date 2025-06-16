@@ -112,9 +112,6 @@ Proof.
       rewrite lookup_take in Hj; try lia.
       rewrite list_lookup_insert in Hj; try lia.
     -- injection Hj as Hj; subst x.
-      apply Z.rem_bound_pos; try lia.
-      assert (0 ≤ y + y0 + carry_val) by lia.
-      exact H.
     Show.
 Qed.
 
