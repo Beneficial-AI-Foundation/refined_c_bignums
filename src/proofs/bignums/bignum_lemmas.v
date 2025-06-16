@@ -107,7 +107,8 @@ Proof.
     + rewrite Nat.min_l in H; lia.
     + rewrite Nat.min_r in H; try lia.
   destruct (decide (j = i_val)) as [Heq|Hneq].
-  Show. Qed.
+  - (* Case: j = i_val *)
+    Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
   is_binary (take i_val current_result) →
