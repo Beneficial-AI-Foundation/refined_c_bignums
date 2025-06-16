@@ -92,7 +92,9 @@ Lemma binary_sum_non_negative (bits_a bits_b : list Z) (i : nat) (y y0 carry_val
   bits_b !! i = Some y0 →
   (carry_val = 0 ∨ carry_val = 1) →
   0 ≤ y + y0 + carry_val.
-Proof. Admitted.
+Proof.
+  intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  Show. Qed.
 
 
 Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bits_a bits_b : list Z) (y y0 carry_val : Z) (n : Z) :
