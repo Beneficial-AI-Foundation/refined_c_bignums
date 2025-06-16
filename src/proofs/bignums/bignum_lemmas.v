@@ -127,7 +127,12 @@ Proof.
       rewrite Hlen_minus_1.
       lia.
     }
-
+    
+    (* Simplify the goal using our established facts *)
+    rewrite Hleft_index.
+    rewrite Hacc.
+    rewrite Hdrop_rev.
+    
     Show.
   Qed.
 
