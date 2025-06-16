@@ -139,10 +139,7 @@ Proof.
       reflexivity.
     }
     
-    (* Now we can complete the proof *)
-    rewrite Hacc_direct.
-    rewrite Hdrop_rev.
-    
+
     Show.
   Qed.
 
