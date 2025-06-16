@@ -140,7 +140,7 @@ Proof.
           auto.
       }
       exact H.
-      -- Show.
+    + Show.
 Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
