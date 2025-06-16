@@ -68,4 +68,4 @@ Error: The variable <lemma name> was not found in the current environment.
 It's possible you've misremembered the name.
 Try searching for it by adding the `Search "<substring>" <type>` tactic,
 e.g. `Search "dec" Z.` for decidability lemmas about integers,
-or `Search "dec" _.` for all decidability lemmas.
+or `Search "dec"` for all decidability lemmas.
