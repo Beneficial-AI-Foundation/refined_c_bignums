@@ -83,9 +83,8 @@ Proof.
   - (* Inductive case *)
     simpl in *.
     rewrite insert_app_r_alt; try lia.
-    + assert (length (rev t) = length t) as Hrevlen by (rewrite rev_length; reflexivity).
+    + assert (length (rev t) = length t) as Hrevlen by (rewrite length_rev; reflexivity).
       Show.
-    + Show.
     Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
