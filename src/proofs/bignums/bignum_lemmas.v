@@ -104,6 +104,10 @@ Proof.
     (* Relate the length of bits_result to n *)
     assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1.
     { rewrite Hlen. rewrite Z2Nat.inj_add; try lia. }
+    
+    (* Simplify the right-hand side *)
+    rewrite length_take.
+    rewrite Nat.min_l; try lia.
     Show.
   Qed.
 
