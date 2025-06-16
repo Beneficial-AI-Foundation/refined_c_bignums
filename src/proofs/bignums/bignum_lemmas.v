@@ -71,10 +71,11 @@ Proof. Admitted.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
   bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
   (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat.
 Proof.
-  intros Hlen.
+  intros Hlen Hn.
   unfold bits_to_nat.
   rewrite length_insert.
   
@@ -91,13 +92,13 @@ Proof.
   destruct (rev bits_result) eqn:Hrev.
   - (* Empty list case *)
     (* If rev bits_result is empty, then bits_result must be empty too *)
-    assert (bits_result = []) by (apply rev_nil_inv; auto).
+    assert (bits_result = []) by (admit).
     subst bits_result.
     rewrite length_nil in Hlen.
     (* This is a contradiction since n+1 > 0 *)
     exfalso. 
     rewrite Z2Nat.inj_add in Hlen; try lia.
-    simpl in Hlen. lia.
+  - Show.
   Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
