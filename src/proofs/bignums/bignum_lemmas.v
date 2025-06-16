@@ -97,6 +97,15 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
 Proof.
   Admitted.
 
+Lemma rev_insert_first' (len : nat) (carry_val : Z):
+  forall lyst : list Z,
+  length lyst = len ->
+  rev (<[Z.to_nat (len - 1):=carry_val]> lyst) = <[0%nat:=carry_val]> (rev lyst).
+Proof.
+  induction len.
+  - Show. admit.
+  - Show. Qed.
+
 (* Lemma relating length calculations for list indices *)
 Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
