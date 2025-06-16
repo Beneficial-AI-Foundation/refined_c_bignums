@@ -106,7 +106,6 @@ Proof.
     destruct (decide ((i_val + 1) <= length (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result))%nat) as [Hle|Hnle].
     + rewrite Nat.min_l in H; lia.
     + rewrite Nat.min_r in H; try lia.
-  destruct (decide (j = i_val)) as [Heq|Hneq].
   - (* Case: j = i_val *)
     subst j.
     rewrite list_lookup_take in Hj; try lia.
