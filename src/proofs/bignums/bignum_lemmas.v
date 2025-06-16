@@ -84,10 +84,9 @@ Lemma length_minus_one_nat_z (l : list Z) :
   (length l - 1)%nat = Z.to_nat (length l - 1).
 Proof.
   intros.
-  rewrite <- Z2Nat.inj_sub by (apply Nat2Z.is_nonneg).
-  f_equal.
-  rewrite Nat2Z.id.
-  reflexivity.
+  rewrite Z2Nat.inj_sub.
+  - lia.
+  - lia.
 Qed.
 
 (* Lemma for relating rev and insertion *)
