@@ -26,11 +26,11 @@ Definition is_binary (bits : list Z) :=
 
 
 
-Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (partial_result : list Z) (y y0 : Z) :
+Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
   is_binary bits_b →
-  bits_a !! length partial_result = Some y →
-  bits_b !! length partial_result = Some y0 →
+  bits_a !! i = Some y →
+  bits_b !! i = Some y0 →
   y + y0 <= max_int i32.
 Proof. Admitted.
 
