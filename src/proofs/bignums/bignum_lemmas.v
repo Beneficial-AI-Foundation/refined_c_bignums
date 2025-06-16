@@ -90,24 +90,7 @@ Proof.
   (* Now we can relate the left and right sides *)
   destruct (rev bits_result) eqn:Hrev.
   - (* Empty list case *)
-    simpl. lia.
-  - (* Non-empty list case *)
-    simpl.
-    rewrite Hdrop_rev.
-    assert (length (rev (take (Z.to_nat n) bits_result)) = length (take (Z.to_nat n) bits_result)) as Hlen_rev.
-    { rewrite length_rev. reflexivity. }
-    rewrite Hlen_rev.
-    assert (length (take (Z.to_nat n) bits_result) = Z.to_nat n) as Hlen_take.
-    { rewrite take_length_le.
-      - rewrite Hlen. rewrite Z2Nat.inj_add; try lia.
-        rewrite Nat.add_1_r. reflexivity.
-      - rewrite Hlen. rewrite Z2Nat.inj_add; try lia.
-        rewrite Nat.add_1_r. lia. }
-    rewrite Hlen_take.
-    rewrite Nat.sub_1_r.
-    assert (Z.to_nat n - 0 = Z.to_nat n)%nat as Hsimpl by lia.
-    rewrite Hsimpl.
-    reflexivity.
+    Show.
   Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
