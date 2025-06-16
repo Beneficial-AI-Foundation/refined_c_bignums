@@ -90,7 +90,7 @@ Proof.
     assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
            (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
     { admit. }
-    rewrite Hbits. exact Hresult.
+    rewrite Hbits. symmetry. exact Hresult.
   }
   Show. Qed.
 
