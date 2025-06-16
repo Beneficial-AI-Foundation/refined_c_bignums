@@ -89,6 +89,7 @@ Proof.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
   destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; destruct Hcarry as [Hc0 | Hc1]; subst.
+  - left. simpl. reflexivity.
   Show. Qed.
 
 Lemma binary_sum_non_negative (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
