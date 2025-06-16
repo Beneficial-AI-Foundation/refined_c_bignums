@@ -85,8 +85,8 @@ Proof.
     rewrite insert_app_r_alt; try lia.
     + assert (length (rev t) = length t) as Hrevlen by (rewrite length_rev; reflexivity).
       rewrite Hlen in *.
-      assert (Z.to_nat n = length t) by lia.
-      rewrite H.
+      assert (Z.to_nat n = length t) as Hlength_eq by lia.
+      rewrite Hlength_eq.
       rewrite <- Hrevlen.
       rewrite Nat.sub_0_r.
       reflexivity.
