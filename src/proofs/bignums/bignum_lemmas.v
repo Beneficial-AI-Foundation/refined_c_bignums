@@ -84,12 +84,11 @@ Lemma length_minus_one_nat_z (l : list Z) :
   (length l - 1)%nat = Z.to_nat (length l - 1).
 Proof.
   intros.
-  rewrite <- Z2Nat.inj_sub.
-  - f_equal.
-    rewrite Nat2Z.id.
-    reflexivity.
-  - apply Nat2Z.is_nonneg.
-  Show. Qed.
+  rewrite <- Z2Nat.inj_sub by (apply Nat2Z.is_nonneg).
+  f_equal.
+  rewrite Nat2Z.id.
+  reflexivity.
+Qed.
 
 (* Lemma for relating rev and insertion *)
 Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
