@@ -74,11 +74,8 @@ Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
   partial_sum_correct i carry_val bits_result bits_a bits_b →
   bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
 Proof.
-  intros Hle Hnlt Hpartial.
+  intros Hle Hnlt Hpartial Ha Hb Hresult.
   assert (i = Z.to_nat n) as Heq by lia.
-  rewrite Heq in Hpartial.
-  unfold partial_sum_correct in Hpartial.
-  destruct (decide (length bits_a ≤ Z.to_nat n)%nat) as [Hlen_a|Hnlen_a].
   Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
