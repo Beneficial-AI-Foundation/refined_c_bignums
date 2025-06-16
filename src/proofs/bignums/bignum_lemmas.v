@@ -77,7 +77,7 @@ Proof.
   intros Hlen.
   unfold bits_to_nat.
   rewrite length_insert.
-  Search "rev" "insert".
+  Search "rev".
   Show. Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
