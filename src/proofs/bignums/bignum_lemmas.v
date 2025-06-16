@@ -95,16 +95,19 @@ Lemma binary_sum_non_negative (bits_a bits_b : list Z) (i : nat) (y y0 carry_val
 Proof. Admitted.
 
 
-Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bits_a bits_b : list Z) (y y0 carry_val : Z) :
+Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bits_a bits_b : list Z) (y y0 carry_val : Z) (n : Z) :
   is_binary (take i_val current_result) →
   is_binary bits_a →
   is_binary bits_b →
   bits_a !! i_val = Some y →
   bits_b !! i_val = Some y0 →
   (carry_val = 0 ∨ carry_val = 1) →
+  (0 ≤ i_val) →
+  (i_val ≤ n) →
+  (length current_result = Z.to_nat (n + 1)) →
   is_binary (take (i_val + 1) (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)).
 Proof.
-  intros Hbinary_curr Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  intros Hbinary_curr Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry Hi_val_lower Hi_val_upper Hlength.
   unfold is_binary.
   apply Forall_forall.
   intros x Hin.
