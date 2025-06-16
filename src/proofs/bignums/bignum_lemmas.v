@@ -76,6 +76,7 @@ Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
 Proof.
   intros Hlen.
   unfold bits_to_nat.
+  rewrite length_insert.
   Show. Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
