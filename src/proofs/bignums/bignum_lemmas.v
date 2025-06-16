@@ -82,6 +82,8 @@ Proof.
   { apply take_ge. lia. }
   assert (take (Z.to_nat n) bits_b = bits_b) as Htake_b.
   { apply take_ge. lia. }
+  rewrite Htake_a in Hresult.
+  rewrite Htake_b in Hresult.
   Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
