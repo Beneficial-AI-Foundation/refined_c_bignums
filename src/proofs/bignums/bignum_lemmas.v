@@ -85,6 +85,15 @@ Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
   (y + y0 + carry_val) `quot` 2 = 0 ∨ (y + y0 + carry_val) `quot` 2 = 1.
 Proof. Admitted.
 
+Lemma binary_sum_non_negative (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
+  is_binary bits_a →
+  is_binary bits_b →
+  bits_a !! i = Some y →
+  bits_b !! i = Some y0 →
+  (carry_val = 0 ∨ carry_val = 1) →
+  0 ≤ y + y0 + carry_val.
+Proof. Admitted.
+
 
 Lemma binary_update_preserves_binary (current_result : list Z) (i_val : nat) (bits_a bits_b : list Z) (y y0 carry_val : Z) :
   is_binary (take i_val current_result) →
@@ -115,7 +124,8 @@ Proof.
       assert (0 <= (y + y0 + carry_val) `rem` 2 < 2) as Hrem.
       { 
         apply Z.rem_bound_pos.
-        Show.
+        - lia. (* 2 > 0 *)
+        - apply binary_sum_non_negative with (bits_a:=bits_a) (bits_b:=bits_b) (i:=i_val); auto.
       }
 Qed.
 
