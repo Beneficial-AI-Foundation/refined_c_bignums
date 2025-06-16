@@ -131,8 +131,23 @@ Proof.
     (* Now we need to relate the two expressions *)
     rewrite Hdrop_rev.
     
-    (* Rewrite the right-hand side using Hleft_index *)
-    rewrite Hleft_index.
+    (* We need to show that the recursive functions compute the same value *)
+    assert ((fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+         match l0 with
+         | [] => Z.to_nat 0
+         | b :: bs => Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1) bs)
+         end) (length bits_result - 1 - 1) l =
+         (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+         match l0 with
+         | [] => Z.to_nat 0
+         | b :: bs => Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1) bs)
+         end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
+    {
+      f_equal.
+      - rewrite Hleft_index. reflexivity.
+      - reflexivity.
+    }
+    rewrite Hgo_eq.
     Show.
     Qed.
     
