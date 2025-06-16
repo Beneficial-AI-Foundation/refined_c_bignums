@@ -6,7 +6,7 @@ Open Scope nat_scope.
 Definition bits_to_nat (bits : list Z) : nat :=
   let powers := map (fun i => 2^i) (seq 0 (length bits)) in
   let bits_nat := map Z.to_nat bits in
-  fold_left plus (map (fun '(a, b) => a * b) (combine bits_nat (rev powers))) 0.
+  fold_left plus (map (fun '(a, b) => a * b) (combine bits_nat powers)) 0.
 
 
 (* Partial sum correctness for the first i digits *)
