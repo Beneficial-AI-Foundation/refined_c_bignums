@@ -127,6 +127,9 @@ Proof.
       rewrite Hlen_minus_1.
       lia.
     }
+    
+    (* Now we need to relate the two expressions *)
+    rewrite Hdrop_rev.
     Show.
     Qed.
     
