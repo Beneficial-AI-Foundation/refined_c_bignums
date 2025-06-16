@@ -88,7 +88,9 @@ Proof.
   assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
          (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
   { admit. }
-  rewrite Hbits. symmetry. exact Hresult.
+  rewrite Hbits. symmetry. 
+  rewrite <- Z2Nat.inj_add; try lia.
+  exact Hresult.
 Admitted.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
