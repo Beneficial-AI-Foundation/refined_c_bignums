@@ -131,6 +131,11 @@ Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
 Proof.
   Admitted.
 
+Lemma rearrange_nat (n carry_val: Z):
+  (Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat = Z.to_nat (carry_val * 2 ^ Z.to_nat n).
+Proof.
+  Admitted.
+
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -217,7 +222,7 @@ Proof.
     -- apply bits_to_nat_rev_take_eq; auto.
     -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
        rewrite H1.
-       assert ((Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat =  Z.to_nat (carry_val * 2 ^ Z.to_nat n)) as H2 by admit.
+       pose proof rearrange_nat as H2.
        rewrite H2.
        reflexivity.
        Show.
