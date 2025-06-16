@@ -129,7 +129,14 @@ Proof.
       }
       destruct Hrem as [Hrem_lower Hrem_upper].
       assert ((y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1) as H.
-      Show.
+      {
+        destruct (Z.eq_dec ((y + y0 + carry_val) `rem` 2) 0).
+        - left; auto.
+        - right.
+          assert ((y + y0 + carry_val) `rem` 2 = 1) by lia.
+          auto.
+      }
+      exact H.
 Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
