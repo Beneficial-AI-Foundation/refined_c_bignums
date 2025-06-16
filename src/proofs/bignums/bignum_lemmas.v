@@ -104,6 +104,7 @@ Proof.
   - assert (j < length (take (i_val + 1) (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)))%nat by (apply lookup_lt_Some in Hj; auto).
     rewrite length_take in H.
     destruct (decide ((i_val + 1) <= length (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result))%nat) as [Hle|Hnle].
+    + rewrite Nat.min_l in H; lia.
     Show. Qed.
   destruct (decide (j = i_val)) as [Heq|Hneq].
   + subst j.
