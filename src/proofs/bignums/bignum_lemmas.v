@@ -78,8 +78,21 @@ Proof.
   unfold is_binary in Hbinary_a, Hbinary_b.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
-  destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; destruct Hcarry as [Hc0 | Hc1]; subst; lia.
-  Qed.
+  assert (y + y0 + carry_val ≤ 3) as H.
+  {
+    destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; destruct Hcarry as [Hc0 | Hc1]; subst.
+    - rewrite Hy0, Hy00, Hc0. simpl. lia.
+    - rewrite Hy0, Hy00, Hc1. simpl. lia.
+    - rewrite Hy0, Hy01, Hc0. simpl. lia.
+    - rewrite Hy0, Hy01, Hc1. simpl. lia.
+    - rewrite Hy1, Hy00, Hc0. simpl. lia.
+    - rewrite Hy1, Hy00, Hc1. simpl. lia.
+    - rewrite Hy1, Hy01, Hc0. simpl. lia.
+    - rewrite Hy1, Hy01, Hc1. simpl. lia.
+  }
+  assert (3 ≤ max_int i32) as H2 by (simpl; lia).
+  lia.
+Qed.
 
 
 Lemma binary_add_quot (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
