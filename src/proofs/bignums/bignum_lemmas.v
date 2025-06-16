@@ -79,7 +79,7 @@ Proof.
   subst i.
   unfold partial_sum_correct in Hresult.
   assert (take (Z.to_nat n) bits_a = bits_a) as Htake_a.
-  { rewrite Hpartial. apply take_ge. lia. }
+  { rewrite take_length. rewrite Hpartial. apply Nat.min_l. lia. }
   Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
