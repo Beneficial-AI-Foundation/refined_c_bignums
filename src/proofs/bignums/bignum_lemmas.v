@@ -127,49 +127,9 @@ Proof.
       rewrite Hlen_minus_1.
       lia.
     }
+    Show.
+    Qed.
     
-    (* Simplify the goal using our established facts *)
-    rewrite Hleft_index.
-    
-    (* We need to work with the accumulator term directly *)
-    assert ((0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1)) = 
-            (Z.to_nat carry_val * 2 ^ Z.to_nat n))%nat as Hacc_direct.
-    { 
-      rewrite Hacc.
-      reflexivity.
-    }
-    
-    (* Focus on the recursive function applications *)
-    assert (l = drop 1 (z :: l)) as Hl by reflexivity.
-    rewrite Hl.
-    rewrite <- Hl in Hdrop_rev.
-    
-    (* Simplify the nested drop expressions on the right side *)
-    assert (drop 1 (z :: drop 1 (z :: l)) = drop 1 (z :: l)) as Hdrop_simplify.
-    { simpl. reflexivity. }
-    rewrite Hdrop_simplify.
-    
-    (* Now we need to relate the two recursive function applications *)
-    assert (Z.to_nat
-      ((fix go (i acc : Z) (l0 : list Z) {struct l0} : nat :=
-          match l0 with
-          | [] => Z.to_nat acc
-          | b :: bs => Z.to_nat (go (i - 1) (acc + Z.to_nat b * 2 ^ i) bs)
-          end) (Z.to_nat n - 1)
-         (0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1))
-         (drop 1 (z :: l))) =
-    ((fix go (i acc : Z) (l0 : list Z) {struct l0} : nat :=
-        match l0 with
-        | [] => Z.to_nat acc
-        | b :: bs => Z.to_nat (go (i - 1)%Z (acc + Z.to_nat b * 2 ^ i)%Z bs)
-        end) (Z.to_nat n - 1)%Z 0%Z (drop 1 (z :: l)) +
-     Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfix_eq.
-    {
-      Show.
-    }
-    rewrite Hfix_eq.
-    reflexivity.
-  Admitted.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
