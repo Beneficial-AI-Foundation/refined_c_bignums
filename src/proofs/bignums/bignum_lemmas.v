@@ -71,11 +71,13 @@ Proof.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
   
   (* Since y and y0 are binary digits (0 or 1), their sum is at least 0 *)
-  destruct Hbinary_a as [Hy0 | Hy1]; destruct Hbinary_b as [Hy00 | Hy01]; subst; try lia.
-  
-  (* And min_int i32 is at most 0 (it's negative) *)
-  pose proof (min_int_le_0 i32).
-  lia.
+  destruct Hbinary_a as [Hy0 | Hy1].
+  - destruct Hbinary_b as [Hy00 | Hy01].
+    + subst. pose proof (min_int_le_0 i32). lia.
+    + subst. pose proof (min_int_le_0 i32). lia.
+  - destruct Hbinary_b as [Hy00 | Hy01].
+    + subst. pose proof (min_int_le_0 i32). lia.
+    + subst. pose proof (min_int_le_0 i32). lia.
 Qed.
 
 Lemma binary_sum_with_carry_bound (bits_a bits_b : list Z) (i : nat) (y y0 carry_val : Z) :
