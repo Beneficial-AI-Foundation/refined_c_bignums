@@ -136,7 +136,7 @@ Proof.
          match l0 with
          | [] => Z.to_nat 0
          | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
-         end) (length bits_result - 1 - 1) l =
+         end) (length bits_result - 1 - 1)%nat l =
          (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
          match l0 with
          | [] => Z.to_nat 0
