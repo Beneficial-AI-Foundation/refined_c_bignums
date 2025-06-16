@@ -90,7 +90,14 @@ Proof.
   (* Now we can relate the left and right sides *)
   destruct (rev bits_result) eqn:Hrev.
   - (* Empty list case *)
-    Show.
+    (* If rev bits_result is empty, then bits_result must be empty too *)
+    assert (bits_result = []) by (apply rev_nil_inv; auto).
+    subst bits_result.
+    rewrite length_nil in Hlen.
+    (* This is a contradiction since n+1 > 0 *)
+    exfalso. 
+    rewrite Z2Nat.inj_add in Hlen; try lia.
+    simpl in Hlen. lia.
   Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
