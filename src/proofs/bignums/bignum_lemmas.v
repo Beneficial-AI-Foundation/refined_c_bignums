@@ -7,9 +7,9 @@ Definition bits_to_nat (bits : list Z) : nat :=
   let fix go i acc l :=
     match l with
     | [] => acc
-    | b :: bs => go (i+1) (acc + Z.to_nat b * 2^i) bs
+    | b :: bs => go (i-1) (acc + Z.to_nat b * 2^i) bs
     end
-  in go 0 0 bits.
+  in go (length bits - 1) 0 (rev bits).
 
 
 (* Partial sum correctness for the first i digits *)
