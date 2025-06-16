@@ -123,7 +123,7 @@ Proof.
       f_equal. 
       f_equal.
       Show.
-      assert ((length bits_result - 1)%nat = length bits_result - 1) as Hscope by admit.
+      assert ((length bits_result - 1)%nat = Z.to_nat (length bits_result - 1)) as Hscope by admit.
       rewrite Hscope.
       exact Hlen_minus_1.
       Show.
