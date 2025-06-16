@@ -149,8 +149,9 @@ Proof.
     }
     rewrite Hgo_eq.
     rewrite Nat.add_comm.
-    rewrite Hacc.
-    Show.
+    f_equal.
+    rewrite Hlen_minus_1.
+    reflexivity.
     Qed.
     
 
