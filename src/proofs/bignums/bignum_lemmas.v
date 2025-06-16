@@ -84,7 +84,12 @@ Proof.
     simpl in *.
     rewrite insert_app_r_alt; try lia.
     + assert (length (rev t) = length t) as Hrevlen by (rewrite length_rev; reflexivity).
-      Show.
+      rewrite Hlen in *.
+      assert (Z.to_nat n = length t) by lia.
+      rewrite H.
+      rewrite <- Hrevlen.
+      rewrite Nat.sub_0_r.
+      reflexivity.
     Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
