@@ -75,9 +75,3 @@ e.g. `Search "dec" Z.` for decidability lemmas about integers,
 or `Search "dec"` for all decidability lemmas.
 
 
-If you see this error:
-```
-File "./src/proofs/bignums/bignum_lemmas.v", line 109, characters 2-46:
-Error: Expected a single focused goal but 0 goals are focused.
-```
-Replace the mentioned line (e.g. 109) with `- Show.`
