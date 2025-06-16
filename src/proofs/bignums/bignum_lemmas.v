@@ -112,7 +112,6 @@ Proof.
     (* Focus on the left-hand side *)
     assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
     { rewrite Hlen_minus_1. reflexivity. }
-    rewrite Hleft_index.
     Show.
   Qed.
 
