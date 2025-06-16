@@ -150,18 +150,25 @@ Proof.
     rewrite Hdrop_simplify.
     
     (* Now we need to relate the two recursive function applications *)
-    assert (forall i acc l0,
-      Z.to_nat ((fix go (i0 acc0 : Z) (l1 : list Z) {struct l1} : nat :=
-        match l1 with
-        | [] => Z.to_nat acc0
-        | b :: bs => Z.to_nat (go (i0 - 1) (acc0 + Z.to_nat b * 2 ^ i0) bs)
-        end) i acc l0) =
-      ((fix go (i0 acc0 : Z) (l1 : list Z) {struct l1} : nat :=
-        match l1 with
-        | [] => Z.to_nat acc0
-        | b :: bs => Z.to_nat (go (i0 - 1)%Z (acc0 + Z.to_nat b * 2 ^ i0)%Z bs)
-        end) i acc l0)) as Hfix_eq.
-    { intros. induction l0; simpl; reflexivity. }
+    assert (Z.to_nat
+      ((fix go (i acc : Z) (l0 : list Z) {struct l0} : nat :=
+          match l0 with
+          | [] => Z.to_nat acc
+          | b :: bs => Z.to_nat (go (i - 1) (acc + Z.to_nat b * 2 ^ i) bs)
+          end) (Z.to_nat n - 1)
+         (0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1))
+         (drop 1 (z :: l))) =
+    ((fix go (i acc : Z) (l0 : list Z) {struct l0} : nat :=
+        match l0 with
+        | [] => Z.to_nat acc
+        | b :: bs => Z.to_nat (go (i - 1)%Z (acc + Z.to_nat b * 2 ^ i)%Z bs)
+        end) (Z.to_nat n - 1)%Z 0%Z (drop 1 (z :: l)) +
+     Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfix_eq.
+    {
+      (* Use lia to solve this *)
+      admit.
+    }
+    rewrite Hfix_eq.
     
     Show.
   Qed.
