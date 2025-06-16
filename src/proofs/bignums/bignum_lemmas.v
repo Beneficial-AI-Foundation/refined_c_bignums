@@ -151,7 +151,8 @@ Proof.
     rewrite Nat.add_comm.
     f_equal.
     -- admit.
-    -- Show.
+    -- rewrite Z2Nat.inj_mul; try lia.
+    Show.
     Qed.
     
 
