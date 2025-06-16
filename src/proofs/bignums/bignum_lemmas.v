@@ -89,6 +89,14 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
 Proof.
   Admitted.
 
+(* Lemma relating length calculations for list indices *)
+Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  (length bits_result - 1 - 1)%nat = (Z.to_nat n - 1)%nat.
+Proof.
+  Admitted.
+
 (* Lemma relating drop, rev and take *)
 Lemma drop_rev_take (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
@@ -172,7 +180,9 @@ Proof.
          end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
       f_equal.
-      - admit.
+      - apply length_minus_one_equals_n.
+        + exact Hlen.
+        + exact Hn.
       - exact Hdrop_rev.
     }
     rewrite Hgo_eq.
