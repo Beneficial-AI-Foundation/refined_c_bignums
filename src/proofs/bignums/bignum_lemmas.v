@@ -127,6 +127,8 @@ Proof.
         - apply binary_sum_non_negative with (bits_a:=bits_a) (bits_b:=bits_b) (i:=i_val); auto.
         - lia. (* 2 > 0 *)
       }
+      destruct Hrem as [Hrem_lower Hrem_upper].
+      assert ((y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1) as H.
 Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
