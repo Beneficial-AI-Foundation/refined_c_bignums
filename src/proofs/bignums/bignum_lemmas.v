@@ -149,6 +149,20 @@ Proof.
     { simpl. reflexivity. }
     rewrite Hdrop_simplify.
     
+    (* Now we need to relate the two recursive function applications *)
+    assert (forall i acc l0,
+      Z.to_nat ((fix go (i0 acc0 : Z) (l1 : list Z) {struct l1} : nat :=
+        match l1 with
+        | [] => Z.to_nat acc0
+        | b :: bs => Z.to_nat (go (i0 - 1) (acc0 + Z.to_nat b * 2 ^ i0) bs)
+        end) i acc l0) =
+      ((fix go (i0 acc0 : Z) (l1 : list Z) {struct l1} : nat :=
+        match l1 with
+        | [] => Z.to_nat acc0
+        | b :: bs => Z.to_nat (go (i0 - 1)%Z (acc0 + Z.to_nat b * 2 ^ i0)%Z bs)
+        end) i acc l0)) as Hfix_eq.
+    { intros. induction l0; simpl; reflexivity. }
+    
     Show.
   Qed.
 
