@@ -108,6 +108,7 @@ Proof.
   destruct (rev bits_result) eqn:Hrev.
   - (* Empty list case *)
     (* If rev bits_result is empty, then bits_result must be empty too *)
+    Show.
     assert (bits_result = []) by (admit).
     subst bits_result.
     rewrite length_nil in Hlen.
