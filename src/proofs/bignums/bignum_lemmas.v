@@ -145,8 +145,9 @@ Proof.
     {
       f_equal.
       - admit.
-      - Show.
+      - exact Hdrop_rev.
     }
+    Show.
     Qed.
     
 
