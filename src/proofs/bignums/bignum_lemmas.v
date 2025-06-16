@@ -169,6 +169,7 @@ Proof.
       assert ((0 + Z.to_nat carry_val * 2 ^ (length bits_result - 1)) = 
               (Z.to_nat carry_val * 2 ^ Z.to_nat n))%nat as Hacc_eq.
       { 
+        f_equal. f_equal.
         rewrite Hlen_minus_1. reflexivity.
       }
       
