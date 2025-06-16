@@ -105,6 +105,24 @@ Lemma drop_rev_take (bits_result : list Z) (n : Z) :
 Proof.
   Admitted.
 
+(* Lemma relating bits_to_nat of rev and take *)
+Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  Z.to_nat
+    ((fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+        match l0 with
+        | [] => Z.to_nat 0
+        | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1) bs))%nat
+        end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) =
+  (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+     match l0 with
+     | [] => Z.to_nat 0
+     | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1) bs))%nat
+     end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result)).
+Proof.
+  Admitted.
+
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -188,7 +206,7 @@ Proof.
     rewrite Hgo_eq.
     rewrite Nat.add_comm.
     f_equal.
-    -- admit.
+    -- apply bits_to_nat_rev_take_eq; auto.
     -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by admit.
        rewrite H1.
        assert ((Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat =  Z.to_nat (carry_val * 2 ^ Z.to_nat n)) as H2 by admit.
