@@ -31,13 +31,12 @@
 [[rc::lemmas("binary_sum_within_i32_bounds",
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct",
-             "binary_update_preserves_binary", "carry_update_preserves_binary",
+             "carry_update_preserves_binary",
              "partial_sum_step_exact")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
 [[rc::tactics("all: try solve [eapply partial_sum_complete with (i:=i_val) (carry_val:=carry_val) (bits_result:=current_result) (bits_a:=bits_a) (bits_b:=bits_b) (n:=n); eauto].")]]
-[[rc::tactics("all: try solve [eapply binary_update_preserves_binary with (bits_a:=bits_a) (bits_b:=bits_b) (y:=y) (y0:=y0) (carry_val:=carry_val); eauto].")]]
 [[rc::tactics("all: try solve [eapply carry_update_preserves_binary with (i_val:=i_val) (carry_val:=carry_val); eauto].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
