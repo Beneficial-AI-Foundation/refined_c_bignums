@@ -75,6 +75,7 @@ Lemma binary_sum_with_carry_bound (bits_a bits_b : list Z) (i : nat) (y y0 carry
   y + y0 + carry_val ≤ max_int i32.
 Proof.
   intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  unfold is_binary in Hbinary_a, Hbinary_b.
   Show. Qed.
 
 
