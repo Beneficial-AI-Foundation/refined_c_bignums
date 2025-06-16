@@ -215,7 +215,8 @@ Proof.
     rewrite Nat.add_comm.
     f_equal.
     -- apply bits_to_nat_rev_take_eq; auto.
-    -- apply length_minus_one_equals_n_simple; auto.
+    -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
+       rewrite H1.
        assert ((Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat =  Z.to_nat (carry_val * 2 ^ Z.to_nat n)) as H2 by admit.
        rewrite H2.
        reflexivity.
