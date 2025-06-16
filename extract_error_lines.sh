@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-# Function to extract line content from a file
-get_line_content() {
-    local file=$1
-    local line_num=$2
-    
-    if [[ -f "$file" ]]; then
-        sed -n "${line_num}p" "$file"
-    else
-        echo "File not found: $file"
-    fi
-}
-
 # Process input from stdin or a file provided as argument
 input_source="/dev/stdin"
 if [[ $# -gt 0 && -f "$1" ]]; then
@@ -27,11 +15,30 @@ grep -o "File \"[^\"]*\", line [0-9]*, characters [0-9]*-[0-9]*:" "$input_source
     # Remove leading "./" from file path if present
     file_path=${file_path#./}
     
-    # Get the content of the specified line
-    line_content=$(get_line_content "$file_path" "$line_num")
+    # Calculate the line numbers to display (current line, one before, one after)
+    prev_line=$((line_num - 1))
+    next_line=$((line_num + 1))
     
-    # Print the result
-    echo "Line $line_num of $file_path is"
-    echo "$line_content"
+    # Print the file name as a header
+    echo "$file_path"
+    
+    # Get and print the lines with their line numbers
+    if [[ -f "$file_path" ]]; then
+        # Print previous line if it exists
+        if [[ $prev_line -gt 0 ]]; then
+            printf "%3d: %s\n" $prev_line "$(sed -n "${prev_line}p" "$file_path")"
+        fi
+        
+        # Print the error line
+        printf "%3d: %s\n" $line_num "$(sed -n "${line_num}p" "$file_path")"
+        
+        # Print next line if it exists
+        if [[ $(wc -l < "$file_path") -ge $next_line ]]; then
+            printf "%3d: %s\n" $next_line "$(sed -n "${next_line}p" "$file_path")"
+        fi
+    else
+        echo "File not found: $file_path"
+    fi
+    
     echo ""
 done
