@@ -75,6 +75,12 @@ Lemma rev_empty_is_empty (l : list Z) :
 Proof.
   Admitted.
 
+(* Lemma relating nat subtraction and Z.to_nat *)
+Lemma length_minus_one_nat_z (l : list Z) :
+  (length l - 1)%nat = Z.to_nat (length l - 1).
+Proof.
+  Admitted.
+
 (* Lemma for relating rev and insertion *)
 Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
@@ -144,7 +150,7 @@ Proof.
     { 
       f_equal. 
       f_equal.
-      assert ((length bits_result - 1)%nat = Z.to_nat (length bits_result - 1)) as Hscope by admit.
+      apply length_minus_one_nat_z.
       rewrite Hscope.
       rewrite Hlen_minus_1.
       lia.
