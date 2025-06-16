@@ -108,6 +108,10 @@ Proof.
     (* Simplify the right-hand side *)
     rewrite length_take.
     rewrite Nat.min_l; try lia.
+    
+    (* Relate the indices in the two sides *)
+    rewrite Hlen_minus_1.
+    rewrite Nat.sub_1_r.
     Show.
   Qed.
 
