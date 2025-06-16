@@ -148,7 +148,7 @@ Proof.
       - exact Hdrop_rev.
     }
     rewrite Hgo_eq.
-    rewrite Hacc.
+    rewrite Nat.add_comm.
     Show.
     Qed.
     
