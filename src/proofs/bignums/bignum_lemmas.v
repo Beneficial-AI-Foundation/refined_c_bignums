@@ -165,7 +165,16 @@ Proof.
         end) (Z.to_nat n - 1)%Z 0%Z (drop 1 (z :: l)) +
      Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfix_eq.
     {
-      admit. //Claude, here
+      rewrite Hacc.
+      (* Induction on the list structure would be needed for a full proof *)
+      (* For now, we can use a simpler approach based on the definition *)
+      remember (drop 1 (z :: l)) as remaining_list.
+      destruct remaining_list.
+      - (* Empty list case *)
+        simpl. rewrite Nat.add_0_r. reflexivity.
+      - (* Non-empty list case *)
+        (* The key insight is that the accumulator difference propagates through *)
+        admit.
     }
     rewrite Hfix_eq.
     reflexivity.
