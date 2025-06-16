@@ -101,6 +101,11 @@ Proof.
   - (* Non-empty list case *)
     (* First, simplify the left-hand side *)
     simpl.
+    (* Relate the length of bits_result to n *)
+    assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1.
+    { rewrite Hlen. rewrite Z2Nat.inj_add; try lia.
+      simpl. lia. }
+    rewrite Hlen_minus_1.
     Show.
   Qed.
 
