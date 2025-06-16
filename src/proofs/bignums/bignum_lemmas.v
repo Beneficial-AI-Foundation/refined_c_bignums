@@ -86,8 +86,11 @@ Proof.
   rewrite Htake_b in Hresult.
   assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = (bits_to_nat bits_a + bits_to_nat bits_b)%nat) as Hgoal.
   {
-    rewrite <- Hresult.
-    Search "bits_to_nat" "<[".
+    (* We need to relate the bits_to_nat of the updated result to the original expression *)
+    assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
+           (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
+    { admit. }
+    rewrite Hbits. exact Hresult.
   }
   Show. Qed.
 
