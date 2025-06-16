@@ -109,7 +109,6 @@ Proof.
   - (* Case: j = i_val *)
     destruct (decide (j = i_val)) as [Heq|Hneq].
     + subst j.
-      rewrite list_lookup_insert in Hj; try lia.
     Show. Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
