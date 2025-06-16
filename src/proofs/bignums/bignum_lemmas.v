@@ -77,7 +77,14 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
 Proof.
   intros Hlen Hn.
   induction bits_result as [|h t IH].
-  Show. Qed.
+  - (* Base case: empty list *)
+    simpl in Hlen.
+    rewrite Z2Nat.inj_add in Hlen; try lia.
+    simpl in Hlen.
+    lia. (* Contradiction: length [] = Z.to_nat (n + 1) can't be true for n >= 0 *)
+  - (* Inductive case *)
+    simpl in *.
+    Show. Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
