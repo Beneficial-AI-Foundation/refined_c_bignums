@@ -94,6 +94,7 @@ Lemma binary_sum_non_negative (bits_a bits_b : list Z) (i : nat) (y y0 carry_val
   0 ≤ y + y0 + carry_val.
 Proof.
   intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b Hcarry.
+  unfold is_binary in Hbinary_a, Hbinary_b.
   Show. Qed.
 
 
