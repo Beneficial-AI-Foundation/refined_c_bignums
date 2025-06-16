@@ -148,6 +148,7 @@ Proof.
       - exact Hdrop_rev.
     }
     rewrite Hgo_eq.
+    rewrite Hacc.
     Show.
     Qed.
     
