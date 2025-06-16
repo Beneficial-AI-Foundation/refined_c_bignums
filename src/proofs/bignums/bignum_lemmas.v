@@ -137,13 +137,11 @@ Proof.
     { 
       f_equal.
       f_equal.
-      rewrite Hlen_minus_1.
+      rewrite Hacc.
       reflexivity.
     }
     
-    rewrite Hacc_direct.
-    rewrite Hdrop_rev.
-    
+
     Show.
   Qed.
 
