@@ -152,9 +152,7 @@ Proof.
     f_equal.
     -- admit.
     -- rewrite Z2Nat.inj_mul; try lia.
-       rewrite Z2Nat.inj_pow; try lia.
-       rewrite Hlen_minus_1. reflexivity.
-    Show.
+       Show.
     Qed.
     
 
