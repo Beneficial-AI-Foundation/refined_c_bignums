@@ -107,22 +107,6 @@ Proof.
     + rewrite Nat.min_l in H; lia.
     + rewrite Nat.min_r in H; try lia.
   Qed.
-  destruct (decide (j = i_val)) as [Heq|Hneq].
-  + subst j.
-    rewrite list_lookup_insert in Hj; [|lia].
-    injection Hj as Hj; subst x.
-    assert ((y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1) as Hrem.
-    { destruct Hbinary_a as [_ Ha]. destruct Hbinary_b as [_ Hb].
-      destruct (Ha i_val y Hlookup_a) as [Hay|Hay]; destruct (Hb i_val y0 Hlookup_b) as [Hby0|Hby0];
-      destruct Hcarry as [Hc|Hc]; subst; simpl; try (left; reflexivity); try (right; reflexivity). }
-    exact Hrem.
-  + (* Case: j ≠ i_val *)
-    assert (j < i_val)%nat by lia.
-    rewrite lookup_take in Hj; [|lia].
-    rewrite list_lookup_insert_ne in Hj; [|lia].
-    unfold is_binary in Hbinary_curr.
-    apply (Forall_lookup_1 _ _ _ _ Hbinary_curr Hj).
-Qed.
 
 Lemma carry_update_preserves_binary (current_result : list Z) (i_val : nat) (n : Z) (carry_val : Z) :
   is_binary (take i_val current_result) →
