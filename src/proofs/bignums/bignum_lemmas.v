@@ -76,7 +76,7 @@ Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
   rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
 Proof.
   intros Hlen Hn.
-  rewrite rev_app_distr.
+  induction bits_result as [|h t IH].
   Show. Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
