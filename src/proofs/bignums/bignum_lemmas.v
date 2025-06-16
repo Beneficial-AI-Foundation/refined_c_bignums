@@ -84,7 +84,7 @@ Proof.
   { apply take_ge. lia. }
   rewrite Htake_a in Hresult.
   rewrite Htake_b in Hresult.
-  rewrite Nat2Z.inj_add in Hresult.
+  assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = bits_to_nat bits_a + bits_to_nat bits_b) as Hgoal.
   Show. Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
