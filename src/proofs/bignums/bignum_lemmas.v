@@ -149,6 +149,7 @@ Proof.
     }
     rewrite Hgo_eq.
     rewrite Nat.add_comm.
+    rewrite Hacc.
     Show.
     Qed.
     
