@@ -124,8 +124,8 @@ Proof.
       assert (0 <= (y + y0 + carry_val) `rem` 2 < 2) as Hrem.
       { 
         apply Z.rem_bound_pos.
-        - lia. (* 2 > 0 *)
         - apply binary_sum_non_negative with (bits_a:=bits_a) (bits_b:=bits_b) (i:=i_val); auto.
+        - lia. (* 2 > 0 *)
       }
 Qed.
 
