@@ -109,9 +109,10 @@ Proof.
     rewrite length_take.
     rewrite Nat.min_l; try lia.
     
-    (* Relate the indices in the two sides *)
-    rewrite Hlen_minus_1.
-    rewrite Nat.sub_1_r.
+    (* Focus on the left-hand side *)
+    assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
+    { rewrite Hlen_minus_1. reflexivity. }
+    rewrite Hleft_index.
     Show.
   Qed.
 
