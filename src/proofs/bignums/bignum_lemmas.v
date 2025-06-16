@@ -165,8 +165,7 @@ Proof.
         end) (Z.to_nat n - 1)%Z 0%Z (drop 1 (z :: l)) +
      Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hfix_eq.
     {
-      (* Use lia to solve this *)
-      admit.
+      admit. //Claude, here
     }
     rewrite Hfix_eq.
     reflexivity.
