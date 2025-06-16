@@ -151,11 +151,13 @@ Proof.
     rewrite Nat.add_comm.
     f_equal.
     -- admit.
-    -- rewrite Z2Nat.inj_mul; try lia.
-       + rewrite Z2Nat.inj_pow; try lia.
-         rewrite Hlen_minus_1. reflexivity.
-       + assumption.
-    Qed.
+    -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by admit.
+       rewrite H1.
+       assert ((Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat =  Z.to_nat (carry_val * 2 ^ Z.to_nat n)) as H2 by admit.
+       rewrite H2.
+       reflexivity.
+       Show.
+    Admitted.
     
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
