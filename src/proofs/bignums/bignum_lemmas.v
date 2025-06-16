@@ -32,7 +32,21 @@ Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (i : nat) (y y0 : Z)
   bits_a !! i = Some y →
   bits_b !! i = Some y0 →
   y + y0 <= max_int i32.
-Proof. Admitted.
+Proof.
+  intros Hbinary_a Hbinary_b Hlookup_a Hlookup_b.
+  unfold is_binary in Hbinary_a, Hbinary_b.
+  apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
+  apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
+  
+  (* Since y and y0 are binary digits (0 or 1), their sum is at most 2 *)
+  assert (y + y0 <= 2) by (
+    destruct Hbinary_a, Hbinary_b; subst; lia
+  ).
+  
+  (* And 2 is certainly less than max_int i32 (which is at least 127) *)
+  pose proof (max_int_ge_127 i32).
+  lia.
+Qed.
 
 
 Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
