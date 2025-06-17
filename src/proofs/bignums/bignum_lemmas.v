@@ -1,5 +1,5 @@
 From refinedc.typing Require Import typing.
-Require Import Arith ZArith Ring.
+Require Import Arith.
 
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
