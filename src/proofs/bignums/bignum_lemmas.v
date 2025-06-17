@@ -215,7 +215,27 @@ Lemma rearrange_nat (n carry_val: Z):
   (carry_val = 0 ∨ carry_val = 1) ->
   (Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat = Z.to_nat (carry_val * 2 ^ Z.to_nat n).
 Proof.
-  Admitted.
+  intros.
+  destruct H0.
+  - rewrite H0.
+    lia.
+  - rewrite H0.
+    assert (forall x : Z, 1 * x = x) as H1 by lia.
+    specialize (H1 (2 ^ Z.to_nat n)).
+    rewrite H1.
+    assert (forall x : nat, (Z.to_nat 1 * x = x)%nat) as H2 by lia.
+    specialize (H2 (2 ^ Z.to_nat n)%nat).
+    rewrite H2.
+    assert (2 ^ Z.to_nat n = Z.to_nat 2 ^ Z.to_nat n) as H3 by admit.
+    rewrite H3.
+    (* assert (Z.to_nat 2 = 2) as H3 by lia. *)
+    rewrite <- Z2Nat.inj_pow.
+    assert (2 = Z.to_nat 2)%nat as H4 by lia.
+    rewrite <- H4.
+    lia.
+    (* Print Z2Nat.inj_pow. *)
+    Show.
+  Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
