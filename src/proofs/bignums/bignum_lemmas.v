@@ -476,7 +476,24 @@ Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
   (carry_val = 0 ∨ carry_val = 1) ->
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_int bits_a + bits_to_int bits_b).
 Proof.
-  Admitted.
+  intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry.
+  assert (i = Z.to_nat n) as Heq by lia.
+  subst i.
+  unfold partial_sum_correct in Hresult.
+  assert (take (Z.to_nat n) bits_a = bits_a) as Htake_a.
+  { apply take_ge. lia. }
+  assert (take (Z.to_nat n) bits_b = bits_b) as Htake_b.
+  { apply take_ge. lia. }
+  rewrite Htake_a in Hresult.
+  rewrite Htake_b in Hresult.
+  (* We need to relate the bits_to_nat of the updated result to the original expression *)
+  assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) =
+         (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
+  { apply bits_to_nat_insert; auto. }
+  rewrite Hbits. symmetry.
+  (* We need to convert between nat and Z *)
+  rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
+  Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
