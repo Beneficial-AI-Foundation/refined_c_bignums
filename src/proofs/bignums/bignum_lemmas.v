@@ -174,7 +174,10 @@ Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
   n >= 0 ->
   (length bits_result - 1 - 1)%nat = (Z.to_nat n - 1)%nat.
 Proof.
-  Admitted.
+  intros.
+  rewrite H.
+  lia.
+  Qed.
 
 (* Lemma showing that length minus one equals n *)
 Lemma length_minus_one_equals_n_simple (bits_result : list Z) (n : Z) :
