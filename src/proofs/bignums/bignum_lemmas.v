@@ -1,4 +1,5 @@
 From refinedc.typing Require Import typing.
+Require Import Arith ZArith Ring.
 
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
@@ -90,8 +91,22 @@ Proof.
     rewrite H2.
     assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha by admit.
     rewrite <- Ha.
-    rewrite Nat.add_assoc.
-    rewrite (Nat.add_comm _ (bits_to_nat _)).
+    assert ((Z.to_nat (y * 2 ^ i_val) +
+      (bits_to_nat (take i_val current_result) + Z.to_nat carry_val * 2 ^ i_val) +
+      Z.to_nat (y0 * 2 ^ i_val))%nat =
+      (bits_to_nat (take i_val current_result) + (Z.to_nat (y * 2 ^ i_val) +
+      Z.to_nat carry_val * 2 ^ i_val +
+      Z.to_nat (y0 * 2 ^ i_val)))%nat) as Hb by ring.
+    rewrite Hb.
+    assert ((bits_to_nat (take i_val current_result) +
+      Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
+      Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1))%nat =
+      (bits_to_nat (take i_val current_result) +
+      (Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
+      Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1)))%nat) as Hc by ring.
+    rewrite Hc.
+    apply Nat.add_cancel_l.
+
     Show.
 
   - admit.
