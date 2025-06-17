@@ -1,5 +1,4 @@
 From refinedc.typing Require Import typing.
-Require Import Arith.
 
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
@@ -96,14 +95,14 @@ Proof.
       Z.to_nat (y0 * 2 ^ i_val))%nat =
       (bits_to_nat (take i_val current_result) + (Z.to_nat (y * 2 ^ i_val) +
       Z.to_nat carry_val * 2 ^ i_val +
-      Z.to_nat (y0 * 2 ^ i_val)))%nat) as Hb by ring.
+      Z.to_nat (y0 * 2 ^ i_val)))%nat) as Hb by lia.
     rewrite Hb.
     assert ((bits_to_nat (take i_val current_result) +
       Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
       Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1))%nat =
       (bits_to_nat (take i_val current_result) +
       (Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
-      Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1)))%nat) as Hc by ring.
+      Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1)))%nat) as Hc by lia.
     rewrite Hc.
     apply Nat.add_cancel_l.
     assert ((Z.to_nat y + Z.to_nat carry_val  + Z.to_nat y0)%nat = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )%nat).
