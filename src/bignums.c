@@ -2,12 +2,6 @@
 // Bignum addition where numbers are represented as arrays of 0s and 1s (LSB first)
 // E.g., 5 = [1,0,1,0,...] represents 1*2^0 + 0*2^1 + 1*2^2 = 1 + 4 = 5
 
-/* Helper: convert a list of bits to the natural number it represents */
-// Definition bits_to_nat (bits : list Z) : nat := 
-//   fold_left (fun acc b => 2 * acc + Z.to_nat b) (rev bits) 0.
-
-/* Helper: check if all elements are 0 or 1 */
-// Definition is_binary (bits : list Z) := Forall (fun b => b = 0 ∨ b = 1) bits.
 
 /* Add two bignums with carry */
 [[rc::parameters("a_loc : loc", "b_loc : loc", "result_loc : loc", 
