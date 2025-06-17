@@ -18,6 +18,11 @@ Definition bits_to_int (bits : list Z) : nat :=
   in Z.to_nat (go (length bits - 1) (rev bits)).
 
 
+Definition partial_sum_correct' (i : nat) (carry : Z) (bits_result : list Z)
+                              (bits_a bits_b : list Z) :=
+    (bits_to_int (take i bits_a) + bits_to_int (take i bits_b)) =
+    bits_to_int (take i bits_result) + Z.to_nat carry * 2^i.
+
 Open Scope nat_scope.
 
 (* The nat scope makes later proofs harder because we always have to convert *)

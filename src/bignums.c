@@ -42,7 +42,7 @@ void bignum_add(int* a, int* b, int* result, int n) {
     [[rc::constraints("{0 <= i_val}", "{i_val <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
     [[rc::constraints("{length current_result = Z.to_nat (n + 1)}")]]
     [[rc::constraints("{is_binary (firstn i_val current_result)}")]]
-    [[rc::constraints("{partial_sum_correct i_val carry_val current_result bits_a bits_b}")]]
+    [[rc::constraints("{partial_sum_correct' i_val carry_val current_result bits_a bits_b}")]]
     for (int i = 0; i < n; i++) {
         int bit_sum = a[i] + b[i] + carry;
         result[i] = bit_sum % 2;
