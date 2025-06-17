@@ -137,7 +137,7 @@ Proof.
             assert ((length [z] + (len-1))%nat = Z.to_nat (S len - 1)) as H6 by admit.
             rewrite <- H6.
             rewrite insert_app_r.
-            assert ((len - 1)%nat = Z.to_nat (len - 1)) as H7 by admit.
+            assert ((len - 1)%nat = Z.to_nat (len - 1)) as H7 by lia.
             rewrite H7.
             simpl.
             reflexivity.
