@@ -159,8 +159,7 @@ Proof.
          ++ rewrite length_app.
             simpl.
             lia.
-
-  Admitted.
+  Qed.
 
 (* Lemma relating length calculations for list indices *)
 Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
