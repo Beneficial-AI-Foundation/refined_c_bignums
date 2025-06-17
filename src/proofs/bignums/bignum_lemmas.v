@@ -185,7 +185,10 @@ Lemma length_minus_one_equals_n_simple (bits_result : list Z) (n : Z) :
   n >= 0 ->
   (length bits_result - 1)%nat = Z.to_nat n.
 Proof.
-  Admitted.
+  intros.
+  rewrite H.
+  lia.
+  Qed.
 
 (* Lemma relating drop, rev and take *)
 Lemma drop_rev_take (bits_result : list Z) (n : Z) :
