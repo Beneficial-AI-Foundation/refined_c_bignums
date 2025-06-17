@@ -109,7 +109,12 @@ Proof.
     destruct lyst1.
     + admit.
     + destruct lyst1.
-      -- admit.
+      -- simpl.
+         assert (len = 0%nat) as H9.
+         {simpl in H. lia. }
+         rewrite H9.
+         simpl.
+         reflexivity.
       -- rewrite insert_app_l.
          ++ assert (((fix rev (l : list Z) : list Z :=
                       match l with
