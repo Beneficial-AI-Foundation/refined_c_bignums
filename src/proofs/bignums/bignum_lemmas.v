@@ -136,14 +136,9 @@ Proof.
             rewrite H5.
             assert ((length [z] + (len-1))%nat = Z.to_nat (S len - 1)) as H6.
             --- simpl.
-                 assert (len > 0) as H8.
+                assert (len > 0) as H8.
                 { destruct len; simpl in H; try discriminate. lia. }
-                rewrite Z2Nat.inj_sub.
-                ++++ rewrite Nat2Z.id.
-                  destruct len.
-                  ----- lia.
-                  ----- lia.
-                ++++ lia.
+                lia.
             --- rewrite <- H6.
                 rewrite insert_app_r.
                 assert ((len - 1)%nat = Z.to_nat (len - 1)) as H7 by lia.
