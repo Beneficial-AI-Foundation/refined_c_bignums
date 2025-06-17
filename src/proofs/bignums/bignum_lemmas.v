@@ -126,7 +126,8 @@ Proof.
                   | [] => []
                   | x :: l' => rev l' ++ [x]
                   end) (<[Z.to_nat (S len - 1):=carry_val]> (z :: z0 :: lyst1))
-                       = rev (<[Z.to_nat (S len - 1):=carry_val]> (z :: z0 :: lyst1))) as H3 by admit.
+                       = rev (<[Z.to_nat (S len - 1):=carry_val]> (z :: z0 :: lyst1))) as H3.
+            { unfold rev. reflexivity. }
             rewrite H3.
             assert (rev (<[Z.to_nat (len - 1):=carry_val]> (z0 :: lyst1)) ++ [z]
                    =  rev (z :: (<[Z.to_nat (len - 1):=carry_val]> (z0 :: lyst1)))) as H4.
