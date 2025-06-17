@@ -62,11 +62,20 @@ Proof.
   Admitted.
 
 Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
+  a >= 0  ->
+  b >= 0  ->
   (Z.to_nat (a * 2 ^ i_val) +
    Z.to_nat b * 2 ^ (i_val + 1))%nat =
   ((Z.to_nat a + 2 * Z.to_nat b) * 2 ^ i_val)%nat.
 Proof.
-  Admitted.
+  intros.
+  replace ((2 ^ (i_val + 1))%nat) with ((2 * 2 ^ i_val)%nat).
+  - replace ((Z.to_nat (a * 2 ^ i_val))%nat) with ((Z.to_nat a * 2 ^ i_val)%nat) by admit.
+    lia.
+  - rewrite Nat.pow_add_r.
+    rewrite Nat.pow_1_r.
+    lia.
+  Qed.
 
 Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
@@ -121,13 +130,14 @@ Proof.
       assert ((Z.to_nat y0 * 2 ^ i_val = Z.to_nat (y0 * 2 ^ i_val))%nat) by admit.
       rewrite <- H10.
       assert ((Z.to_nat y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
-   Z.to_nat y0 * 2 ^ i_val)%nat = ((Z.to_nat y + Z.to_nat carry_val +
-   Z.to_nat y0 )* 2 ^ i_val)%nat ) by lia.
+              Z.to_nat y0 * 2 ^ i_val)%nat = ((Z.to_nat y + Z.to_nat carry_val +
+              Z.to_nat y0 )* 2 ^ i_val)%nat ) by lia.
       rewrite H11.
       pose proof (rearrange ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val).
       rewrite H12.
-      rewrite H8.
-      reflexivity.
+      -- rewrite H8. reflexivity.
+      -- admit.
+      -- admit.
   - admit.
 Admitted.
 
