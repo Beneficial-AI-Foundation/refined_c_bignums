@@ -67,7 +67,12 @@ Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : 
   current_result !! i_val = Some y1 →
   partial_sum_correct (i_val + 1) ((y + y0 + carry_val) `quot` 2)
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
-Proof. Admitted.
+Proof.
+  intros.
+  unfold partial_sum_correct.
+  unfold partial_sum_correct in H2.
+  Show.
+  Qed.
 
 (* Lemma showing that if the reverse of a list is empty, the list is empty *)
 Lemma rev_empty_is_empty (l : list Z) :
