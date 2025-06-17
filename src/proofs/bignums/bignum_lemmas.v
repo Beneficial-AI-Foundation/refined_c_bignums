@@ -78,6 +78,7 @@ Proof.
   intros.
   unfold partial_sum_correct.
   unfold partial_sum_correct in H2.
+  // Use bits_to_nat_take_step on the goal AI!
   Show.
   Qed.
 
