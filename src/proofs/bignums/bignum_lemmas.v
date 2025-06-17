@@ -83,70 +83,7 @@ Proof.
   rewrite (bits_to_nat_take_step bits_a i_val y); auto.
   rewrite (bits_to_nat_take_step bits_b i_val y0); auto.
   rewrite (bits_to_nat_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
-  
-  (* Simplify the goal using the induction hypothesis *)
-  rewrite H2.
-  
-  (* Algebraic manipulation *)
-  assert (Z.to_nat (y * 2^i_val) + Z.to_nat (y0 * 2^i_val) = Z.to_nat ((y + y0) * 2^i_val))%nat.
-  { rewrite Z2Nat.inj_add; try lia.
-    - rewrite Z2Nat.inj_mul; try lia.
-      rewrite Z2Nat.inj_mul; try lia.
-      lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia. }
-  rewrite H7.
-  
-  (* Prove that the lookup in the updated list returns the correct value *)
-  assert ((<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) !! i_val = Some ((y + y0 + carry_val) `rem` 2)).
-  { rewrite list_lookup_insert; auto. }
-  
-  (* Algebraic manipulation for the carry *)
-  assert (Z.to_nat carry_val * 2^i_val + Z.to_nat ((y + y0) * 2^i_val) = Z.to_nat ((y + y0 + carry_val) * 2^i_val))%nat.
-  { rewrite <- Z2Nat.inj_add; try lia.
-    - rewrite <- Z.mul_add_distr_r. lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia. }
-  rewrite H9.
-  
-  (* Final algebraic manipulation *)
-  assert (Z.to_nat ((y + y0 + carry_val) * 2^i_val) = 
-          Z.to_nat (((y + y0 + carry_val) `quot` 2) * 2 * 2^i_val + ((y + y0 + carry_val) `rem` 2) * 2^i_val))%nat.
-  { rewrite <- Z2Nat.inj_add; try lia.
-    - f_equal. rewrite Z.quot_rem' with (a := y + y0 + carry_val) (b := 2).
-      + lia.
-      + lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia. }
-  rewrite H10.
-  
-  (* Simplify the power expressions *)
-  assert (2 * 2^i_val = 2^(i_val+1)).
-  { rewrite <- Z.pow_succ_r; try lia. }
-  rewrite H11.
-  
-  (* Convert between Z and nat *)
-  assert (Z.to_nat (((y + y0 + carry_val) `quot` 2) * 2^(i_val+1) + ((y + y0 + carry_val) `rem` 2) * 2^i_val) =
-          Z.to_nat (((y + y0 + carry_val) `quot` 2) * 2^(i_val+1)) + Z.to_nat (((y + y0 + carry_val) `rem` 2) * 2^i_val))%nat.
-  { rewrite Z2Nat.inj_add; try lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia. }
-  rewrite H12.
-  
-  (* Final simplification *)
-  assert (Z.to_nat (((y + y0 + carry_val) `quot` 2) * 2^(i_val+1)) = Z.to_nat ((y + y0 + carry_val) `quot` 2) * 2^(i_val+1))%nat.
-  { rewrite Z2Nat.inj_mul; try lia.
-    - f_equal. rewrite Z2Nat.inj_pow; try lia.
-    - apply Z.mul_nonneg_nonneg; try lia.
-      apply Z.pow_nonneg; lia. }
-  rewrite H13.
-  reflexivity.
+  Show.
 Qed.
 
 (* Lemma showing that if the reverse of a list is empty, the list is empty *)
