@@ -380,7 +380,90 @@ Lemma bits_to_int_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   (carry_val = 0 ∨ carry_val = 1) ->
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
   Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n).
-Proof. Admitted.
+Proof.
+  intros Hlen Hn Hcarry.
+  unfold bits_to_int.
+  rewrite length_insert.
+
+  (* Use the lemma about rev and insertion *)
+  assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result)) as Hrev_insert.
+  { apply rev_insert_first; auto. }
+  rewrite Hrev_insert.
+
+  (* Expand the function definition *)
+  assert (drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result)) as Hdrop_rev.
+  { apply drop_rev_take; auto. }
+
+  (* Now we can relate the left and right sides *)
+  destruct (rev bits_result) eqn:Hrev.
+  - (* Empty list case *)
+    (* If rev bits_result is empty, then bits_result must be empty too *)
+    assert (bits_result = []) by (apply rev_empty_is_empty; auto).
+    subst bits_result.
+    rewrite length_nil in Hlen.
+    (* This is a contradiction since n+1 > 0 *)
+    exfalso.
+    rewrite Z2Nat.inj_add in Hlen; try lia.
+  - (* Non-empty list case *)
+    (* First, simplify the left-hand side *)
+    simpl.
+    (* Relate the length of bits_result to n *)
+    assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1.
+    { rewrite Hlen. rewrite Z2Nat.inj_add; try lia. }
+
+    (* Simplify the right-hand side *)
+    rewrite length_take.
+    rewrite Nat.min_l; try lia.
+
+    (* Focus on the left-hand side *)
+    assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
+    { rewrite Hlen_minus_1. reflexivity. }
+
+    (* Show that the lists being processed are the same *)
+    rewrite <- Hdrop_rev.
+
+    (* Now we need to handle the accumulator difference *)
+    assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) =
+            Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
+    {
+      f_equal.
+      f_equal.
+      assert ((length bits_result - 1)%nat = Z.to_nat (length bits_result - 1)) as Hscope by (apply length_minus_one_nat_z).
+      rewrite Hscope.
+      rewrite Hlen_minus_1.
+      lia.
+    }
+
+    (* Now we need to relate the two expressions *)
+    rewrite Hdrop_rev.
+
+    (* We need to show that the recursive functions compute the same value *)
+    assert ((fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+         match l0 with
+         | [] => Z.to_nat 0
+         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
+         end) (length bits_result - 1 - 1)%nat l =
+         (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+         match l0 with
+         | [] => Z.to_nat 0
+         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
+         end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
+    {
+      f_equal.
+      - apply length_minus_one_equals_n.
+        + exact Hlen.
+        + exact Hn.
+      - exact Hdrop_rev.
+    }
+    rewrite Hgo_eq.
+    rewrite Nat.add_comm.
+    f_equal.
+    -- apply bits_to_nat_rev_take_eq; auto.
+    -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
+       rewrite H1.
+       pose proof rearrange_nat as H2.
+       rewrite H2; auto.
+    Qed.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
