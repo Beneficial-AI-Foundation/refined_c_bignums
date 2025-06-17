@@ -495,14 +495,12 @@ Proof.
   { apply take_ge. lia. }
   rewrite Htake_a in Hresult.
   rewrite Htake_b in Hresult.
-  (* We need to relate the bits_to_nat of the updated result to the original expression *)
   assert (bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
          Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)) as Hbits.
   { apply bits_to_int_insert; auto. }
-  Show.
   rewrite Hbits. symmetry.
-  (* We need to convert between nat and Z *)
-  rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
+  rewrite Hresult.
+  reflexivity.
   Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
