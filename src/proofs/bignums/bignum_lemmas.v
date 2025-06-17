@@ -109,7 +109,14 @@ Proof.
     + assert (y0 = 0 ∨ y0 = 1) by admit.
       assert (y = 0 ∨ y = 1) by admit.
       destruct H1; destruct H8; destruct H9; lia.
-    + admit.
+    + assert ((Z.to_nat y * 2 ^ i_val = Z.to_nat (y * 2 ^ i_val))%nat) by admit.
+      rewrite <- H9.
+      assert ((Z.to_nat y0 * 2 ^ i_val = Z.to_nat (y0 * 2 ^ i_val))%nat) by admit.
+      rewrite <- H10.
+      assert ((Z.to_nat y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
+   Z.to_nat y0 * 2 ^ i_val)%nat = ((Z.to_nat y + Z.to_nat carry_val +
+   Z.to_nat y0 )* 2 ^ i_val)%nat ) by lia.
+      rewrite H11.
   - admit.
 Admitted.
 
