@@ -86,7 +86,7 @@ Proof.
   rewrite (bits_to_nat_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
   - rewrite (Nat.add_comm (bits_to_nat (take i_val bits_a)) (Z.to_nat (y * 2 ^ i_val))).
     rewrite Nat.add_assoc.
-    rewrite <- (Nat.add_assoc (Z.to_nat (y * 2 ^ i_val)) (bits_to_nat (take i_val bits_a)) (bits_to_nat (take i_val bits_b))).
+    rewrite <- (Nat.add_assoc (Z.to_nat _) (bits_to_nat _) (bits_to_nat _)).
     rewrite H2.
     Show.
 
