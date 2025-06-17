@@ -9,13 +9,14 @@ Definition bits_to_nat (bits : list Z) : nat :=
     end
   in go (length bits - 1)%nat (rev bits).
 
-Definition bits_to_int (bits : list Z) : Z :=
+Definition bits_to_int (bits : list Z) : nat :=
   let fix go i l :=
     match l with
     | [] => 0
     | b :: bs => ((b * 2^i) + (go (i-1) bs))
     end
-  in go (length bits - 1) (rev bits).
+  in Z.to_nat (go (length bits - 1) (rev bits)).
+
 
 Open Scope nat_scope.
 

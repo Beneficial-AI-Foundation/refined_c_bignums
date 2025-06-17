@@ -21,7 +21,7 @@
 [[rc::ensures("own result_loc : array<i32, {final_result `at_type` (int i32)}>")]]
 [[rc::ensures("{length final_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary final_result}")]]
-[[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_nat bits_a) + Z.of_nat (bits_to_nat bits_b)) )}")]]
+[[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_int bits_a) + Z.of_nat (bits_to_int bits_b)) )}")]]
 [[rc::lemmas("binary_sum_within_i32_bounds",
              "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct",
