@@ -54,6 +54,13 @@ Proof.
 Qed.
 
 
+(* Lemma relating bits_to_nat of take (i+1) to bits_to_nat of take i *)
+Lemma bits_to_nat_take_step (bits : list Z) (i : nat) (x : Z) :
+  bits !! i = Some x →
+  bits_to_nat (take (i + 1) bits) = (bits_to_nat (take i bits) + Z.to_nat (x * 2^i))%nat.
+Proof.
+  Admitted.
+
 Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
                             (y y0 y1 : Z) :
@@ -552,12 +559,6 @@ Proof.
       apply Hnlt. lia.
   Qed.
 
-(* Lemma relating bits_to_nat of take (i+1) to bits_to_nat of take i *)
-Lemma bits_to_nat_take_step (bits : list Z) (i : nat) (x : Z) :
-  bits !! i = Some x →
-  bits_to_nat (take (i + 1) bits) = (bits_to_nat (take i bits) + Z.to_nat (x * 2^i))%nat.
-Proof.
-  Admitted.
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
