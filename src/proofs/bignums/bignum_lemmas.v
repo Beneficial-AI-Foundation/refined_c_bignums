@@ -61,6 +61,13 @@ Lemma bits_to_nat_take_step (bits : list Z) (i : nat) (x : Z) :
 Proof.
   Admitted.
 
+Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
+  (Z.to_nat (a * 2 ^ i_val) +
+   Z.to_nat b * 2 ^ (i_val + 1))%nat =
+  ((Z.to_nat a + 2 * Z.to_nat b) * 2 ^ i_val)%nat.
+Proof.
+  Admitted.
+
 Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
                             (y y0 y1 : Z) :
@@ -117,6 +124,9 @@ Proof.
    Z.to_nat y0 * 2 ^ i_val)%nat = ((Z.to_nat y + Z.to_nat carry_val +
    Z.to_nat y0 )* 2 ^ i_val)%nat ) by lia.
       rewrite H11.
+      pose proof (rearrange ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val).
+      rewrite H12.
+      Show.
   - admit.
 Admitted.
 
