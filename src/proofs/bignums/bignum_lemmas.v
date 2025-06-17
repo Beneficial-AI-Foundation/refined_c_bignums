@@ -134,13 +134,22 @@ Proof.
             f_equal.
             assert (z :: z0 :: lyst1 = [z] ++ (z0 :: lyst1)) as H5 by admit.
             rewrite H5.
-            assert ((length [z] + (len-1))%nat = Z.to_nat (S len - 1)) as H6 by admit.
-            rewrite <- H6.
-            rewrite insert_app_r.
-            assert ((len - 1)%nat = Z.to_nat (len - 1)) as H7 by lia.
-            rewrite H7.
-            simpl.
-            reflexivity.
+            assert ((length [z] + (len-1))%nat = Z.to_nat (S len - 1)) as H6.
+            --- simpl.
+                 assert (len > 0) as H8.
+                { destruct len; simpl in H; try discriminate. lia. }
+                rewrite Z2Nat.inj_sub.
+                ++++ rewrite Nat2Z.id.
+                  destruct len.
+                  ----- lia.
+                  ----- lia.
+                ++++ lia.
+            --- rewrite <- H6.
+                rewrite insert_app_r.
+                assert ((len - 1)%nat = Z.to_nat (len - 1)) as H7 by lia.
+                rewrite H7.
+                simpl.
+                reflexivity.
          ++ admit.
 
   Admitted.
