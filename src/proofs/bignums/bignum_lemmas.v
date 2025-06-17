@@ -145,7 +145,9 @@ Proof.
                 rewrite H7.
                 simpl.
                 reflexivity.
-         ++ admit.
+         ++ rewrite length_app.
+            simpl.
+            lia.
 
   Admitted.
 
