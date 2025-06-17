@@ -69,6 +69,7 @@ Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : 
   carry_val = 0 ∨ carry_val = 1 →
   partial_sum_correct i_val carry_val current_result bits_a bits_b →
   i_val < n →
+  length current_result = Z.to_nat (n+1) ->
   bits_a !! i_val = Some y →
   bits_b !! i_val = Some y0 →
   current_result !! i_val = Some y1 →
@@ -83,7 +84,13 @@ Proof.
   rewrite (bits_to_nat_take_step bits_a i_val y); auto.
   rewrite (bits_to_nat_take_step bits_b i_val y0); auto.
   rewrite (bits_to_nat_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
-  Show.
+  - rewrite (Nat.add_comm (bits_to_nat (take i_val bits_a)) (Z.to_nat (y * 2 ^ i_val))).
+    rewrite Nat.add_assoc.
+    rewrite <- (Nat.add_assoc (Z.to_nat (y * 2 ^ i_val)) (bits_to_nat (take i_val bits_a)) (bits_to_nat (take i_val bits_b))).
+    rewrite H2.
+    Show.
+
+  - admit.
 Qed.
 
 (* Lemma showing that if the reverse of a list is empty, the list is empty *)
