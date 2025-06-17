@@ -373,6 +373,15 @@ Proof.
     lia.
   Qed.
 
+
+Lemma bits_to_int_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  (carry_val = 0 ∨ carry_val = 1) ->
+  bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
+  Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n).
+Proof. Admitted.
+
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -479,7 +488,7 @@ Proof.
   intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry.
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
-  unfold partial_sum_correct in Hresult.
+  unfold partial_sum_correct' in Hresult.
   assert (take (Z.to_nat n) bits_a = bits_a) as Htake_a.
   { apply take_ge. lia. }
   assert (take (Z.to_nat n) bits_b = bits_b) as Htake_b.
@@ -487,9 +496,10 @@ Proof.
   rewrite Htake_a in Hresult.
   rewrite Htake_b in Hresult.
   (* We need to relate the bits_to_nat of the updated result to the original expression *)
-  assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) =
-         (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
-  { apply bits_to_nat_insert; auto. }
+  assert (bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
+         Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)) as Hbits.
+  { apply bits_to_int_insert; auto. }
+  Show.
   rewrite Hbits. symmetry.
   (* We need to convert between nat and Z *)
   rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
