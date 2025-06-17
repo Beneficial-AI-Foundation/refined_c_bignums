@@ -103,8 +103,13 @@ Lemma rev_insert_first' (len : nat) (carry_val : Z):
   rev (<[Z.to_nat (len - 1):=carry_val]> lyst) = <[0%nat:=carry_val]> (rev lyst).
 Proof.
   induction len.
-  - Show. admit.
-  - Show. Qed.
+  - admit.
+  - intros lyst1 H.
+    unfold rev.
+    destruct lyst1.
+    + admit.
+    + Show.
+  Admitted.
 
 (* Lemma relating length calculations for list indices *)
 Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
