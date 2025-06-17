@@ -11,6 +11,7 @@ Definition bits_to_nat (bits : list Z) : nat :=
 
 Open Scope nat_scope.
 
+(* The nat scope makes later proofs harder because we always have to convert *)
 
 (* Partial sum correctness for the first i digits *)
 Definition partial_sum_correct (i : nat) (carry : Z) (bits_result : list Z)
@@ -236,6 +237,8 @@ Proof.
   Qed.
 
 (* Lemma for relating rev and insertion *)
+(* It may be possible to prove this without strong induction, just using *)
+(* rev (rev l) = l *)
 Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
