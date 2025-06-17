@@ -126,7 +126,8 @@ Proof.
       rewrite H11.
       pose proof (rearrange ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val).
       rewrite H12.
-      Show.
+      rewrite H8.
+      reflexivity.
   - admit.
 Admitted.
 
