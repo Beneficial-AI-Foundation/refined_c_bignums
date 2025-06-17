@@ -109,15 +109,7 @@ Proof.
     assert ((Z.to_nat y + Z.to_nat carry_val  + Z.to_nat y0)%nat = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )%nat).
     + assert (y0 = 0 ∨ y0 = 1) by admit.
       assert (y = 0 ∨ y = 1) by admit.
-      destruct H1; destruct H8; destruct H9.
-      -- lia. Show.
-      -- lia. Show.
-      -- lia. Show.
-      -- rewrite H1 H8 H9. simpl. lia. Show.
-      -- lia. Show.
-      -- lia. Show.
-      -- lia. Show.
-      -- lia. Show.
+      destruct H1; destruct H8; destruct H9; lia.
     + admit.
   - admit.
 Admitted.
