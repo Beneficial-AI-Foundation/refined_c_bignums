@@ -89,7 +89,7 @@ Proof.
             --- pose proof (Z2Nat.inj_pow (Z.to_nat 2) (Z.to_nat i_val)).
                 (* Show. *)
                 rewrite <- H1.
-                (* apply Z2Nat.inj_pow.  *)
+                rewrite Z2Nat.inj_pow.
                 admit.
             --- admit.
          ++ admit.
