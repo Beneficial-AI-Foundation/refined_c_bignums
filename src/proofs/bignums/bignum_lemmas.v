@@ -88,6 +88,10 @@ Proof.
     rewrite Nat.add_assoc.
     rewrite <- (Nat.add_assoc (Z.to_nat _) (bits_to_nat _) (bits_to_nat _)).
     rewrite H2.
+    assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha by admit.
+    rewrite <- Ha.
+    rewrite Nat.add_assoc.
+    rewrite (Nat.add_comm _ (bits_to_nat _)).
     Show.
 
   - admit.
