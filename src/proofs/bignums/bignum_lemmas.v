@@ -104,6 +104,25 @@ Proof.
     lia.
   Admitted.
 
+
+Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
+                            (i_val : nat) (carry_val : Z) (current_result : list Z)
+                            (y y0 y1 : Z) :
+  is_binary bits_a →
+  is_binary bits_b →
+  carry_val = 0 ∨ carry_val = 1 →
+  partial_sum_correct' i_val carry_val current_result bits_a bits_b →
+  i_val < n →
+  length current_result = Z.to_nat (n+1) ->
+  bits_a !! i_val = Some y →
+  bits_b !! i_val = Some y0 →
+  current_result !! i_val = Some y1 →
+  partial_sum_correct' (i_val + 1) ((y + y0 + carry_val) `quot` 2)
+    (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
+Proof.
+Admitted.
+
+
 Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
                             (y y0 y1 : Z) :
