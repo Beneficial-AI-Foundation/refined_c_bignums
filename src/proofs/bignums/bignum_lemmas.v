@@ -108,7 +108,41 @@ Proof.
     unfold rev.
     destruct lyst1.
     + admit.
-    + Show.
+    + destruct lyst1.
+      -- admit.
+      -- rewrite insert_app_l.
+         ++ assert (((fix rev (l : list Z) : list Z :=
+                      match l with
+                      | [] => []
+                      | x :: l' => rev l' ++ [x]
+                      end) lyst1 ++ [z0]) = rev (z0 :: lyst1)) as H1 by admit.
+            rewrite H1.
+            specialize (IHlen (z0 :: lyst1)).
+            assert (length (z0 :: lyst1) = len) as H2 by admit.
+            specialize (IHlen H2).
+            rewrite <- IHlen.
+            assert ((fix rev (l : list Z) : list Z :=
+                  match l with
+                  | [] => []
+                  | x :: l' => rev l' ++ [x]
+                  end) (<[Z.to_nat (S len - 1):=carry_val]> (z :: z0 :: lyst1))
+                       = rev (<[Z.to_nat (S len - 1):=carry_val]> (z :: z0 :: lyst1))) as H3 by admit.
+            rewrite H3.
+            assert (rev (<[Z.to_nat (len - 1):=carry_val]> (z0 :: lyst1)) ++ [z]
+                   =  rev (z :: (<[Z.to_nat (len - 1):=carry_val]> (z0 :: lyst1)))) as H4 by admit.
+            rewrite H4.
+            f_equal.
+            assert (z :: z0 :: lyst1 = [z] ++ (z0 :: lyst1)) as H5 by admit.
+            rewrite H5.
+            assert ((length [z] + (len-1))%nat = Z.to_nat (S len - 1)) as H6 by admit.
+            rewrite <- H6.
+            rewrite insert_app_r.
+            assert ((len - 1)%nat = Z.to_nat (len - 1)) as H7 by admit.
+            rewrite H7.
+            simpl.
+            reflexivity.
+         ++ admit.
+
   Admitted.
 
 (* Lemma relating length calculations for list indices *)
