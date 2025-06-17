@@ -353,6 +353,10 @@ Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
      | [] => Z.to_nat 0
      | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1) bs))%nat
      end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result)).
+Proof.
+  intros.
+  lia.
+  Qed.
 
 (* Lemma for Z.to_nat of sum with carry *)
 Lemma Z_to_nat_carry_sum (bits_result : list Z) (n : Z) (carry_val : Z) :
@@ -374,43 +378,39 @@ Lemma Z_to_nat_carry_sum (bits_result : list Z) (n : Z) (carry_val : Z) :
            | b :: bs => b * 2 ^ i + go (i - 1) bs
            end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) +
      Z.to_nat carry_val * 2 ^ Z.to_nat n).
-Proof.
-  intros Hn Hcarry Hlen.
-  
-  (* First, simplify the length expression *)
-  assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1.
-  { rewrite Hlen. rewrite Z2Nat.inj_add; try lia. }
-  
-  (* Rewrite the left side using this equality *)
-  rewrite Hlen_minus_1.
-  
-  (* Apply Z2Nat.inj_add to distribute Z.to_nat over addition *)
-  rewrite Z2Nat.inj_add; try lia.
-  
-  (* For the first term, use Z2Nat.inj_mul *)
-  rewrite Z2Nat.inj_mul; try lia.
-  
-  (* For the second term, we need to show that the recursive function result is non-negative *)
-  assert ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
-          match l0 with
-          | [] => 0
-          | b :: bs => b * 2 ^ i + go (i - 1) bs
-          end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result)) >= 0) as Hgo_nonneg.
-  { 
-    (* This would require induction on the list structure *)
-    admit.
-  }
-  
-  (* Now we can apply Z2Nat.id to simplify the nested Z.to_nat *)
-  rewrite Z2Nat.id; try lia.
-  
-  (* The equality now follows from the properties of Z.to_nat *)
-  reflexivity.
-Admitted.
-Proof.
-  intros.
-  lia.
-  Qed.
+Proof. Admitted.
+(*   intros Hn Hcarry Hlen. *)
+
+(*   (* First, simplify the length expression *) *)
+(*   assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1. *)
+(*   { rewrite Hlen. rewrite Z2Nat.inj_add; try lia. } *)
+
+(*   (* Rewrite the left side using this equality *) *)
+(*   rewrite Hlen_minus_1. *)
+
+(*   (* Apply Z2Nat.inj_add to distribute Z.to_nat over addition *) *)
+(*   rewrite Z2Nat.inj_add; try lia. *)
+
+(*   (* For the first term, use Z2Nat.inj_mul *) *)
+(*   rewrite Z2Nat.inj_mul; try lia. *)
+
+(*   (* For the second term, we need to show that the recursive function result is non-negative *) *)
+(*   assert ((fix go (i : Z) (l0 : list Z) {struct l0} : Z := *)
+(*           match l0 with *)
+(*           | [] => 0 *)
+(*           | b :: bs => b * 2 ^ i + go (i - 1) bs *)
+(*           end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result)) >= 0) as Hgo_nonneg. *)
+(*   {  *)
+(*     (* This would require induction on the list structure *) *)
+(*     admit. *)
+(*   } *)
+
+(*   (* Now we can apply Z2Nat.id to simplify the nested Z.to_nat *) *)
+(*   rewrite Z2Nat.id; try lia. *)
+
+(*   (* The equality now follows from the properties of Z.to_nat *) *)
+(*   reflexivity. *)
+(* Qed. *)
 
 Lemma rearrange_nat (n carry_val: Z):
   n >= 0 ->
