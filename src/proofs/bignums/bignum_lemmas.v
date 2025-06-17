@@ -211,6 +211,8 @@ Proof.
   Admitted.
 
 Lemma rearrange_nat (n carry_val: Z):
+  n >= 0 ->
+  (carry_val = 0 ∨ carry_val = 1) ->
   (Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat = Z.to_nat (carry_val * 2 ^ Z.to_nat n).
 Proof.
   Admitted.
@@ -218,10 +220,11 @@ Proof.
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
+  (carry_val = 0 ∨ carry_val = 1) ->
   bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
   (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat.
 Proof.
-  intros Hlen Hn.
+  intros Hlen Hn Hcarry.
   unfold bits_to_nat.
   rewrite length_insert.
   
@@ -302,8 +305,7 @@ Proof.
     -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
        rewrite H1.
        pose proof rearrange_nat as H2.
-       rewrite H2.
-       reflexivity.
+       rewrite H2; auto.
     Qed.
     
 
@@ -319,7 +321,7 @@ Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
   (carry_val = 0 ∨ carry_val = 1) ->
   bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
 Proof.
-  intros Hle Hnlt Hpartial Ha Hb Hresult Hn.
+  intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry.
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
   unfold partial_sum_correct in Hresult.
