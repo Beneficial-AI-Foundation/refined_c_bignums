@@ -89,13 +89,6 @@ Proof.
   - lia.
 Qed.
 
-(* Lemma for relating rev and insertion *)
-Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
-  length bits_result = Z.to_nat (n + 1) ->
-  n >= 0 ->
-  rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
-Proof.
-  Admitted.
 
 Lemma rev_insert_first' (len : nat) (carry_val : Z):
   forall lyst : list Z,
@@ -159,6 +152,20 @@ Proof.
          ++ rewrite length_app.
             simpl.
             lia.
+  Qed.
+
+(* Lemma for relating rev and insertion *)
+Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
+Proof.
+  pose proof rev_insert_first'.
+  specialize (H (Z.to_nat (n + 1)) carry_val bits_result).
+  intros.
+  assert (Z.to_nat (Z.to_nat (n + 1) - 1) = Z.to_nat n) as H2 by lia.
+  rewrite H2 in H.
+  auto.
   Qed.
 
 (* Lemma relating length calculations for list indices *)
