@@ -70,8 +70,12 @@ Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
 Proof.
   intros.
   replace ((2 ^ (i_val + 1))%nat) with ((2 * 2 ^ i_val)%nat).
-  - replace ((Z.to_nat (a * 2 ^ i_val))%nat) with ((Z.to_nat a * 2 ^ i_val)%nat) by admit.
-    lia.
+  - replace ((Z.to_nat (a * 2 ^ i_val))%nat) with ((Z.to_nat a * 2 ^ i_val)%nat).
+    + lia.
+    + rewrite Z2Nat.inj_mul; try lia.
+      replace ((Z.to_nat (2 ^ i_val))%nat) with ((2 ^ i_val)%nat).
+      -- reflexivity.
+      -- admit.
   - rewrite Nat.pow_add_r.
     rewrite Nat.pow_1_r.
     lia.
