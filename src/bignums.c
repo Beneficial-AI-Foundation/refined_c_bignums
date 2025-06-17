@@ -21,9 +21,9 @@
 [[rc::ensures("own result_loc : array<i32, {final_result `at_type` (int i32)}>")]]
 [[rc::ensures("{length final_result = Z.to_nat (n + 1)}")]]
 [[rc::ensures("{is_binary final_result}")]]
-[[rc::ensures("{bits_to_nat final_result = Z.to_nat ((Z.of_nat (bits_to_int bits_a) + Z.of_nat (bits_to_int bits_b)) )}")]]
+[[rc::ensures("{bits_to_int final_result = Z.to_nat ((Z.of_nat (bits_to_int bits_a) + Z.of_nat (bits_to_int bits_b)) )}")]]
 [[rc::lemmas("binary_sum_within_i32_bounds",
-             "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
+             "partial_sum_complete'", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct",
              "carry_update_preserves_binary",
              "partial_sum_step_exact'")]]
@@ -31,7 +31,7 @@
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
 [[rc::tactics("all: try solve [eauto using binary_update_preserves_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
-[[rc::tactics("all: try solve [eapply partial_sum_complete with (i:=i_val) (carry_val:=carry_val) (bits_result:=current_result) (bits_a:=bits_a) (bits_b:=bits_b) (n:=n); eauto].")]]
+[[rc::tactics("all: try solve [eapply partial_sum_complete' with (i:=i_val) (carry_val:=carry_val) (bits_result:=current_result) (bits_a:=bits_a) (bits_b:=bits_b) (n:=n); eauto].")]]
 [[rc::tactics("all: try solve [eapply carry_update_preserves_binary with (i_val:=i_val) (carry_val:=carry_val); eauto].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;

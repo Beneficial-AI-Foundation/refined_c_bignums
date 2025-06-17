@@ -464,6 +464,19 @@ Proof.
        rewrite H2; auto.
     Qed.
     
+Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
+                          (bits_a bits_b : list Z) (n : Z) :
+  i ≤ n →
+  ¬ i < n →
+  length bits_a = Z.to_nat n ->
+  length bits_b = Z.to_nat n ->
+  length bits_result = Z.to_nat (n + 1) ->
+  partial_sum_correct' i carry_val bits_result bits_a bits_b →
+  n >= 0 ->
+  (carry_val = 0 ∨ carry_val = 1) ->
+  bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_int bits_a + bits_to_int bits_b).
+Proof.
+  Admitted.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
