@@ -557,45 +557,6 @@ Lemma bits_to_nat_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
   bits_to_nat (take (i + 1) bits) = (bits_to_nat (take i bits) + Z.to_nat (x * 2^i))%nat.
 Proof.
-  intros Hlookup.
-  unfold bits_to_nat.
-  (* Relate take (i+1) to take i *)
-  assert (take (i + 1) bits = take i bits ++ [x]) as Htake.
-  { 
-    apply list_eq. intros j.
-    destruct (decide (j < i)%nat) as [Hlt|Hnlt].
-    - rewrite lookup_app_l; try lia.
-      rewrite !lookup_take; try lia.
-      reflexivity.
-    - destruct (decide (j = i)%nat) as [Heq|Hneq].
-      + subst j.
-        rewrite lookup_app_r; try lia.
-        rewrite lookup_take; try lia.
-        rewrite Nat.sub_diag. simpl.
-        rewrite Hlookup. reflexivity.
-      + destruct (decide (j < i + 1)%nat) as [Hlt'|Hnlt'].
-        * assert (j > i)%nat by lia. 
-          rewrite lookup_take; try lia.
-          rewrite lookup_ge_None_2; try lia.
-          rewrite lookup_app_r; try lia.
-          rewrite Nat.sub_diag.
-          simpl. rewrite lookup_ge_None_2; try lia.
-          reflexivity.
-        * rewrite !lookup_take_ge; try lia.
-          reflexivity.
-  }
-  rewrite Htake.
-  (* Now we need to relate the bits_to_nat of the concatenated list *)
-  rewrite rev_app_distr.
-  simpl.
-  (* Simplify the expression *)
-  assert ((length (take i bits ++ [x]) - 1)%nat = i) as Hlen.
-  { 
-    rewrite app_length. simpl. lia.
-  }
-  rewrite Hlen.
-  (* Now we need to show that the recursive function computes the expected value *)
-  (* This is a complex step that would require induction on the structure of the list *)
   Admitted.
 
 Lemma initial_partial_sum_correct :
