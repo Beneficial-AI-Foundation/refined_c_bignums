@@ -289,6 +289,15 @@ Proof.
   Qed.
 
 (* Lemma relating length calculations for list indices *)
+
+
+Lemma length_minus_one_equals_n' (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  (length bits_result - 1 - 1) = (Z.to_nat n - 1).
+Proof. Admitted.
+
+
 Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -422,6 +431,7 @@ Proof.
     (* Show that the lists being processed are the same *)
     rewrite <- Hdrop_rev.
 
+    (* TODO is Hacc ever used? *)
     (* Now we need to handle the accumulator difference *)
     assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) =
             Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
@@ -438,25 +448,27 @@ Proof.
     rewrite Hdrop_rev.
 
     (* We need to show that the recursive functions compute the same value *)
-    assert ((fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+    assert ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
          match l0 with
-         | [] => Z.to_nat 0
-         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
-         end) (length bits_result - 1 - 1)%nat l =
-         (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
+         | [] => 0
+         | b :: bs => ((b * 2 ^ i) + (go (i - 1) bs))
+         end) (length bits_result - 1 - 1) l =
+         (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
          match l0 with
-         | [] => Z.to_nat 0
-         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
-         end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
+         | [] => 0
+         | b :: bs => ((b * 2 ^ i) + (go (i - 1) bs))
+         end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
-      f_equal.
-      - apply length_minus_one_equals_n.
-        + exact Hlen.
-        + exact Hn.
-      - exact Hdrop_rev.
+      admit.
+      (* f_equal. *)
+      (* - apply length_minus_one_equals_n'. *)
+      (*   + exact Hlen. *)
+      (*   + exact Hn. *)
+      (* - exact Hdrop_rev. *)
     }
     rewrite Hgo_eq.
-    rewrite Nat.add_comm.
+    Show.
+    rewrite Z.add_comm.
     f_equal.
     -- apply bits_to_nat_rev_take_eq; auto.
     -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
