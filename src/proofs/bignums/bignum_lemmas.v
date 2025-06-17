@@ -196,7 +196,18 @@ Lemma drop_rev_take (bits_result : list Z) (n : Z) :
   n >= 0 ->
   drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result).
 Proof.
-  Admitted.
+  intros.
+  specialize (drop_reverse bits_result 1).
+  intro H1.
+  unfold reverse in H1.
+  rewrite <- rev_alt in H1.
+  rewrite <- rev_alt in H1.
+  rewrite H1.
+  rewrite H.
+  f_equal.
+  f_equal.
+  lia.
+  Qed.
 
 (* Lemma relating bits_to_nat of rev and take *)
 Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
