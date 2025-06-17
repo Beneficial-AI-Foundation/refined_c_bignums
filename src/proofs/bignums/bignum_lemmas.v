@@ -115,7 +115,7 @@ Proof.
                       match l with
                       | [] => []
                       | x :: l' => rev l' ++ [x]
-                      end) lyst1 ++ [z0]) = rev (z0 :: lyst1)) as H1 by admit.
+                      end) lyst1 ++ [z0]) = rev (z0 :: lyst1)) as H1 by auto.
             rewrite H1.
             specialize (IHlen (z0 :: lyst1)).
             assert (length (z0 :: lyst1) = len) as H2 by auto.
