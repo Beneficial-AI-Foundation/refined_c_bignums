@@ -132,7 +132,8 @@ Proof.
                    =  rev (z :: (<[Z.to_nat (len - 1):=carry_val]> (z0 :: lyst1)))) as H4 by admit.
             rewrite H4.
             f_equal.
-            assert (z :: z0 :: lyst1 = [z] ++ (z0 :: lyst1)) as H5 by admit.
+            assert (z :: z0 :: lyst1 = [z] ++ (z0 :: lyst1)) as H5.
+            {auto. }
             rewrite H5.
             assert ((length [z] + (len-1))%nat = Z.to_nat (S len - 1)) as H6.
             --- simpl.
