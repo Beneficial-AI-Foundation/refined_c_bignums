@@ -215,11 +215,6 @@ Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
      end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result)).
 Proof.
   intros.
-  remember ( (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
-     match l0 with
-     | [] => Z.to_nat 0
-     | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1) bs))%nat
-     end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result)) ).
   lia.
   Qed.
 
