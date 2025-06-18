@@ -78,7 +78,13 @@ Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
 Proof.
   intros.
   unfold bits_to_int.
-  Show.
+  (* assert rev (take (i + 1) bits) = rev (take i bits ++ [bits !! i]) *)
+  (*                                = ++ [bits !! i] ++ rev (take i bits) *)
+  assert (take (S i) bits = take i bits ++ [x]).
+  - apply take_S_r. auto.
+    (* Search "take" "app". *)
+    (* Search "take_S_r". *)
+    Show.
   Qed.
 
 Prove the above lemma
