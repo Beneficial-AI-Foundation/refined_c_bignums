@@ -172,8 +172,9 @@ Proof.
       rewrite Z.add_cancel_r.
       assert (z >= 0) by lia.
       lia.
-  - admit.
-Admitted.
+  - apply list_lookup_insert.
+    lia.
+Qed.
 
 foo
 
