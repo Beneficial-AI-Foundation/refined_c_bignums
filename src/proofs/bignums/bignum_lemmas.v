@@ -1,4 +1,6 @@
 From refinedc.typing Require Import typing.
+(* TODO remove unneeded comments *)
+(* TODO remove unused lemmas *)
 
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
@@ -137,7 +139,7 @@ Proof.
   y0 * 2 ^ i_val)
              with
 (bits_to_int (take i_val current_result) + (y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
-       y0 * 2 ^ i_val) ) by  lia.
+       y0 * 2 ^ i_val) ) by lia.
     replace
  (Z.to_nat
     (bits_to_int (take i_val current_result) +
@@ -276,8 +278,6 @@ Lemma length_minus_one_equals_n' (bits_result : list Z) (n : Z) :
   (length bits_result - 1 - 1) = (Z.to_nat n - 1).
 Proof. intros H. rewrite H. lia.
 Qed.
-
-foo
 
 
 Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
