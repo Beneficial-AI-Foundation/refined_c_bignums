@@ -338,6 +338,36 @@ Proof.
   lia.
   Qed.
 
+
+
+Lemma bits_to_int_rev_take_eq (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+     match l0 with
+     | [] =>  0
+     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
+     end) ( n - 1) (rev (take (Z.to_nat n) bits_result))=
+   Z.to_nat
+    ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+        match l0 with
+        | [] => 0
+        | b :: bs => ((b * 2 ^ i) +  (go (i - 1) bs))
+        end) ( n - 1) (rev (take (Z.to_nat n) bits_result))).
+Proof.
+  intros.
+  remember ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+     match l0 with
+     | [] =>  0
+     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
+     end) ( n - 1) (rev (take (Z.to_nat n) bits_result))).
+  assert (z >= 0).
+  - admit.
+  - lia.
+  Admitted.
+
+
+
 (* Lemma relating bits_to_nat of rev and take *)
 Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
@@ -523,13 +553,17 @@ Proof.
     rewrite Hgo_eq.
     Show.
     rewrite Z.add_comm.
+    Show.
     f_equal.
-    -- apply bits_to_nat_rev_take_eq; auto.
-    -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
-       rewrite H1.
-       pose proof rearrange_nat as H2.
-       rewrite H2; auto.
-    Qed.
+    f_equal.
+    Show.
+    -- admit.
+    -- admit.
+    (* -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto). *)
+    (*    rewrite H1. *)
+    (*    pose proof rearrange_nat as H2. *)
+    (*    rewrite H2; auto. *)
+    Admitted.
 
 Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
