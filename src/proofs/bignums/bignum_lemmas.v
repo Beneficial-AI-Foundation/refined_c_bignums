@@ -426,19 +426,14 @@ Proof.
                 --- congruence.
                 --- lia.
               ** lia.
-      * Show.
-
-
-      * exact   IHn0.
-           Show.
       * intros.
+        specialize (IHn' (i'-1)).
         destruct l'.
-        -- lia.
-        -- simpl in H1.
-           assert (Z.to_nat (0 + 1) = S 0) by lia.
-           rewrite H4 in H3.
-           destruct l'.
-           ++
+        { lia. }
+        specialize (IHn' l').
+        rewrite Z.ge_le_iff.
+        apply Z.add_nonneg_nonneg.
+        --
               unfold is_binary in H2.
               rewrite Forall_lookup in H2.
               specialize (H2 0%nat z0).
@@ -446,15 +441,45 @@ Proof.
               assert (z0 = 0 ∨ z0 = 1).
               { apply H2. auto. }
               lia.
-           ++ exfalso.
-              simpl length in H3.
-              congruence.
-      * induction p.
-        Show.
-    + specialize (H1 ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+        --
+        rewrite <- Z.ge_le_iff.
+        apply IHn'.
+        ** admit.
+        ** lia.
+        ** simpl in H4. lia.
+        ** lia.
+
+
+      (* * exact   IHn0. *)
+      (*      Show. *)
+      (* * intros. *)
+      (*   destruct l'. *)
+      (*   -- lia. *)
+      (*   -- simpl in H1. *)
+      (*      assert (Z.to_nat (0 + 1) = S 0) by lia. *)
+      (*      rewrite H4 in H3. *)
+      (*      destruct l'. *)
+      (*      ++ *)
+      (*         unfold is_binary in H2. *)
+      (*         rewrite Forall_lookup in H2. *)
+      (*         specialize (H2 0%nat z0). *)
+      (*         simpl in H2. *)
+      (*         assert (z0 = 0 ∨ z0 = 1). *)
+      (*         { apply H2. auto. } *)
+      (*         lia. *)
+      (*      ++ exfalso. *)
+      (*         simpl length in H3. *)
+      (*         congruence. *)
+      (* * induction p. *)
+      (*   Show. *)
+    +
+      specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
       rewrite Heqz.
-      apply H1.
-      admit.
+      apply H2.
+      * admit.
+      * lia.
+      * admit.
+      * admit. (* TODO This may be hard *)
   - lia.
   Admitted.
 
