@@ -133,7 +133,14 @@ Proof.
     replace (Z.to_nat (y * 2 ^ i_val + bits_to_int (take i_val bits_a)) +
   Z.to_nat (bits_to_int (take i_val bits_b) + y0 * 2 ^ i_val))
             with
-            (y * 2 ^ i_val + bits_to_int (take i_val bits_a) + bits_to_int (take i_val bits_b) + y0 * 2 ^ i_val) by admit.
+            (y * 2 ^ i_val + bits_to_int (take i_val bits_a) + bits_to_int (take i_val bits_b) + y0 * 2 ^ i_val).
+    2: {
+     remember (bits_to_int (take i_val bits_b)).
+     remember (bits_to_int (take i_val bits_a)).
+     remember  (y0 * 2 ^ i_val).
+     remember (y * 2 ^ i_val + n1).
+     lia.
+    }
     rewrite <- (Z.add_assoc (_) (bits_to_int _) (bits_to_int _)).
     rewrite H2.
     assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha by admit.
