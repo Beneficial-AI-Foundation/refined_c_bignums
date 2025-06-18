@@ -162,8 +162,8 @@ Proof.
         pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
         rewrite H12.
         -- rewrite H8. reflexivity.
-        -- admit.
-        -- admit.
+        -- lia.
+        -- lia.
     * remember (bits_to_int (take i_val current_result)).
       remember ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val).
       remember (Z.to_nat ((y + y0 + carry_val) `quot` 2)).
