@@ -104,11 +104,16 @@ Proof.
       (*           admit. *)
       (*       --- admit. *)
       (*    ++ admit. *)
-  - admit.
+  - replace (2 ^ (i_val + 1)%nat) with (2 ^ (i_val + 1)).
+    ++ rewrite Z.pow_add_r; lia.
+    ++ lia.
     (* rewrite Z.pow_add_r. *)
     (* rewrite Nat.pow_1_r. *)
     (* lia. *)
-  Admitted.
+    Qed.
+
+
+foo
 
 Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
