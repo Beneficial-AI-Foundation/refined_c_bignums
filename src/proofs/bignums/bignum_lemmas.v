@@ -405,10 +405,8 @@ Proof.
     + intro n'.
       induction n'.
       * intros.
-        assert (length l' = 0%nat) by admit.
-        assert (l' = []) by admit.
-        rewrite H6.
-        rewrite H6 in H4.
+        assert (length l' = 1%nat) by admit.
+        Show.
         destruct l'.
         -- lia.
         -- destruct l'.
@@ -424,7 +422,7 @@ Proof.
               simpl length in H4.
               replace (0+1) with 1 in H4.
               ** replace (Z.to_nat 1) with (S 0) in H4.
-                --- congruence.
+                --- simpl in H5. congruence.
                 --- lia.
               ** lia.
       * intros.
