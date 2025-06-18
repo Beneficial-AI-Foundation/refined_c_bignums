@@ -397,7 +397,7 @@ Proof.
      | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
      end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
   assert (z >= 0).
-  - assert ( forall (n' :nat) (i':Z) (l' :list Z), (is_binary l' ) ->   (n' = Z.to_nat i') -> (length l' = Z.to_nat(i'+1))  -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+  - assert ( forall (n' :nat) (i':Z) (l' :list Z), (is_binary l' ) ->   (n' = Z.to_nat i') -> (length l' = Z.to_nat(i'+1)) -> (i' >= -1) -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
        match l0 with
        | [] => 0
        | b :: bs => b * 2 ^ i + go (i - 1) bs
@@ -405,8 +405,16 @@ Proof.
     + intro n'.
       induction n'.
       * intros.
-        assert (length l' = 1%nat) by admit.
-        Show.
+        assert (length l' = 1%nat).
+        {
+          assert (i'<=0) by lia.
+          rewrite H4.
+          (* Print Z.add_1_r. *)
+          (* Search "2nat" "add". *)
+          assert (i' = 0 \/ i' = -1) by lia.
+          destruct H7; rewrite H7.
+          Show.
+        }
         destruct l'.
         -- lia.
         -- destruct l'.
