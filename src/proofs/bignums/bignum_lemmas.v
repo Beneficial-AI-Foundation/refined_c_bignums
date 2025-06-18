@@ -84,8 +84,39 @@ Proof.
   - apply take_S_r. auto.
     (* Search "take" "app". *)
     (* Search "take_S_r". *)
-    Show.
-  Qed.
+  - assert (Z.to_nat (i + 1) = S i) as H1 by lia.
+    rewrite <- H1 in H0.
+    assert (take (Z.to_nat (i + 1)) bits = take (i + 1) bits).
+    + f_equal. lia.
+    + rewrite <- H2.
+      rewrite H0.
+      assert (rev (take i bits ++ [x]) = x :: rev (take i bits)) as H3.
+      -- admit.
+         (* Search "rev" "cons". Show. *)
+      (* rev_involutive *)
+      (* reverse_cons *)
+       (* Search (rev (rev _)). *)
+      -- rewrite H3.
+         assert (length (take i bits ++ [x]) - 1 - 1 = i-1) as H4.
+         * admit.
+         * rewrite H4.
+           assert (length (take i bits) - 1 = i - 1) as H5.
+           ++ admit.
+           ++ rewrite H5.
+              remember ((fix go (i0 : Z) (l : list Z) {struct l} : Z :=
+           match l with
+           | [] => 0
+           | b :: bs => b * 2 ^ i0 + go (i0 - 1) bs
+           end) (i - 1) (rev (take i bits))).
+            assert (length (take i bits ++ [x]) - 1 = i) as H6.
+            +++ admit.
+            +++ rewrite H6.
+                rewrite Z.add_comm.
+                f_equal.
+                f_equal.
+                admit.
+                (* Need to reuse proof that bits_to_int is nonneg. *)
+  Admitted.
 
 Prove the above lemma
 
