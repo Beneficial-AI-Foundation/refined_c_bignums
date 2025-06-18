@@ -223,9 +223,18 @@ Proof.
                 rewrite Z.add_comm.
                 f_equal.
                 f_equal.
-                admit.
+                rewrite Heqz.
+                pose proof (bits_to_int_rev_take_eq (take i bits) (Z.of_nat i + 1)).
+                replace (Z.to_nat i) with i in H7.
+                ** replace (take (Z.to_nat (i + 1)) (take i bits)) with (take i bits) in H7 by admit.
+                   apply H7.
+                   Show.
+                (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
+                (*    *** Show. *)
+                (*    *** Show. *)
+                (* ** apply H7. *)
                 (* Need to reuse proof that bits_to_int is nonneg. *)
-  Admitted.
+  Qed.
 
 (* Prove the above lemma *)
 
