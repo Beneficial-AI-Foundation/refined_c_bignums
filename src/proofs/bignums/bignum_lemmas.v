@@ -170,15 +170,7 @@ Proof.
       remember (n1 * 2 ^ (i_val + 1)%nat).
       rewrite Z.add_assoc.
       rewrite Z.add_cancel_r.
-      assert (z >= 0).
-      { rewrite Heqz.
-        rewrite Z.ge_le_iff.
-        apply Z.mul_nonneg_nonneg.
-        - apply Z.rem_nonneg.
-          + lia.
-          + destruct H1; destruct Hy; destruct Hy0; lia.
-        - lia.
-      }
+      assert (z >= 0) by lia.
       lia.
   - admit.
 Admitted.
