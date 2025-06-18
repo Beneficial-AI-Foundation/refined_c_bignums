@@ -76,6 +76,12 @@ Lemma bits_to_nat_take_step (bits : list Z) (i : nat) (x : Z) :
 Proof.
   Admitted.
 
+Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
+  bits !! i = Some x →
+  bits_to_int (take (i + 1) bits) = Z.to_nat ((bits_to_int (take i bits) + x * 2^i)).
+Proof.
+  Admitted.
+
 Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
   b >= 0  ->
@@ -121,16 +127,18 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
   intros.
-  unfold partial_sum_correct.
-  unfold partial_sum_correct in H2.
+  unfold partial_sum_correct'.
+  unfold partial_sum_correct' in H2.
 
-  (* Apply bits_to_nat_take_step to both sides of the goal *)
-  rewrite (bits_to_nat_take_step bits_a i_val y); auto.
-  rewrite (bits_to_nat_take_step bits_b i_val y0); auto.
-  rewrite (bits_to_nat_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
-  - rewrite (Nat.add_comm (bits_to_nat (take i_val bits_a)) (Z.to_nat (y * 2 ^ i_val))).
-    rewrite Nat.add_assoc.
-    rewrite <- (Nat.add_assoc (Z.to_nat _) (bits_to_nat _) (bits_to_nat _)).
+  rewrite (bits_to_int_take_step bits_a i_val y); auto.
+  rewrite (bits_to_int_take_step bits_b i_val y0); auto.
+  rewrite (bits_to_int_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
+  - rewrite (Z.add_comm (bits_to_int (take i_val bits_a)) (y * 2 ^ i_val)).
+    replace (Z.to_nat (y * 2 ^ i_val + bits_to_int (take i_val bits_a)) +
+  Z.to_nat (bits_to_int (take i_val bits_b) + y0 * 2 ^ i_val))
+            with
+            (y * 2 ^ i_val + bits_to_int (take i_val bits_a) + bits_to_int (take i_val bits_b) + y0 * 2 ^ i_val) by admit.
+    rewrite <- (Z.add_assoc (_) (bits_to_int _) (bits_to_int _)).
     rewrite H2.
     assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha by admit.
     rewrite <- Ha.
@@ -140,6 +148,7 @@ Proof.
       (bits_to_nat (take i_val current_result) + (Z.to_nat (y * 2 ^ i_val) +
       Z.to_nat carry_val * 2 ^ i_val +
       Z.to_nat (y0 * 2 ^ i_val)))%nat) as Hb by lia.
+    Show.
     rewrite Hb.
     assert ((bits_to_nat (take i_val current_result) +
       Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
