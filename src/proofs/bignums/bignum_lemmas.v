@@ -445,7 +445,9 @@ Proof.
         --
         rewrite <- Z.ge_le_iff.
         apply IHn'.
-        ** admit.
+        ** unfold is_binary in *.
+        apply Forall_inv_tail in H2.
+        exact H2.
         ** lia.
         ** simpl in H4. lia.
 
