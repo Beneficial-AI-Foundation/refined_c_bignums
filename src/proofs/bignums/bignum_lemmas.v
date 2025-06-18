@@ -99,7 +99,6 @@ Proof.
   Qed.
 
 
-foo
 
 
 
@@ -275,7 +274,10 @@ Lemma length_minus_one_equals_n' (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   (length bits_result - 1 - 1) = (Z.to_nat n - 1).
-Proof. Admitted.
+Proof. intros H. rewrite H. lia.
+Qed.
+
+foo
 
 
 Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
