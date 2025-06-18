@@ -535,10 +535,11 @@ Lemma bits_to_int_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   (carry_val = 0 ∨ carry_val = 1) ->
+  is_binary bits_result ->
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
   Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n).
 Proof.
-  intros Hlen Hn Hcarry.
+  intros Hlen Hn Hcarry Hbin.
   unfold bits_to_int.
   rewrite length_insert.
 
@@ -712,9 +713,10 @@ Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
   partial_sum_correct' i carry_val bits_result bits_a bits_b →
   n >= 0 ->
   (carry_val = 0 ∨ carry_val = 1) ->
+  is_binary bits_result ->
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_int bits_a + bits_to_int bits_b).
 Proof.
-  intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry.
+  intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry Hbin.
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
   unfold partial_sum_correct' in Hresult.
