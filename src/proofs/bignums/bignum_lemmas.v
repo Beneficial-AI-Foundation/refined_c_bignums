@@ -405,14 +405,8 @@ Proof.
     + intro n'.
       induction n'.
       * intros.
-        assert (length l' = 1%nat).
+        assert (length l' = 1%nat) \/ (length l' = 0%nat).
         {
-          assert (i'<=0) by lia.
-          rewrite H4.
-          (* Print Z.add_1_r. *)
-          (* Search "2nat" "add". *)
-          assert (i' = 0 \/ i' = -1) by lia.
-          destruct H7; rewrite H7.
           Show.
         }
         destruct l'.
