@@ -120,8 +120,10 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
   intros.
-  assert (y0 = 0 ∨ y0 = 1) as Hy0 by admit.
-  assert (y = 0 ∨ y = 1) as Hy by admit.
+  assert (y0 = 0 ∨ y0 = 1) as Hy0.
+  {apply Forall_lookup with (i:=i_val) (x:=y0) in H0; auto. }
+  assert (y = 0 ∨ y = 1) as Hy.
+  {apply Forall_lookup with (i:=i_val) (x:=y) in H; auto. }
   unfold partial_sum_correct'.
   unfold partial_sum_correct' in H2.
   rewrite (bits_to_int_take_step bits_a i_val y); auto.
