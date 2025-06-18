@@ -120,6 +120,53 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
   partial_sum_correct' (i_val + 1) ((y + y0 + carry_val) `quot` 2)
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
+  intros.
+  unfold partial_sum_correct.
+  unfold partial_sum_correct in H2.
+
+  (* Apply bits_to_nat_take_step to both sides of the goal *)
+  rewrite (bits_to_nat_take_step bits_a i_val y); auto.
+  rewrite (bits_to_nat_take_step bits_b i_val y0); auto.
+  rewrite (bits_to_nat_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
+  - rewrite (Nat.add_comm (bits_to_nat (take i_val bits_a)) (Z.to_nat (y * 2 ^ i_val))).
+    rewrite Nat.add_assoc.
+    rewrite <- (Nat.add_assoc (Z.to_nat _) (bits_to_nat _) (bits_to_nat _)).
+    rewrite H2.
+    assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha by admit.
+    rewrite <- Ha.
+    assert ((Z.to_nat (y * 2 ^ i_val) +
+      (bits_to_nat (take i_val current_result) + Z.to_nat carry_val * 2 ^ i_val) +
+      Z.to_nat (y0 * 2 ^ i_val))%nat =
+      (bits_to_nat (take i_val current_result) + (Z.to_nat (y * 2 ^ i_val) +
+      Z.to_nat carry_val * 2 ^ i_val +
+      Z.to_nat (y0 * 2 ^ i_val)))%nat) as Hb by lia.
+    rewrite Hb.
+    assert ((bits_to_nat (take i_val current_result) +
+      Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
+      Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1))%nat =
+      (bits_to_nat (take i_val current_result) +
+      (Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
+      Z.to_nat ((y + y0 + carry_val) ÷ 2) * 2 ^ (i_val + 1)))%nat) as Hc by lia.
+    rewrite Hc.
+    apply Nat.add_cancel_l.
+    assert ((Z.to_nat y + Z.to_nat carry_val  + Z.to_nat y0)%nat = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )%nat).
+    + assert (y0 = 0 ∨ y0 = 1) by admit.
+      assert (y = 0 ∨ y = 1) by admit.
+      destruct H1; destruct H8; destruct H9; lia.
+    + assert ((Z.to_nat y * 2 ^ i_val = Z.to_nat (y * 2 ^ i_val))%nat) by admit.
+      rewrite <- H9.
+      assert ((Z.to_nat y0 * 2 ^ i_val = Z.to_nat (y0 * 2 ^ i_val))%nat) by admit.
+      rewrite <- H10.
+      assert ((Z.to_nat y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
+              Z.to_nat y0 * 2 ^ i_val)%nat = ((Z.to_nat y + Z.to_nat carry_val +
+              Z.to_nat y0 )* 2 ^ i_val)%nat ) by lia.
+      rewrite H11.
+      pose proof (rearrange ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val).
+      rewrite H12.
+      -- rewrite H8. reflexivity.
+      -- admit.
+      -- admit.
+  - admit.
 Admitted.
 
 
