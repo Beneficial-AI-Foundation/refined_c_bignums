@@ -90,7 +90,26 @@ Lemma rearrange' (a :Z) (b: Z ) ( i_val: nat) :
    Z.to_nat b * 2 ^ (i_val + 1)%nat) =
   ((Z.to_nat a + 2 * Z.to_nat b) * 2 ^ i_val).
 Proof.
-  Admitted.
+  intros.
+  replace ((2 ^ (i_val + 1)%nat)) with ((2 * 2 ^ i_val)).
+  - replace (Z.to_nat (a * 2 ^ i_val)) with (Z.to_nat (Z.to_nat a * 2 ^ i_val)).
+    + lia.
+    + rewrite Z2Nat.inj_mul; try lia.
+      (* -- reflexivity. *)
+      (* -- replace (2%nat) with ((Z.to_nat 2)%nat). *)
+      (*    ++ replace (i_val%nat) with ((Z.to_nat i_val)%nat). *)
+      (*       --- pose proof (Z2Nat.inj_pow (Z.to_nat 2) (Z.to_nat i_val)). *)
+      (*           rewrite <- H1. *)
+      (*           rewrite Z2Nat.inj_pow. *)
+      (*           admit. *)
+      (*       --- admit. *)
+      (*    ++ admit. *)
+  - Show.
+    admit.
+    rewrite Z.pow_add_r.
+    (* rewrite Nat.pow_1_r. *)
+    (* lia. *)
+  Qed.
 
 Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
