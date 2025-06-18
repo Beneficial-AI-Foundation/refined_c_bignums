@@ -76,7 +76,10 @@ Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
   bits_to_int (take (i + 1) bits) = Z.to_nat ((bits_to_int (take i bits) + x * 2^i)).
 Proof.
-  Admitted.
+  intros.
+  unfold bits_to_int.
+  Show.
+  Qed.
 
 Prove the above lemma
 
