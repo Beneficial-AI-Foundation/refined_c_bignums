@@ -78,6 +78,7 @@ Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
 Proof.
   Admitted.
 
+Prove the above lemma
 
 Lemma rearrange' (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
