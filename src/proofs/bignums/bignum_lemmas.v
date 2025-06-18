@@ -120,6 +120,8 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
   intros.
+  assert (y0 = 0 ∨ y0 = 1) as Hy0 by admit.
+  assert (y = 0 ∨ y = 1) as Hy by admit.
   unfold partial_sum_correct'.
   unfold partial_sum_correct' in H2.
   rewrite (bits_to_int_take_step bits_a i_val y); auto.
@@ -153,9 +155,7 @@ Proof.
     * apply Z.add_cancel_l.
 
       assert ((y + Z.to_nat carry_val  + y0) = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )).
-      + assert (y0 = 0 ∨ y0 = 1) by admit.
-        assert (y = 0 ∨ y = 1) by admit.
-        destruct H1; destruct H8; destruct H9; lia.
+      + destruct H1; destruct Hy; destruct Hy0; lia.
       + replace ((y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
                 y0 * 2 ^ i_val)) with ((y + Z.to_nat carry_val +
                 y0 )* 2 ^ i_val) by lia.
@@ -170,7 +170,15 @@ Proof.
       remember (n1 * 2 ^ (i_val + 1)%nat).
       rewrite Z.add_assoc.
       rewrite Z.add_cancel_r.
-      assert (z >= 0) by admit.
+      assert (z >= 0).
+      { rewrite Heqz.
+        rewrite Z.ge_le_iff.
+        apply Z.mul_nonneg_nonneg.
+        - apply Z.rem_nonneg.
+          + lia.
+          + destruct H1; destruct Hy; destruct Hy0; lia.
+        - lia.
+      }
       lia.
   - admit.
 Admitted.
