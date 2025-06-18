@@ -377,6 +377,7 @@ Proof.
 Lemma bits_to_int_rev_take_eq (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
+  is_binary bits_result ->
   (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
      match l0 with
      | [] =>  0
@@ -396,13 +397,33 @@ Proof.
      | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
      end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
   assert (z >= 0).
-  - assert ( forall (i':Z) (l' :list Z), (length l' = Z.to_nat(i'+1)) -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+  - assert ( forall (i':Z) (l' :list Z), (is_binary l' ) -> (length l' = Z.to_nat(i'+1)) -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
        match l0 with
        | [] => 0
        | b :: bs => b * 2 ^ i + go (i - 1) bs
        end) i' l' >=0).
     + intro i'.
-      admit.
+      induction i'.
+      * intros.
+        destruct l'.
+        -- lia.
+        -- simpl in H1.
+           assert (Z.to_nat (0 + 1) = S 0) by lia.
+           rewrite H4 in H3.
+           destruct l'.
+           ++
+              unfold is_binary in H2.
+              rewrite Forall_lookup in H2.
+              specialize (H2 0%nat z0).
+              simpl in H2.
+              assert (z0 = 0 ∨ z0 = 1).
+              { apply H2. auto. }
+              lia.
+           ++ exfalso.
+              simpl length in H3.
+              congruence.
+      * induction p.
+        Show.
     + specialize (H1 ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
       rewrite Heqz.
       apply H1.
