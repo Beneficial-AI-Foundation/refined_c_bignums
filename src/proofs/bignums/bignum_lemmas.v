@@ -101,32 +101,6 @@ Proof.
 
 foo
 
-Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
-  a >= 0  ->
-  b >= 0  ->
-  (Z.to_nat (a * 2 ^ i_val) +
-   Z.to_nat b * 2 ^ (i_val + 1))%nat =
-  ((Z.to_nat a + 2 * Z.to_nat b) * 2 ^ i_val)%nat.
-Proof.
-  intros.
-  replace ((2 ^ (i_val + 1))%nat) with ((2 * 2 ^ i_val)%nat).
-  - replace ((Z.to_nat (a * 2 ^ i_val))%nat) with ((Z.to_nat a * 2 ^ i_val)%nat).
-    + lia.
-    + rewrite Z2Nat.inj_mul; try lia.
-      replace ((Z.to_nat (2 ^ i_val))%nat) with ((2 ^ i_val)%nat).
-      -- reflexivity.
-      -- replace (2%nat) with ((Z.to_nat 2)%nat).
-         ++ replace (i_val%nat) with ((Z.to_nat i_val)%nat).
-            --- pose proof (Z2Nat.inj_pow (Z.to_nat 2) (Z.to_nat i_val)).
-                rewrite <- H1.
-                rewrite Z2Nat.inj_pow.
-                admit.
-            --- admit.
-         ++ admit.
-  - rewrite Nat.pow_add_r.
-    rewrite Nat.pow_1_r.
-    lia.
-  Admitted.
 
 
 Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
