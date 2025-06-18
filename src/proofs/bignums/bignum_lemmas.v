@@ -407,7 +407,7 @@ Proof.
       * intros.
         assert ((length l' = 1%nat) \/ (length l' = 0%nat)).
         {
-          admit.
+          lia.
         }
         destruct l'.
         -- lia.
