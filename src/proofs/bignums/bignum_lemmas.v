@@ -543,12 +543,11 @@ Proof.
          | b :: bs => ((b * 2 ^ i) + (go (i - 1) bs))
          end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
-      admit.
-      (* f_equal. *)
-      (* - apply length_minus_one_equals_n'. *)
-      (*   + exact Hlen. *)
-      (*   + exact Hn. *)
-      (* - exact Hdrop_rev. *)
+      f_equal.
+      - apply length_minus_one_equals_n'.
+        + exact Hlen.
+        + exact Hn.
+      - exact Hdrop_rev.
     }
     rewrite Hgo_eq.
     rewrite Z.add_comm.
