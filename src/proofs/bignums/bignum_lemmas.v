@@ -71,6 +71,115 @@ Proof.
 Qed.
 
 
+Lemma bits_to_int_rev_take_eq (bits_result : list Z) (n : Z) :
+  length bits_result = Z.to_nat (n + 1) ->
+  n >= 0 ->
+  is_binary bits_result ->
+  (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+     match l0 with
+     | [] =>  0
+     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
+     end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))=
+   Z.to_nat
+    ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+        match l0 with
+        | [] => 0
+        | b :: bs => ((b * 2 ^ i) +  (go (i - 1) bs))
+        end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+Proof.
+  intros.
+  remember ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+     match l0 with
+     | [] =>  0
+     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
+     end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+  assert (z >= 0).
+  - assert ( forall (n' :nat) (i':Z) (l' :list Z), (is_binary l' ) ->   (n' = Z.to_nat i') -> (length l' = Z.to_nat(i'+1)) -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+       match l0 with
+       | [] => 0
+       | b :: bs => b * 2 ^ i + go (i - 1) bs
+       end) i' l' >=0).
+    + intro n'.
+      induction n'.
+      * intros.
+        assert ((length l' = 1%nat) \/ (length l' = 0%nat)).
+        {
+          lia.
+        }
+        destruct l'.
+        -- lia.
+        -- destruct l'.
+           ++
+              unfold is_binary in H2.
+              rewrite Forall_lookup in H2.
+              specialize (H2 0%nat z0).
+              simpl in H2.
+              assert (z0 = 0 ∨ z0 = 1).
+              { apply H2. auto. }
+              lia.
+           ++ exfalso.
+              simpl length in H4.
+              replace (0+1) with 1 in H4.
+              ** replace (Z.to_nat 1) with (S 0) in H4.
+                --- simpl in H5. destruct H5; congruence.
+                --- lia.
+              ** lia.
+      * intros.
+        specialize (IHn' (i'-1)).
+        destruct l'.
+        { lia. }
+        specialize (IHn' l').
+        rewrite Z.ge_le_iff.
+        apply Z.add_nonneg_nonneg.
+        --
+              unfold is_binary in H2.
+              rewrite Forall_lookup in H2.
+              specialize (H2 0%nat z0).
+              simpl in H2.
+              assert (z0 = 0 ∨ z0 = 1).
+              { apply H2. auto. }
+              lia.
+        --
+        rewrite <- Z.ge_le_iff.
+        apply IHn'.
+        ** unfold is_binary in *.
+        apply Forall_inv_tail in H2.
+        exact H2.
+        ** lia.
+        ** simpl in H4. lia.
+
+
+      (* * exact   IHn0. *)
+      (*      Show. *)
+      (* * intros. *)
+      (*   destruct l'. *)
+      (*   -- lia. *)
+      (*   -- simpl in H1. *)
+      (*      assert (Z.to_nat (0 + 1) = S 0) by lia. *)
+      (*      rewrite H4 in H3. *)
+      (*      destruct l'. *)
+      (*      ++ *)
+      (*         unfold is_binary in H2. *)
+      (*         rewrite Forall_lookup in H2. *)
+      (*         specialize (H2 0%nat z0). *)
+      (*         simpl in H2. *)
+      (*         assert (z0 = 0 ∨ z0 = 1). *)
+      (*         { apply H2. auto. } *)
+      (*         lia. *)
+      (*      ++ exfalso. *)
+      (*         simpl length in H3. *)
+      (*         congruence. *)
+      (* * induction p. *)
+      (*   Show. *)
+    +
+      specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+      rewrite Heqz.
+      apply H2.
+      * admit.
+      * lia.
+      * admit.
+  - lia.
+  Admitted.
 
 Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
@@ -374,115 +483,6 @@ Proof.
 
 
 
-Lemma bits_to_int_rev_take_eq (bits_result : list Z) (n : Z) :
-  length bits_result = Z.to_nat (n + 1) ->
-  n >= 0 ->
-  is_binary bits_result ->
-  (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
-     match l0 with
-     | [] =>  0
-     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
-     end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))=
-   Z.to_nat
-    ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
-        match l0 with
-        | [] => 0
-        | b :: bs => ((b * 2 ^ i) +  (go (i - 1) bs))
-        end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
-Proof.
-  intros.
-  remember ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
-     match l0 with
-     | [] =>  0
-     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
-     end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
-  assert (z >= 0).
-  - assert ( forall (n' :nat) (i':Z) (l' :list Z), (is_binary l' ) ->   (n' = Z.to_nat i') -> (length l' = Z.to_nat(i'+1)) -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
-       match l0 with
-       | [] => 0
-       | b :: bs => b * 2 ^ i + go (i - 1) bs
-       end) i' l' >=0).
-    + intro n'.
-      induction n'.
-      * intros.
-        assert ((length l' = 1%nat) \/ (length l' = 0%nat)).
-        {
-          lia.
-        }
-        destruct l'.
-        -- lia.
-        -- destruct l'.
-           ++
-              unfold is_binary in H2.
-              rewrite Forall_lookup in H2.
-              specialize (H2 0%nat z0).
-              simpl in H2.
-              assert (z0 = 0 ∨ z0 = 1).
-              { apply H2. auto. }
-              lia.
-           ++ exfalso.
-              simpl length in H4.
-              replace (0+1) with 1 in H4.
-              ** replace (Z.to_nat 1) with (S 0) in H4.
-                --- simpl in H5. destruct H5; congruence.
-                --- lia.
-              ** lia.
-      * intros.
-        specialize (IHn' (i'-1)).
-        destruct l'.
-        { lia. }
-        specialize (IHn' l').
-        rewrite Z.ge_le_iff.
-        apply Z.add_nonneg_nonneg.
-        --
-              unfold is_binary in H2.
-              rewrite Forall_lookup in H2.
-              specialize (H2 0%nat z0).
-              simpl in H2.
-              assert (z0 = 0 ∨ z0 = 1).
-              { apply H2. auto. }
-              lia.
-        --
-        rewrite <- Z.ge_le_iff.
-        apply IHn'.
-        ** unfold is_binary in *.
-        apply Forall_inv_tail in H2.
-        exact H2.
-        ** lia.
-        ** simpl in H4. lia.
-
-
-      (* * exact   IHn0. *)
-      (*      Show. *)
-      (* * intros. *)
-      (*   destruct l'. *)
-      (*   -- lia. *)
-      (*   -- simpl in H1. *)
-      (*      assert (Z.to_nat (0 + 1) = S 0) by lia. *)
-      (*      rewrite H4 in H3. *)
-      (*      destruct l'. *)
-      (*      ++ *)
-      (*         unfold is_binary in H2. *)
-      (*         rewrite Forall_lookup in H2. *)
-      (*         specialize (H2 0%nat z0). *)
-      (*         simpl in H2. *)
-      (*         assert (z0 = 0 ∨ z0 = 1). *)
-      (*         { apply H2. auto. } *)
-      (*         lia. *)
-      (*      ++ exfalso. *)
-      (*         simpl length in H3. *)
-      (*         congruence. *)
-      (* * induction p. *)
-      (*   Show. *)
-    +
-      specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
-      rewrite Heqz.
-      apply H2.
-      * admit.
-      * lia.
-      * admit.
-  - lia.
-  Admitted.
 
 
 
