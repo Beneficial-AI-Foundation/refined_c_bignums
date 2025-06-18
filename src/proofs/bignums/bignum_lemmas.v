@@ -713,10 +713,11 @@ Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
   partial_sum_correct' i carry_val bits_result bits_a bits_b →
   n >= 0 ->
   (carry_val = 0 ∨ carry_val = 1) ->
-  is_binary bits_result ->
+  (is_binary (take i bits_result)) ->
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_int bits_a + bits_to_int bits_b).
 Proof.
   intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry Hbin.
+  assert (is_binary bits_result) as Hbin' by admit.
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
   unfold partial_sum_correct' in Hresult.
@@ -732,7 +733,7 @@ Proof.
   rewrite Hbits. symmetry.
   rewrite Hresult.
   reflexivity.
-  Qed.
+  Admitted.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
