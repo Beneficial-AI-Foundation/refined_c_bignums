@@ -149,23 +149,33 @@ Proof.
 (bits_to_int (take i_val current_result) +
  (Z.to_nat ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val) +
   Z.to_nat ((y + y0 + carry_val) `quot` 2) * 2 ^ (i_val + 1)%nat
-)) by admit.
-    apply Z.add_cancel_l.
+)).
+    * apply Z.add_cancel_l.
 
-    assert ((y + Z.to_nat carry_val  + y0) = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )).
-    + assert (y0 = 0 ∨ y0 = 1) by admit.
-      assert (y = 0 ∨ y = 1) by admit.
-      destruct H1; destruct H8; destruct H9; lia.
-    + replace ((y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
-              y0 * 2 ^ i_val)) with ((y + Z.to_nat carry_val +
-              y0 )* 2 ^ i_val) by lia.
-      pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
-      rewrite H12.
-      -- rewrite H8. reflexivity.
-      -- admit.
-      -- admit.
+      assert ((y + Z.to_nat carry_val  + y0) = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )).
+      + assert (y0 = 0 ∨ y0 = 1) by admit.
+        assert (y = 0 ∨ y = 1) by admit.
+        destruct H1; destruct H8; destruct H9; lia.
+      + replace ((y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
+                y0 * 2 ^ i_val)) with ((y + Z.to_nat carry_val +
+                y0 )* 2 ^ i_val) by lia.
+        pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
+        rewrite H12.
+        -- rewrite H8. reflexivity.
+        -- admit.
+        -- admit.
+    * remember (bits_to_int (take i_val current_result)).
+      remember ((y + y0 + carry_val) `rem` 2 * 2 ^ i_val).
+      remember (Z.to_nat ((y + y0 + carry_val) `quot` 2)).
+      remember (n1 * 2 ^ (i_val + 1)%nat).
+      rewrite Z.add_assoc.
+      rewrite Z.add_cancel_r.
+      assert (z >= 0) by admit.
+      lia.
   - admit.
 Admitted.
+
+foo
 
 
 (* Lemma showing that if the reverse of a list is empty, the list is empty *)
