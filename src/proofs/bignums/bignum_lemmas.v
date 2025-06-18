@@ -136,7 +136,12 @@ Proof.
             (y * 2 ^ i_val + bits_to_int (take i_val bits_a) + bits_to_int (take i_val bits_b) + y0 * 2 ^ i_val) by lia.
     rewrite <- (Z.add_assoc (_) (bits_to_int _) (bits_to_int _)).
     rewrite H2.
-    assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha by admit.
+    assert (take i_val current_result = take i_val (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result)) as Ha.
+    {
+      symmetry.
+      apply take_insert.
+      lia.
+    }
     rewrite <- Ha.
     replace (y * 2 ^ i_val +
   (bits_to_int (take i_val current_result) + Z.to_nat carry_val * 2 ^ i_val) +
