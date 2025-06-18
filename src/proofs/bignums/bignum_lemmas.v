@@ -118,7 +118,7 @@ Proof.
                 (* Need to reuse proof that bits_to_int is nonneg. *)
   Admitted.
 
-Prove the above lemma
+(* Prove the above lemma *)
 
 Lemma rearrange' (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
@@ -861,6 +861,7 @@ Proof.
       apply Hnlt. lia.
   Qed.
 
+Foo
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
@@ -878,3 +879,4 @@ Proof.
   (* 0 + 0 = 0 *)
   reflexivity.
 Qed.
+
