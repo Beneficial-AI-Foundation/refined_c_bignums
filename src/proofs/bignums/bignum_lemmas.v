@@ -109,7 +109,6 @@ Proof.
       -- replace (2%nat) with ((Z.to_nat 2)%nat).
          ++ replace (i_val%nat) with ((Z.to_nat i_val)%nat).
             --- pose proof (Z2Nat.inj_pow (Z.to_nat 2) (Z.to_nat i_val)).
-                (* Show. *)
                 rewrite <- H1.
                 rewrite Z2Nat.inj_pow.
                 admit.
@@ -169,11 +168,6 @@ Proof.
 )) by admit.
     apply Z.add_cancel_l.
 
-    (* + assert (y0 = 0 ∨ y0 = 1) by admit. *)
-    (*   assert (y = 0 ∨ y = 1) by admit. *)
-    (*   destruct H1; destruct H8; destruct H9; try lia; rewrite H1; rewrite H8; rewrite H9; simpl; try lia. Show. *)
-    (* Show. *)
-
     assert ((y + Z.to_nat carry_val  + y0) = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )).
     + assert (y0 = 0 ∨ y0 = 1) by admit.
       assert (y = 0 ∨ y = 1) by admit.
@@ -186,7 +180,7 @@ Proof.
       -- rewrite H8. reflexivity.
       -- admit.
       -- admit.
-  - Show. admit.
+  - admit.
 Admitted.
 
 
@@ -591,19 +585,6 @@ Proof.
 
     (* Show that the lists being processed are the same *)
     rewrite <- Hdrop_rev.
-
-    (* TODO is Hacc ever used? *)
-    (* Now we need to handle the accumulator difference *)
-    assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) =
-            Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
-    {
-      f_equal.
-      f_equal.
-      assert ((length bits_result - 1)%nat = Z.to_nat (length bits_result - 1)) as Hscope by (apply length_minus_one_nat_z).
-      rewrite Hscope.
-      rewrite Hlen_minus_1.
-      lia.
-    }
 
     (* Now we need to relate the two expressions *)
     rewrite Hdrop_rev.
