@@ -404,7 +404,28 @@ Proof.
        end) i' l' >=0).
     + intro n'.
       induction n'.
-      * Show. admit.
+      * intros.
+        assert (i' = 0) by lia.
+        rewrite H6.
+        rewrite H6 in H4.
+        destruct l'.
+        -- lia.
+        -- destruct l'.
+           ++
+              unfold is_binary in H2.
+              rewrite Forall_lookup in H2.
+              specialize (H2 0%nat z0).
+              simpl in H2.
+              assert (z0 = 0 ∨ z0 = 1).
+              { apply H2. auto. }
+              lia.
+           ++ exfalso.
+              simpl length in H4.
+              replace (0+1) with 1 in H4.
+              ** replace (Z.to_nat 1) with (S 0) in H4.
+                --- congruence.
+                --- lia.
+              ** lia.
       * Show.
 
 
