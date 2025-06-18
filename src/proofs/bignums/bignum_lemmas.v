@@ -82,6 +82,16 @@ Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
 Proof.
   Admitted.
 
+
+Lemma rearrange' (a :Z) (b: Z ) ( i_val: nat) :
+  a >= 0  ->
+  b >= 0  ->
+  (Z.to_nat (a * 2 ^ i_val) +
+   Z.to_nat b * 2 ^ (i_val + 1)%nat) =
+  ((Z.to_nat a + 2 * Z.to_nat b) * 2 ^ i_val).
+Proof.
+  Admitted.
+
 Lemma rearrange (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
   b >= 0  ->
@@ -158,25 +168,25 @@ Proof.
   Z.to_nat ((y + y0 + carry_val) `quot` 2) * 2 ^ (i_val + 1)%nat
 )) by admit.
     apply Z.add_cancel_l.
-    Show.
-    assert ((Z.to_nat y + Z.to_nat carry_val  + Z.to_nat y0)%nat = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )%nat).
+
+    (* + assert (y0 = 0 ∨ y0 = 1) by admit. *)
+    (*   assert (y = 0 ∨ y = 1) by admit. *)
+    (*   destruct H1; destruct H8; destruct H9; try lia; rewrite H1; rewrite H8; rewrite H9; simpl; try lia. Show. *)
+    (* Show. *)
+
+    assert ((y + Z.to_nat carry_val  + y0) = (Z.to_nat ((y + y0 + carry_val) `rem` 2 ) + 2 * Z.to_nat ((y + y0 + carry_val) `quot` 2) )).
     + assert (y0 = 0 ∨ y0 = 1) by admit.
       assert (y = 0 ∨ y = 1) by admit.
       destruct H1; destruct H8; destruct H9; lia.
-    + assert ((Z.to_nat y * 2 ^ i_val = Z.to_nat (y * 2 ^ i_val))%nat) by admit.
-      rewrite <- H9.
-      assert ((Z.to_nat y0 * 2 ^ i_val = Z.to_nat (y0 * 2 ^ i_val))%nat) by admit.
-      rewrite <- H10.
-      assert ((Z.to_nat y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
-              Z.to_nat y0 * 2 ^ i_val)%nat = ((Z.to_nat y + Z.to_nat carry_val +
-              Z.to_nat y0 )* 2 ^ i_val)%nat ) by lia.
-      rewrite H11.
-      pose proof (rearrange ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val).
+    + replace ((y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
+              y0 * 2 ^ i_val)) with ((y + Z.to_nat carry_val +
+              y0 )* 2 ^ i_val) by lia.
+      pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
       rewrite H12.
       -- rewrite H8. reflexivity.
       -- admit.
       -- admit.
-  - admit.
+  - Show. admit.
 Admitted.
 
 
