@@ -355,15 +355,25 @@ Lemma bits_to_int_rev_take_eq (bits_result : list Z) (n : Z) :
         | b :: bs => ((b * 2 ^ i) +  (go (i - 1) bs))
         end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
 Proof.
-  (* intros. *)
-  (* remember ((fix go (i : Z) (l0 : list Z) {struct l0} : Z := *)
-  (*    match l0 with *)
-  (*    | [] =>  0 *)
-  (*    | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs)) *)
-  (*    end) ( n - 1) (rev (take (Z.to_nat n) bits_result))). *)
-  (* assert (z >= 0). *)
-  (* - admit. *)
-  (* - lia. *)
+  intros.
+  remember ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+     match l0 with
+     | [] =>  0
+     | b :: bs => ( (b * 2 ^ i) +  (go (i - 1) bs))
+     end) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+  assert (z >= 0).
+  - assert ( forall (i':Z) (l' :list Z), (length l' = Z.to_nat(i'+1)) -> (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
+       match l0 with
+       | [] => 0
+       | b :: bs => b * 2 ^ i + go (i - 1) bs
+       end) i' l' >=0).
+    + intro i'.
+      admit.
+    + specialize (H1 ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+      rewrite Heqz.
+      apply H1.
+      admit.
+  - lia.
   Admitted.
 
 
