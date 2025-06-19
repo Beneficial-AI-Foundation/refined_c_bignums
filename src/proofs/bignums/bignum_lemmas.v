@@ -183,6 +183,7 @@ Proof.
 
 Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
+  length bits > i ->
   bits_to_int (take (i + 1) bits) = Z.to_nat ((bits_to_int (take i bits) + x * 2^i)).
 Proof.
   intros.
@@ -193,12 +194,13 @@ Proof.
   - apply take_S_r. auto.
     (* Search "take" "app". *)
     (* Search "take_S_r". *)
-  - assert (Z.to_nat (i + 1) = S i) as H1 by lia.
-    rewrite <- H1 in H0.
+  - assert (Z.to_nat (i + 1) = S i) as Ha by lia.
+    (* Show. *)
+    rewrite <- Ha in H1.
     assert (take (Z.to_nat (i + 1)) bits = take (i + 1) bits).
     + f_equal. lia.
     + rewrite <- H2.
-      rewrite H0.
+      rewrite H1.
       assert (rev (take i bits ++ [x]) = x :: rev (take i bits)) as H3.
       --
          (* Print rev_involutive. *)
@@ -218,7 +220,21 @@ Proof.
        (* Search (rev (rev _)). *)
       -- rewrite H3.
          assert (length (take i bits ++ [x]) - 1 - 1 = i-1) as H4.
-         * admit.
+         *
+           (* Search "len" "app". *)
+           rewrite length_app.
+           simpl.
+           assert (length (take i bits) = i) as H5.
+            {
+              (* Search "len" "some" "list". *)
+              (* Search "len" "take". *)
+              (* Search "len" "lookup". **)
+              apply length_take_le.
+              lia.
+            }
+           rewrite H5.
+           lia.
+
          * rewrite H4.
            assert (length (take i bits) - 1 = i - 1) as H5.
            ++ admit.
@@ -247,8 +263,9 @@ Proof.
                 (*    *** Show. *)
                 (* ** apply H7. *)
                 (* Need to reuse proof that bits_to_int is nonneg. *)
-  Show.
-  Qed.
+  (* Show. *)
+  (* Qed. *)
+                    Admitted.
 
 (* Prove the above lemma *)
 
@@ -283,6 +300,8 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
   bits_a !! i_val = Some y →
   bits_b !! i_val = Some y0 →
   current_result !! i_val = Some y1 →
+  length bits_a = Z.to_nat n ->
+  length bits_b = Z.to_nat n ->
   partial_sum_correct' (i_val + 1) ((y + y0 + carry_val) `quot` 2)
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
@@ -294,7 +313,9 @@ Proof.
   unfold partial_sum_correct'.
   unfold partial_sum_correct' in H2.
   rewrite (bits_to_int_take_step bits_a i_val y); auto.
+  2: {lia. }
   rewrite (bits_to_int_take_step bits_b i_val y0); auto.
+  2: {lia. }
   rewrite (bits_to_int_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
   - rewrite (Z.add_comm (bits_to_int (take i_val bits_a)) (y * 2 ^ i_val)).
     replace (Z.to_nat (y * 2 ^ i_val + bits_to_int (take i_val bits_a)) +
@@ -335,7 +356,7 @@ Proof.
                 y0 )* 2 ^ i_val) by lia.
         pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
         rewrite H12.
-        -- rewrite H8. reflexivity.
+        -- rewrite H10. reflexivity.
         -- lia.
         -- lia.
     * remember (bits_to_int (take i_val current_result)).
@@ -347,6 +368,8 @@ Proof.
       assert (z >= 0) by lia.
       lia.
   - apply list_lookup_insert.
+    lia.
+  - rewrite length_insert.
     lia.
 Qed.
 
