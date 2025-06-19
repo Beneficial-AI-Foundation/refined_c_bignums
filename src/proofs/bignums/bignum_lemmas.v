@@ -182,7 +182,13 @@ Proof.
         -- apply Forall_rev.
            auto.
       * lia.
-      * admit.
+      * assert ((length (take (Z.to_nat n) bits_result)) = Z.to_nat n) as Hc.
+        -- rewrite length_take_le; lia.
+        -- rewrite length_rev.
+           rewrite Hc.
+           lia.
+           (* Search "rev" "length". *)
+           Show.
   - lia.
   Admitted.
 
