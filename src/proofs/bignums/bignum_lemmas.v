@@ -185,7 +185,7 @@ Proof.
 Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
   length bits > i ->
-  is_binary (take i bits) ->
+  is_binary (take (i+1) bits) ->
   bits_to_int (take (i + 1) bits) = Z.to_nat ((bits_to_int (take i bits) + x * 2^i)).
 Proof.
   intros H H0 Hbin.
