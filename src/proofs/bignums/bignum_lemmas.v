@@ -268,7 +268,7 @@ Proof.
               lia.
                   (* Show. *)
                 ***  lia.
-                *** admit.
+                *** Show.
                 (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
                 (*    *** Show. *)
                 (*    *** Show. *)
@@ -313,6 +313,7 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
   current_result !! i_val = Some y1 →
   length bits_a = Z.to_nat n ->
   length bits_b = Z.to_nat n ->
+  is_binary (take i_val current_result) ->
   partial_sum_correct' (i_val + 1) ((y + y0 + carry_val) `quot` 2)
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
@@ -367,7 +368,7 @@ Proof.
                 y0 )* 2 ^ i_val) by lia.
         pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
         rewrite H12.
-        -- rewrite H10. reflexivity.
+        -- rewrite H11. reflexivity.
         -- lia.
         -- lia.
     * remember (bits_to_int (take i_val current_result)).
@@ -995,7 +996,7 @@ Proof.
       apply Hnlt. lia.
   Qed.
 
-Foo
+(* Foo *)
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
