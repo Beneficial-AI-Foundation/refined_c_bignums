@@ -457,9 +457,17 @@ Proof.
         -- simpl.
            auto.
            remember ((y + y0 + carry_val) `rem` 2).
-           assert (z = 0 ∨ z = 1) by admit.
-           auto.
-      + admit.
+           assert (z = 0 ∨ z = 1).
+           ++ rewrite Heqz.
+              lia.
+           ++ auto.
+      +
+        rewrite Heql0.
+        rewrite Heql.
+        rewrite length_take_le; try lia.
+        rewrite length_take_le; try lia.
+        rewrite length_drop.
+        lia.
     * lia.
     Qed.
 
