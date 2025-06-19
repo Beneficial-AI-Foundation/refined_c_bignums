@@ -825,12 +825,11 @@ Proof.
          Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)) as Hbits.
   { apply bits_to_int_insert; auto.
 
-    Show.
   }
   rewrite Hbits. symmetry.
   rewrite Hresult.
   reflexivity.
-  Admitted.
+  Qed.
 
 Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
