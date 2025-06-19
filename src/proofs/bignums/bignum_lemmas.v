@@ -176,7 +176,12 @@ Proof.
       specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
       rewrite Heqz.
       apply H2.
-      * admit.
+      * assert (is_binary (take (Z.to_nat n) bits_result)).
+        -- apply Forall_take.
+           auto.
+        -- apply Forall_rev.
+           auto.
+           Show.
       * lia.
       * admit.
   - lia.
