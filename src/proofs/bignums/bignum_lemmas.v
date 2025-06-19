@@ -270,7 +270,7 @@ Proof.
               lia.
                   (* Show. *)
                 ***  lia.
-                *** Show.
+                ***
                 (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
                 (*    *** Show. *)
                 (*    *** Show. *)
@@ -278,7 +278,8 @@ Proof.
                 (* Need to reuse proof that bits_to_int is nonneg. *)
   (* Show. *)
   (* Qed. *)
-                    Admitted.
+                    auto.
+                    Qed.
 
 (* Prove the above lemma *)
 
