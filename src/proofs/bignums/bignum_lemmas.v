@@ -403,9 +403,9 @@ Proof.
   - (* Search "Forall" "ins". *)
     (*   Show. *)
     (* Show. *)
+    (* Show. *)
     rewrite take_insert_lt.
     (* Show. *)
-    +
     (* Search "Forall" "ins". *)
     (* Search "Forall" "app". *)
 (* Forall_app *)
@@ -416,8 +416,34 @@ Proof.
     (* Show. *)
       (* This should be doable but needs a little more work pulling apart the defns *)
 (* take_app_add *)
-    admit.
-Admitted.
+      (* Print take_update_split. DNE *)
+      (* Search "take" "app". *)
+      (* Print take_app_add. *)
+
+    * replace current_result with (take i_val current_result ++ drop i_val current_result ) by admit.
+      remember (take i_val current_result).
+      replace i_val with (length l) by admit.
+
+      rewrite take_app_add.
+      (* Search "ins" "app". *)
+      replace (length l) with ((length l + 0)%nat) by admit.
+      rewrite insert_app_r.
+      remember (drop (length l + 0) current_result).
+      rewrite insert_take_drop.
+      + replace (take 0 (take 1 l0)) with ([]: list Z) by admit.
+        replace (drop 1 (take 1 l0)) with ([]: list Z) by admit.
+      (* Search "ins" "take". *)
+        apply Forall_app.
+        split.
+        -- auto.
+        -- simpl.
+           auto.
+           remember ((y + y0 + carry_val) `rem` 2).
+           assert (z = 0 ∨ z = 1) by admit.
+           auto.
+      + admit.
+    * lia.
+    Qed.
 
 
 
