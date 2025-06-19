@@ -200,7 +200,18 @@ Proof.
     + rewrite <- H2.
       rewrite H0.
       assert (rev (take i bits ++ [x]) = x :: rev (take i bits)) as H3.
-      -- admit.
+      --
+         (* Print rev_involutive. *)
+         (* Print reverse_cons. *)
+         pose proof reverse_cons (rev (take i bits)) x.
+         (* Search "rev_alt". *)
+         unfold reverse in H3.
+         rewrite <- rev_alt in H3.
+         rewrite <- rev_alt in H3.
+         rewrite rev_involutive in H3.
+         rewrite <- H3.
+         rewrite rev_involutive.
+         auto.
          (* Search "rev" "cons". Show. *)
       (* rev_involutive *)
       (* reverse_cons *)
@@ -230,12 +241,13 @@ Proof.
                 apply H7.
                 *** admit.
                 ***  admit.
-                *** Show. admit.
+                *** admit.
                 (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
                 (*    *** Show. *)
                 (*    *** Show. *)
                 (* ** apply H7. *)
                 (* Need to reuse proof that bits_to_int is nonneg. *)
+  Show.
   Qed.
 
 (* Prove the above lemma *)
