@@ -245,7 +245,7 @@ Proof.
            | b :: bs => b * 2 ^ i0 + go (i0 - 1) bs
            end) (i - 1) (rev (take i bits))).
             assert (length (take i bits ++ [x]) - 1 = i) as H6.
-            +++ admit.
+            +++ lia.
             +++ rewrite H6.
                 rewrite Z.add_comm.
                 f_equal.
