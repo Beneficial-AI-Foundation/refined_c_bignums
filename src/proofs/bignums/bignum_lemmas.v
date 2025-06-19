@@ -190,6 +190,14 @@ Proof.
   unfold bits_to_int.
   (* assert rev (take (i + 1) bits) = rev (take i bits ++ [bits !! i]) *)
   (*                                = ++ [bits !! i] ++ rev (take i bits) *)
+           assert (length (take i bits) = i) as Hb.
+            {
+              (* Search "len" "some" "list". *)
+              (* Search "len" "take". *)
+              (* Search "len" "lookup". **)
+              apply length_take_le.
+              lia.
+            }
   assert (take (S i) bits = take i bits ++ [x]).
   - apply take_S_r. auto.
     (* Search "take" "app". *)
@@ -224,20 +232,12 @@ Proof.
            (* Search "len" "app". *)
            rewrite length_app.
            simpl.
-           assert (length (take i bits) = i) as H5.
-            {
-              (* Search "len" "some" "list". *)
-              (* Search "len" "take". *)
-              (* Search "len" "lookup". **)
-              apply length_take_le.
-              lia.
-            }
-           rewrite H5.
+           rewrite Hb.
            lia.
 
          * rewrite H4.
            assert (length (take i bits) - 1 = i - 1) as H5.
-           ++ admit.
+           ++ lia.
            ++ rewrite H5.
               remember ((fix go (i0 : Z) (l : list Z) {struct l} : Z :=
            match l with
