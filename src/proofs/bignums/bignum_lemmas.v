@@ -389,9 +389,21 @@ Proof.
   - rewrite length_insert.
     lia.
   - (* Search "Forall" "ins". *)
-    (* Search "take" "ins". *)
     (*   Show. *)
-    (* take_insert_lt *)
+    (* Show. *)
+    rewrite take_insert_lt.
+    (* Show. *)
+    +
+    (* Search "Forall" "ins". *)
+    (* Search "Forall" "app". *)
+(* Forall_app *)
+    (* Search "take" "drop". *)
+    (* replace current_result with (take i_val current_result ++ drop i_val current_result). *)
+    (* 2: { Show. } *)
+    (* Print take_drop. *)
+    (* Show. *)
+      (* This should be doable but needs a little more work pulling apart the defns *)
+(* take_app_add *)
     admit.
 Admitted.
 
