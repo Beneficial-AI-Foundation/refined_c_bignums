@@ -420,7 +420,7 @@ Proof.
       (* Search "take" "app". *)
       (* Print take_app_add. *)
 
-    * replace current_result with (take i_val current_result ++ drop i_val current_result ) by admit.
+    * replace current_result with (take i_val current_result ++ drop i_val current_result ) by (apply take_drop).
       remember (take i_val current_result).
       replace i_val with (length l) by admit.
 
