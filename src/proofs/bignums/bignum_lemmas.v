@@ -252,7 +252,7 @@ Proof.
                 f_equal.
                 rewrite Heqz.
                 pose proof (bits_to_int_rev_take_eq (take (i+1) bits) (Z.of_nat i)).
-                replace (Z.to_nat i) with i in H7 by admit.
+                replace (Z.to_nat i) with i in H7 by lia.
                 replace (take i (take (i + 1) bits)) with (take i bits) in H7 by admit.
                 apply H7.
                 *** admit.
