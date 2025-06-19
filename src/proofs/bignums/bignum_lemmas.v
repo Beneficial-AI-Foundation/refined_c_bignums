@@ -1,5 +1,4 @@
 From refinedc.typing Require Import typing.
-(* TODO remove unneeded comments *)
 (* TODO remove unused lemmas *)
 (* TODO format *)
 
@@ -19,8 +18,7 @@ Definition partial_sum_correct' (i : nat) (carry : Z) (bits_result : list Z)
     bits_to_int (take i bits_result) + Z.to_nat carry * 2^i.
 
 
-(* Check if all elements are binary (0 or 1) *)
-Definition is_binary (bits : list Z) := 
+Definition is_binary (bits : list Z) :=
   Forall (fun b => b = 0 ∨ b = 1) bits.
 
 Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
@@ -35,12 +33,10 @@ Proof.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
   
-  (* Since y and y0 are binary digits (0 or 1), their sum is at most 2 *)
   assert (y + y0 <= 2) by (
     destruct Hbinary_a, Hbinary_b; subst; lia
   ).
   
-  (* And 2 is certainly less than max_int i32 (which is at least 127) *)
   pose proof (max_int_ge_127 i32).
   lia.
 Qed.
@@ -124,28 +120,6 @@ Proof.
         ** simpl in H4. lia.
 
 
-      (* * exact   IHn0. *)
-      (*      Show. *)
-      (* * intros. *)
-      (*   destruct l'. *)
-      (*   -- lia. *)
-      (*   -- simpl in H1. *)
-      (*      assert (Z.to_nat (0 + 1) = S 0) by lia. *)
-      (*      rewrite H4 in H3. *)
-      (*      destruct l'. *)
-      (*      ++ *)
-      (*         unfold is_binary in H2. *)
-      (*         rewrite Forall_lookup in H2. *)
-      (*         specialize (H2 0%nat z0). *)
-      (*         simpl in H2. *)
-      (*         assert (z0 = 0 ∨ z0 = 1). *)
-      (*         { apply H2. auto. } *)
-      (*         lia. *)
-      (*      ++ exfalso. *)
-      (*         simpl length in H3. *)
-      (*         congruence. *)
-      (* * induction p. *)
-      (*   Show. *)
     +
       specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
       rewrite Heqz.
@@ -157,7 +131,6 @@ Proof.
         -- rewrite length_rev.
            rewrite Hc.
            lia.
-           (* Search "rev" "length". *)
   - lia.
   Qed.
 
@@ -169,22 +142,14 @@ Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
 Proof.
   intros H H0 Hbin.
   unfold bits_to_int.
-  (* assert rev (take (i + 1) bits) = rev (take i bits ++ [bits !! i]) *)
-  (*                                = ++ [bits !! i] ++ rev (take i bits) *)
            assert (length (take i bits) = i) as Hb.
             {
-              (* Search "len" "some" "list". *)
-              (* Search "len" "take". *)
-              (* Search "len" "lookup". **)
               apply length_take_le.
               lia.
             }
   assert (take (S i) bits = take i bits ++ [x]).
   - apply take_S_r. auto.
-    (* Search "take" "app". *)
-    (* Search "take_S_r". *)
   - assert (Z.to_nat (i + 1) = S i) as Ha by lia.
-    (* Show. *)
     rewrite <- Ha in H1.
     assert (take (Z.to_nat (i + 1)) bits = take (i + 1) bits).
     + f_equal. lia.
@@ -192,10 +157,7 @@ Proof.
       rewrite H1.
       assert (rev (take i bits ++ [x]) = x :: rev (take i bits)) as H3.
       --
-         (* Print rev_involutive. *)
-         (* Print reverse_cons. *)
          pose proof reverse_cons (rev (take i bits)) x.
-         (* Search "rev_alt". *)
          unfold reverse in H3.
          rewrite <- rev_alt in H3.
          rewrite <- rev_alt in H3.
@@ -203,15 +165,9 @@ Proof.
          rewrite <- H3.
          rewrite rev_involutive.
          auto.
-         (* Search "rev" "cons". Show. *)
-      (* rev_involutive *)
-      (* reverse_cons *)
-       (* Search (rev (rev _)). *)
       -- rewrite H3.
          assert (length (take i bits ++ [x]) - 1 - 1 = i-1) as H4.
-         *
-           (* Search "len" "app". *)
-           rewrite length_app.
+         * rewrite length_app.
            simpl.
            rewrite Hb.
            lia.
@@ -239,24 +195,13 @@ Proof.
                   rewrite take_take.
                   f_equal.
                   lia.
-                  (* Search "take". *)
                   }
                 apply H7.
-                ***
-                    replace (Z.to_nat (i + 1)) with ((i + 1)%nat) by lia.
-(* Print length_take_le. *)
+                *** replace (Z.to_nat (i + 1)) with ((i + 1)%nat) by lia.
                     apply length_take_le.
-              lia.
-                  (* Show. *)
-                ***  lia.
+                    lia.
+                *** lia.
                 ***
-                (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
-                (*    *** Show. *)
-                (*    *** Show. *)
-                (* ** apply H7. *)
-                (* Need to reuse proof that bits_to_int is nonneg. *)
-  (* Show. *)
-  (* Qed. *)
                   replace (take i bits) with (take i (take (i+1) bits)).
                   2: {
                     rewrite take_take.
@@ -266,8 +211,6 @@ Proof.
                   apply Forall_take.
                   auto.
                   Qed.
-
-(* Prove the above lemma *)
 
 Lemma rearrange' (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
@@ -283,10 +226,6 @@ Proof.
     ++ rewrite Z.pow_add_r; lia.
     ++ lia.
   Qed.
-
-
-
-
 
 Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
@@ -374,26 +313,7 @@ Proof.
     lia.
   - rewrite length_insert.
     lia.
-  - (* Search "Forall" "ins". *)
-    (*   Show. *)
-    (* Show. *)
-    (* Show. *)
-    rewrite take_insert_lt.
-    (* Show. *)
-    (* Search "Forall" "ins". *)
-    (* Search "Forall" "app". *)
-(* Forall_app *)
-    (* Search "take" "drop". *)
-    (* replace current_result with (take i_val current_result ++ drop i_val current_result). *)
-    (* 2: { Show. } *)
-    (* Print take_drop. *)
-    (* Show. *)
-      (* This should be doable but needs a little more work pulling apart the defns *)
-(* take_app_add *)
-      (* Print take_update_split. DNE *)
-      (* Search "take" "app". *)
-      (* Print take_app_add. *)
-
+  - rewrite take_insert_lt.
     * replace current_result with (take i_val current_result ++ drop i_val current_result ) by (apply take_drop).
       remember (take i_val current_result).
       replace i_val with (length l).
@@ -404,11 +324,7 @@ Proof.
         auto. lia. }
 
       rewrite take_app_add.
-      (* Search "ins" "app". *)
-      replace (length l) with ((length l + 0)%nat).
-      2 : {
-        lia.
-            }
+      replace (length l) with ((length l + 0)%nat) by lia.
       rewrite insert_app_r.
       remember (drop (length l + 0) current_result).
       rewrite insert_take_drop.
@@ -444,9 +360,6 @@ Proof.
     * lia.
     Qed.
 
-
-
-(* Lemma showing that if the reverse of a list is empty, the list is empty *)
 Lemma rev_empty_is_empty (l : list Z) :
   rev l = [] -> l = [].
 Proof.
@@ -456,7 +369,6 @@ Proof.
   reflexivity.
   Qed.
 
-(* Lemma relating nat subtraction and Z.to_nat *)
 Lemma length_minus_one_nat_z (l : list Z) :
   (length l - 1)%nat = Z.to_nat (length l - 1).
 Proof.
@@ -465,7 +377,6 @@ Proof.
   - lia.
   - lia.
 Qed.
-
 
 Lemma rev_insert_first' (len : nat) (carry_val : Z):
   forall lyst : list Z,
@@ -547,9 +458,6 @@ Proof.
   auto.
   Qed.
 
-(* Lemma relating length calculations for list indices *)
-
-
 Lemma length_minus_one_equals_n' (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -568,7 +476,6 @@ Proof.
   lia.
   Qed.
 
-(* Lemma showing that length minus one equals n *)
 Lemma length_minus_one_equals_n_simple (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -579,7 +486,6 @@ Proof.
   lia.
   Qed.
 
-(* Lemma relating drop, rev and take *)
 Lemma drop_rev_take (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -598,12 +504,6 @@ Proof.
   lia.
   Qed.
 
-
-
-
-
-
-(* Lemma relating bits_to_nat of rev and take *)
 Lemma bits_to_nat_rev_take_eq (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
@@ -661,47 +561,33 @@ Proof.
   unfold bits_to_int.
   rewrite length_insert.
 
-  (* Use the lemma about rev and insertion *)
   assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result)) as Hrev_insert.
   { apply rev_insert_first; auto. }
   rewrite Hrev_insert.
 
-  (* Expand the function definition *)
   assert (drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result)) as Hdrop_rev.
   { apply drop_rev_take; auto. }
 
-  (* Now we can relate the left and right sides *)
   destruct (rev bits_result) eqn:Hrev.
-  - (* Empty list case *)
-    (* If rev bits_result is empty, then bits_result must be empty too *)
-    assert (bits_result = []) by (apply rev_empty_is_empty; auto).
+  - assert (bits_result = []) by (apply rev_empty_is_empty; auto).
     subst bits_result.
     rewrite length_nil in Hlen.
-    (* This is a contradiction since n+1 > 0 *)
     exfalso.
     rewrite Z2Nat.inj_add in Hlen; try lia.
-  - (* Non-empty list case *)
-    (* First, simplify the left-hand side *)
-    simpl.
-    (* Relate the length of bits_result to n *)
+  - simpl.
     assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1.
     { rewrite Hlen. rewrite Z2Nat.inj_add; try lia. }
 
-    (* Simplify the right-hand side *)
     rewrite length_take.
     rewrite Nat.min_l; try lia.
 
-    (* Focus on the left-hand side *)
     assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
     { rewrite Hlen_minus_1. reflexivity. }
 
-    (* Show that the lists being processed are the same *)
     rewrite <- Hdrop_rev.
 
-    (* Now we need to relate the two expressions *)
     rewrite Hdrop_rev.
 
-    (* We need to show that the recursive functions compute the same value *)
     assert ((fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
          match l0 with
          | [] => 0
@@ -745,8 +631,6 @@ Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_int bits_a + bits_to_int bits_b).
 Proof.
   intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry Hbin.
-  (* assert (is_binary bits_result) as Hbin'. *)
-  (* { Show. } *)
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
   unfold partial_sum_correct' in Hresult.
@@ -779,7 +663,6 @@ Proof.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
   
-  (* Since y and y0 are binary digits (0 or 1), their sum is at least 0 *)
   destruct Hbinary_a as [Hy0 | Hy1].
   - destruct Hbinary_b as [Hy00 | Hy01].
     + subst. pose proof (min_int_le_0 i32). lia.
@@ -802,12 +685,10 @@ Proof.
   apply Forall_lookup with (i:=i) (x:=y) in Hbinary_a; auto.
   apply Forall_lookup with (i:=i) (x:=y0) in Hbinary_b; auto.
   
-  (* Since y, y0, and carry_val are all either 0 or 1, their sum is at most 3 *)
   assert (y + y0 + carry_val ≤ 3) by (
     destruct Hbinary_a, Hbinary_b, Hcarry; subst; lia
   ).
   
-  (* And 3 is certainly less than max_int i32 (which is at least 127) *)
   pose proof (max_int_ge_127 i32).
   lia.
 Qed.
@@ -867,8 +748,7 @@ Proof.
     destruct (decide ((i_val + 1) <= length (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result))%nat) as [Hle|Hnle].
     + rewrite Nat.min_l in H; lia.
     + rewrite Nat.min_r in H; try lia.
-  - (* Case: j = i_val *)
-    destruct (decide (j = i_val)) as [Heq|Hneq].
+  - destruct (decide (j = i_val)) as [Heq|Hneq].
     + subst j.
       rewrite lookup_take in Hj; try lia.
       rewrite list_lookup_insert in Hj; try lia.
@@ -877,7 +757,7 @@ Proof.
       { 
         apply Z.rem_bound_pos.
         - apply binary_sum_non_negative with (bits_a:=bits_a) (bits_b:=bits_b) (i:=i_val); auto.
-        - lia. (* 2 > 0 *)
+        - lia.
       }
       destruct Hrem as [Hrem_lower Hrem_upper].
       assert ((y + y0 + carry_val) `rem` 2 = 0 ∨ (y + y0 + carry_val) `rem` 2 = 1) as H.
@@ -889,8 +769,7 @@ Proof.
           auto.
       }
       exact H.
-    + (* Case: j ≠ i_val *)
-      rewrite lookup_take in Hj; try lia.
+    + rewrite lookup_take in Hj; try lia.
       rewrite list_lookup_insert_ne in Hj; auto.
       unfold is_binary in Hbinary_curr.
       assert (j < i_val)%nat by lia.
@@ -913,22 +792,18 @@ Proof.
   intros x Hin.
   apply elem_of_list_lookup in Hin as [i Hi].
   destruct (decide (i = Z.to_nat n)) as [Heq|Hneq].
-  * (* Case: i = Z.to_nat n *)
-    subst i.
+  * subst i.
     rewrite list_lookup_insert in Hi.
     + injection Hi as Hi; subst x; exact Hcarry.
     + rewrite Hlength.
       rewrite Z2Nat.inj_add; try lia.
-  * (* Case: i ≠ Z.to_nat n *)
-    rewrite list_lookup_insert_ne in Hi; auto.
+  * rewrite list_lookup_insert_ne in Hi; auto.
     destruct (decide (i < i_val)%nat) as [Hlt|Hnlt'].
-    + (* i < i_val *)
-      unfold is_binary in Hbinary.
+    + unfold is_binary in Hbinary.
       assert (take i_val current_result !! i = Some x) as Htake.
       { rewrite lookup_take; auto. }
       apply (Forall_lookup_1 _ _ _ _ Hbinary Htake).
-    + (* i ≥ i_val *)
-      exfalso.
+    + exfalso.
       assert (i < Z.to_nat n)%nat.
       { apply (lookup_lt_Some current_result i x) in Hi.
         rewrite Hlength in Hi.
