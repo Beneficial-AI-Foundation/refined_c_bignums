@@ -102,26 +102,21 @@ Proof.
         specialize (IHn' l').
         rewrite Z.ge_le_iff.
         apply Z.add_nonneg_nonneg.
-        --
-              unfold is_binary in H2.
+        -- unfold is_binary in H2.
               rewrite Forall_lookup in H2.
               specialize (H2 0%nat z0).
               simpl in H2.
               assert (z0 = 0 ∨ z0 = 1).
               { apply H2. auto. }
               lia.
-        --
-        rewrite <- Z.ge_le_iff.
+        -- rewrite <- Z.ge_le_iff.
         apply IHn'.
         ** unfold is_binary in *.
         apply Forall_inv_tail in H2.
         exact H2.
         ** lia.
         ** simpl in H4. lia.
-
-
-    +
-      specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
+    + specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
       rewrite Heqz.
       apply H2.
       * apply Forall_rev. auto.
