@@ -267,7 +267,7 @@ Proof.
                     apply length_take_le.
               lia.
                   (* Show. *)
-                ***  admit.
+                ***  lia.
                 *** admit.
                 (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
                 (*    *** Show. *)
