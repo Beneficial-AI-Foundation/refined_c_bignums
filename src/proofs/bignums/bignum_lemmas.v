@@ -181,7 +181,6 @@ Proof.
            auto.
         -- apply Forall_rev.
            auto.
-           Show.
       * lia.
       * admit.
   - lia.
