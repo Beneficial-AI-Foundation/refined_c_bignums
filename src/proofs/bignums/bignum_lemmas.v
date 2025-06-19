@@ -75,7 +75,7 @@ Qed.
 Lemma bits_to_int_rev_take_eq (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
-  is_binary bits_result ->
+  is_binary (take (Z.to_nat n) bits_result) ->
   (fix go (i : Z) (l0 : list Z) {struct l0} : Z :=
      match l0 with
      | [] =>  0
@@ -176,11 +176,7 @@ Proof.
       specialize (H2 ( Z.to_nat (n - 1)) ( Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))).
       rewrite Heqz.
       apply H2.
-      * assert (is_binary (take (Z.to_nat n) bits_result)).
-        -- apply Forall_take.
-           auto.
-        -- apply Forall_rev.
-           auto.
+      * apply Forall_rev. auto.
       * lia.
       * assert ((length (take (Z.to_nat n) bits_result)) = Z.to_nat n) as Hc.
         -- rewrite length_take_le; lia.
@@ -188,7 +184,6 @@ Proof.
            rewrite Hc.
            lia.
            (* Search "rev" "length". *)
-           Show.
   - lia.
   Qed.
 
@@ -288,8 +283,15 @@ Proof.
                 (* Need to reuse proof that bits_to_int is nonneg. *)
   (* Show. *)
   (* Qed. *)
-                    auto.
-                    Qed.
+                  replace (take i bits) with (take i (take (i+1) bits)).
+                  2: {
+                    rewrite take_take.
+                    f_equal.
+                    lia.
+                  }
+                  apply Forall_take.
+                  auto.
+                  Qed.
 
 (* Prove the above lemma *)
 
@@ -626,7 +628,7 @@ Lemma bits_to_int_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   (carry_val = 0 ∨ carry_val = 1) ->
-  is_binary bits_result ->
+  is_binary (take (Z.to_nat n) bits_result) ->
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
   Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n).
 Proof.
@@ -808,7 +810,8 @@ Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
   bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_int bits_a + bits_to_int bits_b).
 Proof.
   intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry Hbin.
-  assert (is_binary bits_result) as Hbin' by admit.
+  (* assert (is_binary bits_result) as Hbin'. *)
+  (* { Show. } *)
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
   unfold partial_sum_correct' in Hresult.
@@ -820,7 +823,10 @@ Proof.
   rewrite Htake_b in Hresult.
   assert (bits_to_int (<[Z.to_nat n:=carry_val]> bits_result) =
          Z.to_nat (bits_to_int (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)) as Hbits.
-  { apply bits_to_int_insert; auto. }
+  { apply bits_to_int_insert; auto.
+
+    Show.
+  }
   rewrite Hbits. symmetry.
   rewrite Hresult.
   reflexivity.
