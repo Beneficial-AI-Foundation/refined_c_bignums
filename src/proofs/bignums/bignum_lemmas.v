@@ -185,9 +185,10 @@ Proof.
 Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
   length bits > i ->
+  is_binary (take i bits) ->
   bits_to_int (take (i + 1) bits) = Z.to_nat ((bits_to_int (take i bits) + x * 2^i)).
 Proof.
-  intros.
+  intros H H0 Hbin.
   unfold bits_to_int.
   (* assert rev (take (i + 1) bits) = rev (take i bits ++ [bits !! i]) *)
   (*                                = ++ [bits !! i] ++ rev (take i bits) *)
@@ -327,8 +328,10 @@ Proof.
   unfold partial_sum_correct' in H2.
   rewrite (bits_to_int_take_step bits_a i_val y); auto.
   2: {lia. }
+  2: {apply Forall_take. auto. }
   rewrite (bits_to_int_take_step bits_b i_val y0); auto.
   2: {lia. }
+  2: {apply Forall_take. auto. }
   rewrite (bits_to_int_take_step (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) i_val ((y + y0 + carry_val) `rem` 2)).
   - rewrite (Z.add_comm (bits_to_int (take i_val bits_a)) (y * 2 ^ i_val)).
     replace (Z.to_nat (y * 2 ^ i_val + bits_to_int (take i_val bits_a)) +
@@ -384,7 +387,12 @@ Proof.
     lia.
   - rewrite length_insert.
     lia.
-Qed.
+  - (* Search "Forall" "ins". *)
+    (* Search "take" "ins". *)
+    (*   Show. *)
+    (* take_insert_lt *)
+    admit.
+Admitted.
 
 
 
