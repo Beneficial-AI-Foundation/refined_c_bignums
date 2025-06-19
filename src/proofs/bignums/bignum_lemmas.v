@@ -422,11 +422,19 @@ Proof.
 
     * replace current_result with (take i_val current_result ++ drop i_val current_result ) by (apply take_drop).
       remember (take i_val current_result).
-      replace i_val with (length l) by admit.
+      replace i_val with (length l).
+      2: {
+        rewrite Heql.
+        rewrite length_take.
+        (* TODO do i need lia? *)
+        auto. lia. }
 
       rewrite take_app_add.
       (* Search "ins" "app". *)
-      replace (length l) with ((length l + 0)%nat) by admit.
+      replace (length l) with ((length l + 0)%nat).
+      2 : {
+        lia.
+            }
       rewrite insert_app_r.
       remember (drop (length l + 0) current_result).
       rewrite insert_take_drop.
