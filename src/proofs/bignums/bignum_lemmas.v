@@ -438,8 +438,18 @@ Proof.
       rewrite insert_app_r.
       remember (drop (length l + 0) current_result).
       rewrite insert_take_drop.
-      + replace (take 0 (take 1 l0)) with ([]: list Z) by admit.
-        replace (drop 1 (take 1 l0)) with ([]: list Z) by admit.
+      + replace (take 0 (take 1 l0)) with ([]: list Z).
+        2: {
+          rewrite take_take.
+          simpl.
+          auto.
+          }
+        replace (drop 1 (take 1 l0)) with ([]: list Z).
+        2: {
+          unfold take.
+          unfold drop.
+          destruct l0; auto.
+          }
       (* Search "ins" "take". *)
         apply Forall_app.
         split.
