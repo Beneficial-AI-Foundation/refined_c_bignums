@@ -1,6 +1,7 @@
 From refinedc.typing Require Import typing.
 (* TODO remove unneeded comments *)
 (* TODO remove unused lemmas *)
+(* TODO format *)
 
 (* Convert a list of bits (LSB first) to a natural number *)
 Definition bits_to_nat (bits : list Z) : nat :=
@@ -996,7 +997,7 @@ Proof.
       apply Hnlt. lia.
   Qed.
 
-(* Foo *)
+Foo
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
