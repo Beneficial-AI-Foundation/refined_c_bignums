@@ -3,14 +3,6 @@ From refinedc.typing Require Import typing.
 (* TODO remove unused lemmas *)
 (* TODO format *)
 
-(* Convert a list of bits (LSB first) to a natural number *)
-Definition bits_to_nat (bits : list Z) : nat :=
-  let fix go (i:nat) l :=
-    match l with
-    | [] => Z.to_nat 0
-    | b :: bs => (Z.to_nat (b * 2^i) + Z.to_nat (go (i-1) bs))%nat
-    end
-  in go (length bits - 1)%nat (rev bits).
 
 Definition bits_to_int (bits : list Z) : nat :=
   let fix go i l :=
@@ -26,28 +18,10 @@ Definition partial_sum_correct' (i : nat) (carry : Z) (bits_result : list Z)
     (bits_to_int (take i bits_a) + bits_to_int (take i bits_b)) =
     bits_to_int (take i bits_result) + Z.to_nat carry * 2^i.
 
-Open Scope nat_scope.
-
-(* The nat scope makes later proofs harder because we always have to convert *)
-
-(* Partial sum correctness for the first i digits *)
-Definition partial_sum_correct (i : nat) (carry : Z) (bits_result : list Z)
-                              (bits_a bits_b : list Z) :=
-    (bits_to_nat (take i bits_a) + bits_to_nat (take i bits_b)) =
-    bits_to_nat (take i bits_result) + Z.to_nat carry * 2^i.
-
-
-Close Scope nat_scope.
 
 (* Check if all elements are binary (0 or 1) *)
 Definition is_binary (bits : list Z) := 
   Forall (fun b => b = 0 ∨ b = 1) bits.
-
-
-
-
-
-
 
 Lemma binary_sum_within_i32_bounds (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
@@ -756,97 +730,7 @@ Proof.
        ++ f_equal. lia.
     Qed.
 
-Lemma bits_to_nat_insert (n : Z) (carry_val : Z) (bits_result : list Z) :
-  length bits_result = Z.to_nat (n + 1) ->
-  n >= 0 ->
-  (carry_val = 0 ∨ carry_val = 1) ->
-  bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
-  (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat.
-Proof.
-  intros Hlen Hn Hcarry.
-  unfold bits_to_nat.
-  rewrite length_insert.
-  
-  (* Use the lemma about rev and insertion *)
-  assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result)) as Hrev_insert.
-  { apply rev_insert_first; auto. }
-  rewrite Hrev_insert.
-  
-  (* Expand the function definition *)
-  assert (drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result)) as Hdrop_rev.
-  { apply drop_rev_take; auto. }
-  
-  (* Now we can relate the left and right sides *)
-  destruct (rev bits_result) eqn:Hrev.
-  - (* Empty list case *)
-    (* If rev bits_result is empty, then bits_result must be empty too *)
-    assert (bits_result = []) by (apply rev_empty_is_empty; auto).
-    subst bits_result.
-    rewrite length_nil in Hlen.
-    (* This is a contradiction since n+1 > 0 *)
-    exfalso. 
-    rewrite Z2Nat.inj_add in Hlen; try lia.
-  - (* Non-empty list case *)
-    (* First, simplify the left-hand side *)
-    simpl.
-    (* Relate the length of bits_result to n *)
-    assert (length bits_result - 1 = Z.to_nat n) as Hlen_minus_1.
-    { rewrite Hlen. rewrite Z2Nat.inj_add; try lia. }
-    
-    (* Simplify the right-hand side *)
-    rewrite length_take.
-    rewrite Nat.min_l; try lia.
-    
-    (* Focus on the left-hand side *)
-    assert (length bits_result - 1 - 1 = Z.to_nat n - 1) as Hleft_index.
-    { rewrite Hlen_minus_1. reflexivity. }
-    
-    (* Show that the lists being processed are the same *)
-    rewrite <- Hdrop_rev.
-    
-    (* Now we need to handle the accumulator difference *)
-    assert (Z.to_nat carry_val * 2 ^ (length bits_result - 1) = 
-            Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat as Hacc.
-    { 
-      f_equal. 
-      f_equal.
-      assert ((length bits_result - 1)%nat = Z.to_nat (length bits_result - 1)) as Hscope by (apply length_minus_one_nat_z).
-      rewrite Hscope.
-      rewrite Hlen_minus_1.
-      lia.
-    }
-    
-    (* Now we need to relate the two expressions *)
-    rewrite Hdrop_rev.
-    
-    (* We need to show that the recursive functions compute the same value *)
-    assert ((fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
-         match l0 with
-         | [] => Z.to_nat 0
-         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
-         end) (length bits_result - 1 - 1)%nat l =
-         (fix go (i : nat) (l0 : list Z) {struct l0} : nat :=
-         match l0 with
-         | [] => Z.to_nat 0
-         | b :: bs => (Z.to_nat (b * 2 ^ i) + Z.to_nat (go (i - 1)%nat bs))%nat
-         end) (Z.to_nat n - 1)%nat (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
-    {
-      f_equal.
-      - apply length_minus_one_equals_n.
-        + exact Hlen.
-        + exact Hn.
-      - exact Hdrop_rev.
-    }
-    rewrite Hgo_eq.
-    rewrite Nat.add_comm.
-    f_equal.
-    -- apply bits_to_nat_rev_take_eq; auto.
-    -- assert ((length bits_result - 1)%nat =  Z.to_nat n) as H1 by (apply length_minus_one_equals_n_simple; auto).
-       rewrite H1.
-       pose proof rearrange_nat as H2.
-       rewrite H2; auto.
-    Qed.
-    
+
 Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
   i ≤ n →
@@ -882,36 +766,6 @@ Proof.
   reflexivity.
   Qed.
 
-Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
-                          (bits_a bits_b : list Z) (n : Z) :
-  i ≤ n →
-  ¬ i < n →
-  length bits_a = Z.to_nat n ->
-  length bits_b = Z.to_nat n ->
-  length bits_result = Z.to_nat (n + 1) ->
-  partial_sum_correct i carry_val bits_result bits_a bits_b →
-  n >= 0 ->
-  (carry_val = 0 ∨ carry_val = 1) ->
-  bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = Z.to_nat (bits_to_nat bits_a + bits_to_nat bits_b).
-Proof.
-  intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry.
-  assert (i = Z.to_nat n) as Heq by lia.
-  subst i.
-  unfold partial_sum_correct in Hresult.
-  assert (take (Z.to_nat n) bits_a = bits_a) as Htake_a.
-  { apply take_ge. lia. }
-  assert (take (Z.to_nat n) bits_b = bits_b) as Htake_b.
-  { apply take_ge. lia. }
-  rewrite Htake_a in Hresult.
-  rewrite Htake_b in Hresult.
-  (* We need to relate the bits_to_nat of the updated result to the original expression *)
-  assert (bits_to_nat (<[Z.to_nat n:=carry_val]> bits_result) = 
-         (bits_to_nat (take (Z.to_nat n) bits_result) + Z.to_nat carry_val * 2 ^ Z.to_nat n)%nat) as Hbits.
-  { apply bits_to_nat_insert; auto. }
-  rewrite Hbits. symmetry.
-  (* We need to convert between nat and Z *)
-  rewrite <- (Z2Nat.id (bits_to_nat bits_a + bits_to_nat bits_b)); try lia.
-  Qed.
 
 Lemma binary_sum_min_bound (bits_a bits_b : list Z) (i : nat) (y y0 : Z) :
   is_binary bits_a →
@@ -1083,22 +937,3 @@ Proof.
       assert (i_val ≤ i)%nat by lia.
       apply Hnlt. lia.
   Qed.
-
-
-Lemma initial_partial_sum_correct :
-  ∀ bits_a bits_b bits_result,
-  is_binary bits_a →
-  is_binary bits_b →
-  partial_sum_correct 0 0 bits_result bits_a bits_b.
-Proof.
-  intros bits_a bits_b bits_result _ _.
-  unfold partial_sum_correct.
-  simpl.
-  (* At position 0, take 0 returns empty list *)
-  rewrite !take_0.
-  (* bits_to_nat of empty list is 0 *)
-  simpl.
-  (* 0 + 0 = 0 *)
-  reflexivity.
-Qed.
-
