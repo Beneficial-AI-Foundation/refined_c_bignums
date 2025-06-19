@@ -1,6 +1,8 @@
 From refinedc.typing Require Import typing.
 (* TODO remove unused lemmas *)
 (* TODO format *)
+(* TODO Make names better *)
+(* TODO Use vec of bools instead? *)
 
 
 Definition bits_to_int (bits : list Z) : nat :=
