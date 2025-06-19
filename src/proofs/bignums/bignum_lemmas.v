@@ -190,7 +190,7 @@ Proof.
            (* Search "rev" "length". *)
            Show.
   - lia.
-  Admitted.
+  Qed.
 
 Lemma bits_to_int_take_step (bits : list Z) (i : nat) (x : Z) :
   bits !! i = Some x →
