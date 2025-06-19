@@ -261,7 +261,12 @@ Proof.
                   (* Search "take". *)
                   }
                 apply H7.
-                *** admit.
+                ***
+                    replace (Z.to_nat (i + 1)) with ((i + 1)%nat) by lia.
+(* Print length_take_le. *)
+                    apply length_take_le.
+              lia.
+                  (* Show. *)
                 ***  admit.
                 *** admit.
                 (* ** replace (take (Z.to_nat i) (take i bits)) with (take i bits) in H7. *)
