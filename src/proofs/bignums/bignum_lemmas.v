@@ -450,7 +450,6 @@ Proof.
           unfold drop.
           destruct l0; auto.
           }
-      (* Search "ins" "take". *)
         apply Forall_app.
         split.
         -- auto.
@@ -1085,7 +1084,6 @@ Proof.
       apply Hnlt. lia.
   Qed.
 
-Foo
 
 Lemma initial_partial_sum_correct :
   ∀ bits_a bits_b bits_result,
