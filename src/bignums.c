@@ -23,15 +23,15 @@
 [[rc::ensures("{is_binary final_result}")]]
 [[rc::ensures("{bits_to_int final_result = Z.to_nat ((Z.of_nat (bits_to_int bits_a) + Z.of_nat (bits_to_int bits_b)) )}")]]
 [[rc::lemmas("binary_sum_within_i32_bounds",
-             "partial_sum_complete'", "binary_sum_min_bound", "binary_sum_with_carry_bound",
+             "partial_sum_complete", "binary_sum_min_bound", "binary_sum_with_carry_bound",
              "binary_add_quot", "initial_partial_sum_correct",
              "carry_update_preserves_binary",
-             "partial_sum_step_exact'")]]
+             "partial_sum_step_exact")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_within_i32_bounds | eauto using binary_sum_with_carry_bound | eauto using binary_add_quot].")]]
 [[rc::tactics("all: try solve [eauto using binary_sum_min_bound].")]]
 [[rc::tactics("all: try solve [eauto using binary_update_preserves_binary].")]]
 [[rc::tactics("all: try solve [eauto using initial_partial_sum_correct].")]]
-[[rc::tactics("all: try solve [eapply partial_sum_complete' with (i:=i_val) (carry_val:=carry_val) (bits_result:=current_result) (bits_a:=bits_a) (bits_b:=bits_b) (n:=n); eauto].")]]
+[[rc::tactics("all: try solve [eapply partial_sum_complete with (i:=i_val) (carry_val:=carry_val) (bits_result:=current_result) (bits_a:=bits_a) (bits_b:=bits_b) (n:=n); eauto].")]]
 [[rc::tactics("all: try solve [eapply carry_update_preserves_binary with (i_val:=i_val) (carry_val:=carry_val); eauto].")]]
 void bignum_add(int* a, int* b, int* result, int n) {
     int carry = 0;
@@ -42,7 +42,7 @@ void bignum_add(int* a, int* b, int* result, int n) {
     [[rc::constraints("{0 <= i_val}", "{i_val <= Z.to_nat n}", "{carry_val = 0 ∨ carry_val = 1}")]]
     [[rc::constraints("{length current_result = Z.to_nat (n + 1)}")]]
     [[rc::constraints("{is_binary (firstn i_val current_result)}")]]
-    [[rc::constraints("{partial_sum_correct' i_val carry_val current_result bits_a bits_b}")]]
+    [[rc::constraints("{partial_sum_correct i_val carry_val current_result bits_a bits_b}")]]
     for (int i = 0; i < n; i++) {
         int bit_sum = a[i] + b[i] + carry;
         result[i] = bit_sum % 2;

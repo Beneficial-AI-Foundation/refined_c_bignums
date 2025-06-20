@@ -14,7 +14,7 @@ Definition bits_to_int (bits : list Z) : nat :=
   in Z.to_nat (go (length bits - 1) (rev bits)).
 
 
-Definition partial_sum_correct' (i : nat) (carry : Z) (bits_result : list Z)
+Definition partial_sum_correct (i : nat) (carry : Z) (bits_result : list Z)
                               (bits_a bits_b : list Z) :=
     (bits_to_int (take i bits_a) + bits_to_int (take i bits_b)) =
     bits_to_int (take i bits_result) + Z.to_nat carry * 2^i.
@@ -209,7 +209,7 @@ Proof.
                   auto.
                   Qed.
 
-Lemma rearrange' (a :Z) (b: Z ) ( i_val: nat) :
+Lemma rearrange_z (a :Z) (b: Z ) ( i_val: nat) :
   a >= 0  ->
   b >= 0  ->
   (Z.to_nat (a * 2 ^ i_val) +
@@ -224,13 +224,13 @@ Proof.
     ++ lia.
   Qed.
 
-Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
+Lemma partial_sum_step_exact (bits_a bits_b : list Z) (n : Z) (initial_result : list Z)
                             (i_val : nat) (carry_val : Z) (current_result : list Z)
                             (y y0 y1 : Z) :
   is_binary bits_a →
   is_binary bits_b →
   carry_val = 0 ∨ carry_val = 1 →
-  partial_sum_correct' i_val carry_val current_result bits_a bits_b →
+  partial_sum_correct i_val carry_val current_result bits_a bits_b →
   i_val < n →
   length current_result = Z.to_nat (n+1) ->
   bits_a !! i_val = Some y →
@@ -239,7 +239,7 @@ Lemma partial_sum_step_exact' (bits_a bits_b : list Z) (n : Z) (initial_result :
   length bits_a = Z.to_nat n ->
   length bits_b = Z.to_nat n ->
   is_binary (take i_val current_result) ->
-  partial_sum_correct' (i_val + 1) ((y + y0 + carry_val) `quot` 2)
+  partial_sum_correct (i_val + 1) ((y + y0 + carry_val) `quot` 2)
     (<[i_val:=(y + y0 + carry_val) `rem` 2]> current_result) bits_a bits_b.
 Proof.
   intros.
@@ -247,8 +247,8 @@ Proof.
   {apply Forall_lookup with (i:=i_val) (x:=y0) in H0; auto. }
   assert (y = 0 ∨ y = 1) as Hy.
   {apply Forall_lookup with (i:=i_val) (x:=y) in H; auto. }
-  unfold partial_sum_correct'.
-  unfold partial_sum_correct' in H2.
+  unfold partial_sum_correct.
+  unfold partial_sum_correct in H2.
   rewrite (bits_to_int_take_step bits_a i_val y); auto.
   2: {lia. }
   2: {apply Forall_take. auto. }
@@ -293,7 +293,7 @@ Proof.
       + replace ((y * 2 ^ i_val + Z.to_nat carry_val * 2 ^ i_val +
                 y0 * 2 ^ i_val)) with ((y + Z.to_nat carry_val +
                 y0 )* 2 ^ i_val) by lia.
-        pose proof (rearrange' ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
+        pose proof (rearrange_z ((y + y0 + carry_val) `rem` 2) ((y + y0 + carry_val) `quot` 2) i_val) as H12.
         rewrite H12.
         -- rewrite H11. reflexivity.
         -- lia.
@@ -375,7 +375,7 @@ Proof.
   - lia.
 Qed.
 
-Lemma rev_insert_first' (len : nat) (carry_val : Z):
+Lemma rev_insert_first2 (len : nat) (carry_val : Z):
   forall lyst : list Z,
   length lyst = len ->
   rev (<[Z.to_nat (len - 1):=carry_val]> lyst) = <[0%nat:=carry_val]> (rev lyst).
@@ -442,12 +442,12 @@ Proof.
 (* Lemma for relating rev and insertion *)
 (* It may be possible to prove this without strong induction, just using *)
 (* rev (rev l) = l *)
-Lemma rev_insert_first (n : Z) (carry_val : Z) (bits_result : list Z) :
+Lemma rev_insert_first1 (n : Z) (carry_val : Z) (bits_result : list Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result).
 Proof.
-  pose proof rev_insert_first'.
+  pose proof rev_insert_first2.
   specialize (H (Z.to_nat (n + 1)) carry_val bits_result).
   intros.
   assert (Z.to_nat (Z.to_nat (n + 1) - 1) = Z.to_nat n) as H2 by lia.
@@ -455,7 +455,7 @@ Proof.
   auto.
   Qed.
 
-Lemma length_minus_one_equals_n' (bits_result : list Z) (n : Z) :
+Lemma length_minus_one_equals_n1 (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   (length bits_result - 1 - 1) = (Z.to_nat n - 1).
@@ -463,7 +463,7 @@ Proof. intros H. rewrite H. lia.
 Qed.
 
 
-Lemma length_minus_one_equals_n (bits_result : list Z) (n : Z) :
+Lemma length_minus_one_equals_n2 (bits_result : list Z) (n : Z) :
   length bits_result = Z.to_nat (n + 1) ->
   n >= 0 ->
   (length bits_result - 1 - 1)%nat = (Z.to_nat n - 1)%nat.
@@ -559,7 +559,7 @@ Proof.
   rewrite length_insert.
 
   assert (rev (<[Z.to_nat n:=carry_val]> bits_result) = <[0%nat:=carry_val]> (rev bits_result)) as Hrev_insert.
-  { apply rev_insert_first; auto. }
+  { apply rev_insert_first1; auto. }
   rewrite Hrev_insert.
 
   assert (drop 1 (rev bits_result) = rev (take (Z.to_nat n) bits_result)) as Hdrop_rev.
@@ -597,7 +597,7 @@ Proof.
          end) (Z.to_nat n - 1) (rev (take (Z.to_nat n) bits_result))) as Hgo_eq.
     {
       f_equal.
-      - apply length_minus_one_equals_n'.
+      - apply length_minus_one_equals_n1.
         + exact Hlen.
         + exact Hn.
       - exact Hdrop_rev.
@@ -614,14 +614,14 @@ Proof.
     Qed.
 
 
-Lemma partial_sum_complete' (i : nat) (carry_val : Z) (bits_result : list Z)
+Lemma partial_sum_complete (i : nat) (carry_val : Z) (bits_result : list Z)
                           (bits_a bits_b : list Z) (n : Z) :
   i ≤ n →
   ¬ i < n →
   length bits_a = Z.to_nat n ->
   length bits_b = Z.to_nat n ->
   length bits_result = Z.to_nat (n + 1) ->
-  partial_sum_correct' i carry_val bits_result bits_a bits_b →
+  partial_sum_correct i carry_val bits_result bits_a bits_b →
   n >= 0 ->
   (carry_val = 0 ∨ carry_val = 1) ->
   (is_binary (take i bits_result)) ->
@@ -630,7 +630,7 @@ Proof.
   intros Hle Hnlt Hpartial Ha Hb Hresult Hn Hcarry Hbin.
   assert (i = Z.to_nat n) as Heq by lia.
   subst i.
-  unfold partial_sum_correct' in Hresult.
+  unfold partial_sum_correct in Hresult.
   assert (take (Z.to_nat n) bits_a = bits_a) as Htake_a.
   { apply take_ge. lia. }
   assert (take (Z.to_nat n) bits_b = bits_b) as Htake_b.
